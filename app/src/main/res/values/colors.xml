@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F672A0</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="txt_dialog_title">#262626</color>
+    <color name="txt_dialog_msg">#727171</color>
+    <color name="btn_dialog">#727171</color>
+    <color name="line">#999999</color>
+    <color name="txt_main_bottom_normal">#333333</color>
+    <color name="item_text_title">#727171</color>
+    <color name="item_text_content">#807F7F</color>
+    <color name="item_text_tips">#8B8A8A</color>
+    <color name="ic_sheet_item">@color/colorPrimary</color>
+</resources>

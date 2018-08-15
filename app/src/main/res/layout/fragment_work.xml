@@ -20,11 +20,6 @@
             android:textSize="@dimen/title_text_size" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@drawable/shadow_title" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,6 +30,78 @@
             android:background="@android:color/white"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin">
+
+                <View
+                    android:id="@+id/bar"
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignBottom="@+id/tvChooseGroup"
+                    android:layout_alignTop="@+id/tvChooseGroup"
+                    android:background="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/tvChooseGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@+id/bar"
+                    android:text="选择抡博的分组小号"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/item_text_title_size" />
+
+                <LinearLayout
+                    android:id="@+id/llEnter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tvChooseGroup"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/enter"
+                        android:textColor="@color/item_text_tips"
+                        android:textSize="@dimen/item_text_tips_size" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:text="默认分组[2/4]"
+                android:textColor="@color/item_text_content" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:text="小朋友[5/5]"
+                android:textColor="@color/item_text_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/bg_white" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,8 +110,6 @@
                 android:orientation="horizontal">
 
                 <View
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
                     android:layout_width="4dp"
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimary" />
@@ -53,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:text="轮博配置"
+                    android:text="抡博配置"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/item_text_title_size" />
             </LinearLayout>
@@ -62,7 +127,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
-                android:layout_marginRight="@dimen/item_horizontal_margin"
                 android:layout_marginTop="@dimen/item_vertical_margin">
 
                 <TextView
@@ -73,14 +137,31 @@
                     android:textColor="@color/item_text_title"
                     android:textSize="@dimen/item_text_title_size" />
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/llHelpGet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="如何获取？"
-                    android:textColor="@color/item_text_tips"
-                    android:textSize="@dimen/item_text_tips_size" />
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="如何获取?"
+                        android:textColor="@color/item_text_tips"
+                        android:textSize="@dimen/item_text_tips_size" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/ic_help" />
+                </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -104,14 +185,283 @@
 
                 <ImageView
                     android:id="@+id/ivEditWeibo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     app:srcCompat="@drawable/ic_transmit" />
             </RelativeLayout>
 
             <View style="@style/line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="发送内容"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="@dimen/item_text_title_size" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:src="@drawable/ic_help" />
+
+            </RelativeLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginRight="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="随机表情"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_content_size" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="自定义"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_content_size" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="自定义+随机表情"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_content_size" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginRight="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin"
+                android:background="@drawable/shape_dashgap"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="@dimen/item_vertical_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="其他人转发内容"
+                        android:textColor="@color/item_text_title"
+                        android:textSize="@dimen/item_text_title_size" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/ic_help" />
+
+                </RelativeLayout>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="@dimen/item_horizontal_margin"
+                    android:layout_marginTop="@dimen/item_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="保留"
+                        android:textColor="@color/item_text_content"
+                        android:textSize="@dimen/item_text_content_size" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:text="删除"
+                        android:textColor="@color/item_text_content"
+                        android:textSize="@dimen/item_text_content_size" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <View style="@style/line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="转发速度和条数"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="@dimen/item_text_title_size" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:src="@drawable/ic_help" />
+
+            </RelativeLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginRight="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="极快"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_content_size" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="稳定"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_content_size" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="慢速"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_content_size" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginRight="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin"
+                android:background="@drawable/shape_dashgap"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="@dimen/item_vertical_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="数量设置"
+                        android:textColor="@color/item_text_title"
+                        android:textSize="@dimen/item_text_title_size" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/ic_help" />
+
+                </RelativeLayout>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="@dimen/item_horizontal_margin"
+                    android:layout_marginTop="@dimen/item_vertical_margin"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="自动最大化"
+                        android:textColor="@color/item_text_content"
+                        android:textSize="@dimen/item_text_content_size" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:text="指定数量"
+                        android:textColor="@color/item_text_content"
+                        android:textSize="@dimen/item_text_content_size" />
+
+                </RadioGroup>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="@dimen/item_horizontal_margin"
+                    android:layout_marginRight="@dimen/item_horizontal_margin"
+                    android:background="@drawable/shape_gray_bg_radius"
+                    android:padding="5dp"
+                    android:text="5"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_content_size" />
+
+            </LinearLayout>
+
+            <View style="@style/line" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_white">
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/selector_login_btn"
+                    android:padding="10dp"
+                    android:text="启动抡博"
+                    android:textColor="@android:color/white"
+                    android:textSize="17sp" />
+            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

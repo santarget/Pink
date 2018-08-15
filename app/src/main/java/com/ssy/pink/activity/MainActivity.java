@@ -1,15 +1,12 @@
 package com.ssy.pink.activity;
 
 import android.os.Bundle;
-import android.os.Process;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ssy.pink.MyApplication;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.base.BaseFragment;

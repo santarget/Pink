@@ -97,7 +97,7 @@ public class LoginActivity extends BaseActivity {
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
     }
 
 
@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity {
                         dialog.dismiss();
                         toMainActivity();
                     }
-                }, 2000l);
+                }, 1000l);
             }
         } else {
             if (dialog != null && dialog.isShowing()) {

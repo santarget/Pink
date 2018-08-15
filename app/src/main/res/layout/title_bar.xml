@@ -31,10 +31,4 @@
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/shadow"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_below="@+id/rlRoot"
-        android:background="@drawable/shadow_title" />
 </RelativeLayout>

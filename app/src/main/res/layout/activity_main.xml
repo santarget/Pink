@@ -32,12 +32,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="搞事情"
+                android:text="数据"
                 android:textColor="@drawable/selector_color_theme"
                 android:textIsSelectable="true"
                 android:textSize="13sp" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/aivSuper"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:srcCompat="@drawable/selector_personal" />
+
+            <TextView
+                android:id="@+id/tvSuper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="超级数据"
+                android:textColor="@drawable/selector_color_theme"
+                android:textIsSelectable="true"
+                android:textSize="13sp" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

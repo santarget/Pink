@@ -13,4 +13,5 @@
     <color name="item_text_tips">#8B8A8A</color>
     <color name="ic_sheet_item">@color/colorPrimary</color>
     <color name="bg_white">#FFEFF0F2</color>
+    <color name="item_setting_text_title">#FF616161</color>
 </resources>

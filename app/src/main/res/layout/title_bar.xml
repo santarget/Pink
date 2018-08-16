@@ -26,7 +26,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:padding="5dp"
-            android:visibility="gone"
             app:srcCompat="@drawable/ic_back" />
 
     </RelativeLayout>

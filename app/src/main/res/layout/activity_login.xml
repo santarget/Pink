@@ -26,6 +26,7 @@
 
 
         <EditText
+            android:text="123"
             android:id="@+id/etAccout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -46,6 +47,7 @@
             android:background="#55aaaaaa" />
 
         <EditText
+            android:text="123"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="48dp"

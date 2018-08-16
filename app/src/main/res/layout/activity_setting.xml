@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activity.SettingActivity">
+
+    <include layout="@layout/title_bar" />
+
+    <RelativeLayout
+        android:id="@+id/rlWeibo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_setting_height"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/item_setting_horizontal_margin"
+        android:paddingRight="@dimen/item_setting_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="微博主页"
+            android:textColor="@color/item_setting_text_title"
+            android:textSize="@dimen/item_setting_text_title_size" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <RelativeLayout
+        android:id="@+id/rlShare"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_setting_height"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/item_setting_horizontal_margin"
+        android:paddingRight="@dimen/item_setting_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="应用分享"
+            android:textColor="@color/item_setting_text_title"
+            android:textSize="@dimen/item_setting_text_title_size" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line" />
+
+    <RelativeLayout
+        android:id="@+id/rlUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_setting_height"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/item_setting_horizontal_margin"
+        android:paddingRight="@dimen/item_setting_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="检查更新"
+            android:textColor="@color/item_setting_text_title"
+            android:textSize="@dimen/item_setting_text_title_size" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_arrow_right" />
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:text="1.2.2"
+            android:textColor="@color/item_text_tips"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line" />
+
+    <RelativeLayout
+        android:id="@+id/rlContact"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_setting_height"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/item_setting_horizontal_margin"
+        android:paddingRight="@dimen/item_setting_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="联系客服"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/item_setting_text_title_size" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <RelativeLayout
+        android:id="@+id/rlSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_setting_height"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/item_setting_horizontal_margin"
+        android:paddingRight="@dimen/item_setting_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="切换账号"
+            android:textColor="@color/item_setting_text_title"
+            android:textSize="@dimen/item_setting_text_title_size" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvLoginOut"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_setting_height"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="退出登录"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/item_setting_text_title_size" />
+</LinearLayout>

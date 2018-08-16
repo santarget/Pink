@@ -48,6 +48,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvFans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="94"
@@ -68,6 +69,7 @@
                     android:background="@color/line" />
 
                 <TextView
+                    android:id="@+id/tvFollow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="104"
@@ -123,6 +125,7 @@
                     android:text="蔡徐坤姐妹团_Kunsland" />
 
                 <TextView
+                    android:id="@+id/tvModify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -151,6 +154,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvAltCurrent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -179,6 +183,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvAltBlack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -207,6 +212,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvAltNormal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -224,6 +230,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/rlMyIdol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_white_bg_radius2_bottom"
@@ -251,6 +258,7 @@
                         android:textColor="@color/txt_dialog_title" />
 
                     <TextView
+                        android:id="@+id/tvMyIdolNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -279,13 +287,14 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@android:color/white"
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/llAddAccout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -312,6 +321,7 @@
             android:background="@color/line" />
 
         <LinearLayout
+            android:id="@+id/llSettings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"

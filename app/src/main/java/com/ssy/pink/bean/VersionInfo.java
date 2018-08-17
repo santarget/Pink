@@ -1,10 +1,13 @@
 package com.ssy.pink.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by tys on 2017/4/28.
  */
 
-public class VersionInfo {
+public class VersionInfo implements Serializable{
+    private static final long serialVersionUID = 3254978773364425886L;
     private int versionNum;
     private String versionName;
     private long totalSize;

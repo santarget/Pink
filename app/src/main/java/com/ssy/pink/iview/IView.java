@@ -6,4 +6,6 @@ package com.ssy.pink.iview;
  */
 public interface IView {
     void showToast(int strId);
+
+    void showToast(String str);
 }

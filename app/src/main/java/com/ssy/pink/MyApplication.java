@@ -1,14 +1,23 @@
 package com.ssy.pink;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.ssy.pink.common.ConfigProp;
 import com.ssy.pink.glide.OkHttpUrlLoader;
 import com.ssy.pink.network.OkHttpClientProvider;
 import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.SharedPreferencesUtil;
+import com.ssy.pink.view.header.MaterialHeader;
 
 import java.io.InputStream;
 
@@ -29,6 +38,7 @@ public class MyApplication extends Application {
         instance = this;
 
         initCrashReport();
+        initSmartRefreshLayout();
         //初始化配置文件
         initConfigProp();
         //初始化网络
@@ -40,7 +50,24 @@ public class MyApplication extends Application {
     private void initCrashReport() {
 //        ReportManager.getInstance().init();
     }
-
+    private void initSmartRefreshLayout() {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+//                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
+                return new MaterialHeader(context).setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+            }
+        });
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                BallPulseFooter footer = new BallPulseFooter(context);
+                layout.setPrimaryColors(context.getResources().getColor(R.color.colorPrimary));
+                return footer;
+            }
+        });
+    }
     /**
      * 版本更新操作，只在升级时执行一次
      */

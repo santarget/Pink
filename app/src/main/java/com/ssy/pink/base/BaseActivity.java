@@ -860,6 +860,11 @@ public class BaseActivity extends PermissionActivity implements IView {
     public void showToast(int strId) {
         ToastUtils.showToast(this, strId);
     }
+
+    @Override
+    public void showToast(String str) {
+        ToastUtils.showToast(this, str);
+    }
 }
 
 

@@ -14,5 +14,8 @@
     <dimen name="item_setting_horizontal_margin">15dp</dimen>
     <dimen name="item_setting_text_title_size">14sp</dimen>
 
+    <dimen name="item_group_height">65dp</dimen>
+    <dimen name="item_group_slide_width">60dp</dimen>
+
 
 </resources>

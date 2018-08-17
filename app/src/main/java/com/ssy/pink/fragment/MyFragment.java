@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.activity.GroupActivity;
 import com.ssy.pink.activity.MyIdolActivity;
 import com.ssy.pink.activity.SettingActivity;
 import com.ssy.pink.base.BaseFragment;
@@ -84,6 +85,7 @@ public class MyFragment extends BaseFragment {
                 mainActivity.startActivity(i);
                 break;
             case R.id.llAddAccout:
+                mainActivity.startActivity(new Intent(mainActivity, GroupActivity.class));
                 break;
             case R.id.llSettings:
                 mainActivity.startActivity(new Intent(mainActivity, SettingActivity.class));

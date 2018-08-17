@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ssy.pink.view.recyclerViewBase.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_group_height">
+
+    <!--第一个child是菜单， 第二个child则是内容-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/menuEdit"
+            android:layout_width="@dimen/item_group_slide_width"
+            android:layout_height="match_parent"
+            android:background="@color/slide_edit"
+            android:gravity="center"
+            android:text="@string/edit"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/menuDelete"
+            android:layout_width="@dimen/item_group_slide_width"
+            android:layout_height="match_parent"
+            android:background="@color/slide_delete"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/weibo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="默认分组"
+                android:textColor="@color/item_text_title"
+                android:textSize="@dimen/item_text_title_size" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTotalCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="@dimen/item_text_content_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="账号数"
+                    android:textColor="@color/item_text_tips"
+                    android:textSize="@dimen/item_text_tips_size" />
+
+                <TextView
+                    android:id="@+id/tvNormalCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:text="22"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="@dimen/item_text_content_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="正常状态数"
+                    android:textColor="@color/item_text_tips"
+                    android:textSize="@dimen/item_text_tips_size" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.ssy.pink.view.recyclerViewBase.SwipeItemLayout>

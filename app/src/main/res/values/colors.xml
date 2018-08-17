@@ -14,4 +14,6 @@
     <color name="ic_sheet_item">@color/colorPrimary</color>
     <color name="bg_white">#FFEFF0F2</color>
     <color name="item_setting_text_title">#FF616161</color>
+    <color name="slide_edit">#FF6880FE</color>
+    <color name="slide_delete">#FFE02852</color>
 </resources>

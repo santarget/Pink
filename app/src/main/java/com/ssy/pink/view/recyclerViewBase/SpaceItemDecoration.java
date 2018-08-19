@@ -10,7 +10,10 @@ import android.view.View;
 
 public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
-    private int space;
+    private int space = 25;
+
+    public SpaceItemDecoration() {
+    }
 
     public SpaceItemDecoration(int space) {
         this.space = space;
@@ -18,6 +21,8 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        outRect.top = space;
+        if (parent.getChildPosition(view) != 0) {
+            outRect.top = space;
+        }
     }
 }

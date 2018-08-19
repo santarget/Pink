@@ -16,6 +16,7 @@ import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.iview.IGroupActivityView;
 import com.ssy.pink.view.recyclerViewBase.LinerRecyclerItemDecoration;
+import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -50,7 +51,8 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         //设置RecyclerView垂直布局
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         //设置分割线
-        recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
+//        recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
+        recyclerView.addItemDecoration(new SpaceItemDecoration());
         datas.add(new GroupInfo("默认分组", 22, 20));
         datas.add(new GroupInfo("小朋友", 50, 37));
         adapter = new GroupAdapter(this, datas);

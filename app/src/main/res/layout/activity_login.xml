@@ -10,23 +10,33 @@
         android:id="@+id/ivIcon"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_above="@+id/llForm"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/weibo" />
 
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="超级粉丝应援"
+        android:textColor="@color/colorPrimary"
+        android:textSize="11sp" />
+
     <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/tvAppName"
         android:id="@+id/llForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
 
         <EditText
-            android:text="123"
             android:id="@+id/etAccout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -38,6 +48,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
+            android:text="123"
             android:textSize="@dimen/item_text_content_size" />
 
         <View
@@ -47,7 +58,6 @@
             android:background="#55aaaaaa" />
 
         <EditText
-            android:text="123"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -61,6 +71,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
+            android:text="123"
             android:textSize="@dimen/item_text_content_size" />
 
         <View

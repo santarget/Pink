@@ -16,4 +16,5 @@
     <color name="item_setting_text_title">#FF616161</color>
     <color name="slide_edit">#FF6880FE</color>
     <color name="slide_delete">#FFE02852</color>
+    <color name="txt_blue">#FF8C9FFB</color>
 </resources>

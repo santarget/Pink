@@ -46,7 +46,7 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
         myHolder.tvNormalCount.setText(String.valueOf(info.normalCount));
     }
 
-    class GroupRecycleViewHolder extends RecyclerView.ViewHolder {
+    class GroupRecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tvName)
         TextView tvName;
         @BindView(R.id.tvTotalCount)
@@ -58,6 +58,7 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
         public GroupRecycleViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         @OnClick({R.id.menuEdit, R.id.menuDelete})
@@ -74,10 +75,15 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
                     }
                     break;
                 default:
-                    if (itemClickListen != null) {
-                        itemClickListen.onItemClick(view, getAdapterPosition());
-                    }
+                    onClick(view);
                     break;
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (itemClickListen != null) {
+                itemClickListen.onItemClick(v, getAdapterPosition());
             }
         }
     }

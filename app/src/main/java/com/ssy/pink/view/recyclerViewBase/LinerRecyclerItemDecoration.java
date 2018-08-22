@@ -23,8 +23,8 @@ public class LinerRecyclerItemDecoration extends RecyclerView.ItemDecoration {
     private Paint pain;
     private int defaultDividingLineColor = R.color.line;
     private float defaultDividerWidth = 1;
-    private float leftOffset = CommonUtils.dip2px(16l);
-    private float rightOffset = CommonUtils.dip2px(16l);
+    private float leftOffset = 0;
+    private float rightOffset = 0;
 
 
     public LinerRecyclerItemDecoration(Context context, int orientation) {

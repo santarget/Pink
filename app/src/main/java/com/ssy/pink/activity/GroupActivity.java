@@ -1,5 +1,6 @@
 package com.ssy.pink.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -75,6 +76,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
             @Override
             public void onItemClick(View view, int position) {
                 showToast(position + "");
+                startActivity(new Intent(GroupActivity.this, GroupDetailActivity.class));
             }
         });
         adapter.setMenuListener(new GroupAdapter.OnSlideMenuListener() {

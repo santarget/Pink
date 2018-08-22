@@ -83,6 +83,8 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
             @Override
             public void onEdit(int position) {
                 showToast(position + " onEdit");
+                Intent intent = new Intent(GroupActivity.this, GroupEditActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -100,6 +102,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
                 onBackPressed();
                 break;
             case R.id.aivAdd:
+                startActivity(new Intent(GroupActivity.this, GroupAddActivity.class));
                 break;
         }
     }

@@ -42,12 +42,15 @@ public class SettingActivity extends BaseActivity {
             case R.id.rlWeibo:
                 break;
             case R.id.rlShare:
+                startActivity(new Intent(SettingActivity.this, ShareAppActivity.class));
                 break;
             case R.id.rlUpdate:
+                startActivity(new Intent(SettingActivity.this, CheckUpdateActivity.class));
                 break;
             case R.id.rlContact:
                 break;
             case R.id.rlSwitch:
+                startActivity(new Intent(SettingActivity.this, SwitchAccoutActivity.class));
                 break;
             case R.id.tvLoginOut:
                 MyApplication.token = "";

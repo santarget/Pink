@@ -49,8 +49,8 @@ public class LoginActivity extends BaseActivity {
     EditText etPassword;
     @BindView(R.id.tvOrg)
     TextView tvOrg;
-    @BindView(R.id.btnLogin)
-    Button btnLogin;
+    @BindView(R.id.tvLogin)
+    TextView tvLogin;
     @BindView(R.id.tvTips)
     TextView tvTips;
     @BindView(R.id.tvQuestion)
@@ -126,10 +126,10 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.btnLogin, R.id.tvTips, R.id.tvQuestion, R.id.tvOrg})
+    @OnClick({R.id.tvLogin, R.id.tvTips, R.id.tvQuestion, R.id.tvOrg})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btnLogin:
+            case R.id.tvLogin:
                 attemptLogin();
                 break;
             case R.id.tvTips:

@@ -25,7 +25,7 @@
                 android:id="@+id/aivWork"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                app:srcCompat="@drawable/selector_personal" />
+                app:srcCompat="@drawable/selector_data" />
 
             <TextView
                 android:id="@+id/tvWork"
@@ -48,7 +48,7 @@
                 android:id="@+id/aivSuper"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                app:srcCompat="@drawable/selector_personal" />
+                app:srcCompat="@drawable/selector_super" />
 
             <TextView
                 android:id="@+id/tvSuper"

@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_white"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:layout_height="180dp"
+        android:background="@drawable/bg_my_idol"
         android:paddingBottom="20dp">
 
         <ImageView
@@ -23,13 +22,12 @@
             app:srcCompat="@drawable/ic_back" />
 
         <ImageView
+            android:layout_alignParentBottom="true"
             android:id="@+id/ivIcon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@+id/ivBack"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/weibo" />
+            android:src="@drawable/ic_idol" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -65,14 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ivIcon"
             android:layout_alignParentRight="true"
-            android:background="@drawable/shape_txt_record"
-            android:paddingBottom="3dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="3dp"
-            android:text="交易记录"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:background="@drawable/bg_btn_record"
+            />
     </RelativeLayout>
 
     <LinearLayout

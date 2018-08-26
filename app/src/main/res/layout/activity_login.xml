@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@drawable/bg_login">
 
     <ImageView
         android:id="@+id/ivIcon"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:src="@drawable/weibo" />
+        android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/tvAppName"
@@ -41,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:drawableLeft="@drawable/account_icon"
+            android:drawableLeft="@drawable/ic_accout"
             android:drawablePadding="20dp"
             android:hint="请输入微博账号"
             android:maxLines="1"
@@ -63,7 +64,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="5dp"
             android:background="@null"
-            android:drawableLeft="@drawable/password_icon"
+            android:drawableLeft="@drawable/ic_password"
             android:drawablePadding="20dp"
             android:hint="请输入密码"
             android:inputType="textPassword"

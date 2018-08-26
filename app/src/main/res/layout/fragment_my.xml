@@ -30,6 +30,13 @@
             android:layout_height="60dp"
             android:background="@color/colorPrimary" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/llPart1"
+            android:layout_alignTop="@+id/llPart1"
+            android:src="@drawable/bg_card" />
+
         <LinearLayout
             android:id="@+id/llPart1"
             android:layout_width="match_parent"
@@ -102,7 +109,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginLeft="8dp"
-                    android:src="@drawable/weibo" />
+                    android:src="@drawable/ic_female" />
             </LinearLayout>
 
             <LinearLayout
@@ -129,6 +136,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:background="@drawable/bg_text_modify"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
                     android:text="修改"
                     android:textColor="@android:color/holo_blue_dark" />
 
@@ -233,7 +243,7 @@
                 android:id="@+id/rlMyIdol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_white_bg_radius2_bottom"
+                android:background="#FFFAF4F6"
                 android:orientation="horizontal"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
@@ -248,7 +258,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/weibo" />
+                        android:src="@drawable/ic_my_idol" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -272,6 +282,44 @@
                     android:layout_alignParentRight="true"
                     android:src="@drawable/ic_arrow_right" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlMonthVip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_white_bg_radius2_bottom"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_month_vip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="包月会员"
+                        android:textColor="@color/txt_dialog_title" />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_arrow_right" />
+            </RelativeLayout>
         </LinearLayout>
 
         <com.ssy.pink.view.CircleImageView
@@ -281,7 +329,7 @@
             android:layout_alignTop="@+id/llPart1"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="-25dp"
-            android:src="@drawable/weibo"
+            android:src="@drawable/default_avatar"
             app:civ_border_color="#eeeeee"
             app:civ_border_width="1dp" />
     </RelativeLayout>
@@ -306,7 +354,7 @@
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/weibo" />
+                android:src="@drawable/ic_add_accout" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -333,7 +381,7 @@
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/weibo" />
+                android:src="@drawable/ic_setting" />
 
             <TextView
                 android:layout_width="wrap_content"

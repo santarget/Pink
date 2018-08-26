@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.R;
 import com.ssy.pink.activity.LoginActivity;
+import com.ssy.pink.activity.MyIdolActivity;
+import com.ssy.pink.activity.MyIdolActivity_ViewBinding;
 import com.ssy.pink.activity.SplashActivity;
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.exception.ExceptionResponse;
@@ -41,6 +43,8 @@ public class BaseActivity extends PermissionActivity implements IView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this instanceof SplashActivity) {
+        } else if (this instanceof MyIdolActivity) {
+
         } else {
             StatusBarUtil.setColor(this);
         }

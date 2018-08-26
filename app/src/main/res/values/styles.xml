@@ -33,7 +33,6 @@
     </style>
 
     <style name="line">
-        <item name="android:layout_marginTop">@dimen/item_vertical_margin</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
         <item name="android:background">@color/line</item>

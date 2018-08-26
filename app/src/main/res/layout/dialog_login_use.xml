@@ -7,18 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white">
-
-        <ImageView
-            android:id="@+id/ivClose"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:padding="3dp"
-            app:srcCompat="@drawable/ic_close" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,59 +15,74 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:background="@drawable/bg_dialog_top"
+                android:orientation="vertical">
 
-                <View
-                    android:layout_width="45dp"
-                    android:layout_height="1dp"
-                    android:background="@color/colorPrimary" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="45dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="登录使用说明"
+                        android:textColor="@color/txt_dialog_title"
+                        android:textSize="@dimen/item_text_content_size" />
+
+                    <View
+                        android:layout_width="45dp"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@color/colorPrimary" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/icon_dialog_top" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="登录使用说明"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="登录账号说明"
                     android:textColor="@color/txt_dialog_title"
-                    android:textSize="@dimen/item_text_content_size" />
+                    android:textSize="@dimen/item_text_tips_size" />
 
-                <View
-                    android:layout_width="45dp"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/colorPrimary" />
+                <TextView
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:text="@string/dialog_login_use_introduce"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="@dimen/item_text_tips_size" />
             </LinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/weibo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:text="登录账号说明"
-                android:textColor="@color/txt_dialog_title"
-                android:textSize="@dimen/item_text_tips_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="5dp"
-                android:lineSpacingMultiplier="1.5"
-                android:text="@string/dialog_login_use_introduce"
-                android:textColor="@color/item_text_content"
-                android:textSize="@dimen/item_text_tips_size" />
 
             <View style="@style/line" />
 
@@ -92,5 +96,15 @@
                 android:text="@string/ok_i_know"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_close" />
     </RelativeLayout>
 </FrameLayout>

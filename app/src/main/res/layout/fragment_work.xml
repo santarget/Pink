@@ -82,6 +82,8 @@
             </RelativeLayout>
 
             <CheckBox
+                android:paddingLeft="8dp"
+                android:button="@drawable/selector_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
@@ -90,6 +92,9 @@
                 android:textColor="@color/item_text_content" />
 
             <CheckBox
+                android:layout_marginTop="10dp"
+                android:paddingLeft="8dp"
+                android:button="@drawable/selector_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
@@ -185,8 +190,8 @@
 
                 <ImageView
                     android:id="@+id/ivEditWeibo"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     app:srcCompat="@drawable/ic_transmit" />
@@ -227,6 +232,8 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:paddingLeft="8dp"
+                    android:button="@drawable/selector_checkbox_round"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="随机表情"
@@ -234,6 +241,8 @@
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
+                    android:paddingLeft="8dp"
+                    android:button="@drawable/selector_checkbox_round"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -242,6 +251,8 @@
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
+                    android:paddingLeft="8dp"
+                    android:button="@drawable/selector_checkbox_round"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -292,6 +303,8 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:paddingLeft="8dp"
+                        android:button="@drawable/selector_checkbox_round"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="保留"
@@ -299,6 +312,8 @@
                         android:textSize="@dimen/item_text_content_size" />
 
                     <RadioButton
+                        android:paddingLeft="8dp"
+                        android:button="@drawable/selector_checkbox_round"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
@@ -345,6 +360,8 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:paddingLeft="8dp"
+                    android:button="@drawable/selector_checkbox_round"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="极快"
@@ -352,6 +369,8 @@
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
+                    android:paddingLeft="8dp"
+                    android:button="@drawable/selector_checkbox_round"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -360,6 +379,8 @@
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
+                    android:paddingLeft="8dp"
+                    android:button="@drawable/selector_checkbox_round"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -410,6 +431,8 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:paddingLeft="8dp"
+                        android:button="@drawable/selector_checkbox_round"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="自动最大化"
@@ -417,6 +440,8 @@
                         android:textSize="@dimen/item_text_content_size" />
 
                     <RadioButton
+                        android:paddingLeft="8dp"
+                        android:button="@drawable/selector_checkbox_round"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"

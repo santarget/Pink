@@ -36,20 +36,5 @@ public class ConstantType {
             {TEXT, ".txt", ".log", ".xml"},
             {APK, ".apk"}
     };
-    /*====================== 收藏 ====================*/
-    public static final String FAVORITE_CONTAINER = "containor";
-    public static final String FAVORITE_NODE_FILE = "file";
-    public static final String FAVORITE_NODE_FOLDER = "folder";
-
-    //parent
-    public static final int FAVORITE_ID_TEAMSPACE = 5;
-    public static final int FAVORITE_ID_SHARELINK = 4;
-    public static final int FAVORITE_ID_SHARE = 3;
-    public static final int FAVORITE_ID_MYFILES = 2;
-    //type
-    public static final String FAVORITE_TYPE_MY_SPACE = "myspace";
-    public static final String FAVORITE_TYPE_TEAM_SPACE = "teamspace";
-    public static final String FAVORITE_TYPE_SHARE = "share";
-    public static final String FAVORITE_TYPE_LINK = "link";
 
 }

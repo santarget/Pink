@@ -28,8 +28,8 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  * @date 2018/7/2
  */
 public class OkHttpClientProvider {
-    private static OkHttpClient client, noTokenClient, taskClient;
-    private static Retrofit retrofit, uamRetrofit, ufmRetrofit;
+    private static OkHttpClient client, noTokenClient;
+    private static Retrofit weiboRetrofit, pinkRetrofit;
 
     public static OkHttpClient getClient() {
         if (client == null) {
@@ -61,23 +61,6 @@ public class OkHttpClientProvider {
         return noTokenClient;
     }
 
-    public static OkHttpClient getTaskClient() {
-        if (taskClient == null) {
-            synchronized (OkHttpClientProvider.class) {
-                if (taskClient == null) {
-                    if (ConfigProp.verifyCert) {
-                        OkHttpClient.Builder builder = getSafeBuilder(false);
-                        taskClient = addTaskHeader(builder).build();
-
-                    } else {
-                        OkHttpClient.Builder builder = getUnsafeBuilder(false);
-                        taskClient = addTaskHeader(builder).build();
-                    }
-                }
-            }
-        }
-        return taskClient;
-    }
 
     private static OkHttpClient.Builder getSafeBuilder(boolean hasToken) {
         HttpsUtils.SSLParams sslParams = null;
@@ -151,24 +134,12 @@ public class OkHttpClientProvider {
         });
     }
 
-    /**
-     * 上传下载任务的的请求头
-     *
-     * @param builder
-     */
-    private static OkHttpClient.Builder addTaskHeader(OkHttpClient.Builder builder) {
-        builder.connectTimeout(50000, TimeUnit.MILLISECONDS)
-                .readTimeout(100000, TimeUnit.MILLISECONDS)
-                .writeTimeout(100000, TimeUnit.MILLISECONDS);
-        return builder;
-    }
-
-    public static Retrofit getRetrofit(OkHttpClient client) {
-        if (retrofit == null) {
+    public static Retrofit getWeiboRetrofit(OkHttpClient client) {
+        if (weiboRetrofit == null) {
             synchronized (OkHttpClientProvider.class) {
-                if (retrofit == null) {
-                    retrofit = new Retrofit.Builder()
-                            .baseUrl(ConfigProp.serverUrl)
+                if (weiboRetrofit == null) {
+                    weiboRetrofit = new Retrofit.Builder()
+                            .baseUrl("https://api.weibo.com/")
                             .addConverterFactory(NobodyConverterFactory.create())
                             .addConverterFactory(FastJsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -177,15 +148,15 @@ public class OkHttpClientProvider {
                 }
             }
         }
-        return retrofit;
+        return weiboRetrofit;
     }
 
-    public static Retrofit getUamRetrofit() {
-        if (uamRetrofit == null) {
+    public static Retrofit getPinkRetrofit() {
+        if (pinkRetrofit == null) {
             synchronized (OkHttpClientProvider.class) {
-                if (uamRetrofit == null) {
-                    uamRetrofit = new Retrofit.Builder()
-//                            .baseUrl(TextUtils.isEmpty(MyApplication.uamAddress) ? ConfigProp.serverUrl : MyApplication.uamAddress)
+                if (pinkRetrofit == null) {
+                    pinkRetrofit = new Retrofit.Builder()
+                            .baseUrl(ConfigProp.serverUrl)
                             .addConverterFactory(NobodyConverterFactory.create())//无响应体时
                             .addConverterFactory(FastJsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
@@ -194,23 +165,6 @@ public class OkHttpClientProvider {
                 }
             }
         }
-        return uamRetrofit;
-    }
-
-    public static Retrofit getUfmRetrofit() {
-        if (ufmRetrofit == null) {
-            synchronized (OkHttpClientProvider.class) {
-                if (ufmRetrofit == null) {
-                    ufmRetrofit = new Retrofit.Builder()
-//                            .baseUrl(TextUtils.isEmpty(MyApplication.ufmAddress) ? ConfigProp.serverUrl : MyApplication.ufmAddress)
-                            .addConverterFactory(NobodyConverterFactory.create())//无响应体时
-                            .addConverterFactory(FastJsonConverterFactory.create())
-                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
-                            .client(OkHttpClientProvider.getClient())
-                            .build();
-                }
-            }
-        }
-        return ufmRetrofit;
+        return pinkRetrofit;
     }
 }

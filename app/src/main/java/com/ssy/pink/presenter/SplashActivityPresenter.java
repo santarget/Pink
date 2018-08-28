@@ -3,6 +3,7 @@ package com.ssy.pink.presenter;
 import android.text.TextUtils;
 
 import com.ssy.pink.R;
+import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.iview.ISplashActivityView;
 import com.ssy.pink.manager.LoginManager;
 import com.ssy.pink.utils.CommonUtils;
@@ -13,7 +14,7 @@ import com.ssy.pink.utils.SharedPreferencesUtil;
  * @author ssy
  * @date 2018/8/9
  */
-public class SplashActivityPresenter {
+public class SplashActivityPresenter extends BasePresenter {
     public static final int LOGIN = 0;//手动登录
     public static final int FIRST_LOGIN = 1;//第一次登录
     public static final int AUTO_LOGIN = 2;//自动登录

@@ -20,7 +20,9 @@ import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
+import com.ssy.pink.iview.ILoginActivityView;
 import com.ssy.pink.manager.LoginManager;
+import com.ssy.pink.presenter.LoginActivityPresenter;
 import com.ssy.pink.utils.StatusBarUtil;
 import com.ssy.pink.view.CircleImageView;
 import com.ssy.pink.view.WaitingDialog;
@@ -40,7 +42,7 @@ import butterknife.OnClick;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements ILoginActivityView {
 
 
     @BindView(R.id.etAccout)
@@ -61,12 +63,15 @@ public class LoginActivity extends BaseActivity {
     private LoginChooseDialog chooseDialog;
     private String accout;
     private String password;
+    private LoginActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        presenter = new LoginActivityPresenter(this);
+        presenter.listFansOrg();
     }
 
     /**

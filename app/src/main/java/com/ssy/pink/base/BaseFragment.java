@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.activity.MainActivity;
+import com.ssy.pink.iview.IView;
+import com.ssy.pink.utils.ToastUtils;
 
 /**
  * Created by Tys on 2017/1/27.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements IView {
     public MainActivity mainActivity;
     public TextView tvTitle;
     private boolean isFirstVisible = true;
@@ -30,6 +32,7 @@ public abstract class BaseFragment extends Fragment {
             outState.remove(FRAGMENTS_TAG);
         }
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroyView();
         DetoryViewAndThing();
     }
+
     private synchronized void initPrepare() {
         if (isPrepared) {
             onFirstUserVisible();
@@ -104,5 +108,16 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected abstract void onUserInvisible();
+
+    @Override
+    public void showToast(int strId) {
+        ToastUtils.showToast(mainActivity, strId);
+    }
+
+    @Override
+    public void showToast(String str) {
+        ToastUtils.showToast(mainActivity, str);
+    }
+
 
 }

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -15,14 +16,24 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AccessTokenKeeper;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.FansOrgInfo;
+import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.ILoginActivityView;
 import com.ssy.pink.manager.LoginManager;
+import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.presenter.LoginActivityPresenter;
 import com.ssy.pink.utils.StatusBarUtil;
 import com.ssy.pink.view.CircleImageView;
@@ -68,11 +79,17 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     private List<FansOrgInfo> orgsList;
     private boolean hasGotOrgs;
 
+    /**
+     * 注意：SsoHandler 仅当 SDK 支持 SSO 时有效
+     */
+    private SsoHandler mSsoHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        mSsoHandler = new SsoHandler(this);
         presenter = new LoginActivityPresenter(this);
         presenter.listFansOrg();
     }
@@ -99,7 +116,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            LoginManager.getInstance().login(accout, password);
+//            LoginManager.getInstance().login(accout, password);
+//            mSsoHandler.authorize(new SelfWbAuthListener());
         }
     }
 
@@ -209,6 +227,47 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         if (!hasGot && chooseDialog != null && chooseDialog.isShowing()) {
             chooseDialog.dismiss();
         }
+    }
+
+    private class SelfWbAuthListener implements com.sina.weibo.sdk.auth.WbAuthListener {
+        @Override
+        public void onSuccess(final Oauth2AccessToken token) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    WeiboManager.getInstance().mAccessToken = token;
+                    if (WeiboManager.getInstance().mAccessToken.isSessionValid()) {
+                        // 保存 Token 到 SharedPreferences
+                        AccessTokenKeeper.writeAccessToken(LoginActivity.this, token);
+                        toMainActivity();
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void cancel() {
+            showToast("取消登录");
+        }
+
+        @Override
+        public void onFailure(WbConnectErrorMessage errorMessage) {
+            showToast("登录失败");
+        }
+    }
+
+    /**
+     * 当 SSO 授权 Activity 退出时，该函数被调用。
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // SSO 授权回调
+        // 重要：发起 SSO 登陆的 Activity 必须重写 onActivityResults
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+
     }
 }
 

@@ -5,7 +5,8 @@ android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.ssy.pink"
+        applicationId "com.sina.weibo.sdk.demo"
+//        applicationId "com.ssy.pink"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
@@ -23,11 +24,33 @@ android {
         // checkReleaseBuilds false
         abortOnError false
     }
+    signingConfigs {
+        debug {
+            storeFile file('../debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+
+        }
+        release {
+            storeFile file('../debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
+//    compile(name: 'core-4.1.0-openDefaultRelease', ext: 'aar')
+    compile 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -45,12 +68,13 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
-//    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp3:okhttp-android-support:3.10.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
     //下拉刷新框架
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
+
 }
 
 greendao {

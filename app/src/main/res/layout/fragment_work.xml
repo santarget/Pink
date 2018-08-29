@@ -81,25 +81,16 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <CheckBox
-                android:paddingLeft="8dp"
-                android:button="@drawable/selector_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/item_horizontal_margin"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
-                android:text="默认分组[2/4]"
-                android:textColor="@color/item_text_content" />
-
-            <CheckBox
-                android:layout_marginTop="10dp"
-                android:paddingLeft="8dp"
-                android:button="@drawable/selector_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/item_horizontal_margin"
-                android:text="小朋友[5/5]"
-                android:textColor="@color/item_text_content" />
+                android:overScrollMode="never"
+                android:scrollbars="none" />
 
             <View
                 android:layout_width="match_parent"
@@ -143,7 +134,7 @@
                     android:textSize="@dimen/item_text_title_size" />
 
                 <LinearLayout
-                    android:id="@+id/llHelpGet"
+                    android:id="@+id/llHelpGetUrl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -172,16 +163,18 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
                 android:layout_marginRight="@dimen/item_horizontal_margin"
                 android:layout_marginTop="@dimen/item_vertical_margin">
 
                 <EditText
+                    android:id="@+id/etWeiboUrl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:layout_toLeftOf="@+id/ivEditWeibo"
+                    android:layout_toLeftOf="@+id/ivVisitUrl"
                     android:background="@drawable/shape_gray_bg_radius"
                     android:padding="5dp"
                     android:text="http://m.weibo.cn/detail...."
@@ -189,11 +182,12 @@
                     android:textSize="@dimen/item_text_content_size" />
 
                 <ImageView
-                    android:id="@+id/ivEditWeibo"
+                    android:id="@+id/ivVisitUrl"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:padding="1dp"
                     app:srcCompat="@drawable/ic_transmit" />
             </RelativeLayout>
 
@@ -214,6 +208,7 @@
                     android:textSize="@dimen/item_text_title_size" />
 
                 <ImageView
+                    android:id="@+id/ivHelpSendContent"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
@@ -232,38 +227,56 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:paddingLeft="8dp"
-                    android:button="@drawable/selector_checkbox_round"
+                    android:id="@+id/rbRandomEmoticon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:button="@drawable/selector_checkbox_round"
+                    android:paddingLeft="8dp"
                     android:text="随机表情"
                     android:textColor="@color/item_text_content"
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
-                    android:paddingLeft="8dp"
-                    android:button="@drawable/selector_checkbox_round"
+                    android:id="@+id/rbCustom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:button="@drawable/selector_checkbox_round"
+                    android:paddingLeft="8dp"
                     android:text="自定义"
                     android:textColor="@color/item_text_content"
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
-                    android:paddingLeft="8dp"
-                    android:button="@drawable/selector_checkbox_round"
+                    android:id="@+id/rbBoth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:button="@drawable/selector_checkbox_round"
+                    android:paddingLeft="8dp"
                     android:text="自定义+随机表情"
                     android:textColor="@color/item_text_content"
                     android:textSize="@dimen/item_text_content_size" />
             </RadioGroup>
 
+            <EditText
+                android:id="@+id/etCustom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginRight="@dimen/item_horizontal_margin"
+                android:layout_marginTop="@dimen/item_vertical_margin"
+                android:background="@drawable/shape_gray_bg_radius"
+                android:hint="#话题#/@somebody/固定内容"
+                android:padding="5dp"
+                android:textColor="@color/item_text_content"
+                android:textSize="@dimen/item_text_content_size" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
                 android:layout_marginRight="@dimen/item_horizontal_margin"
                 android:layout_marginTop="@dimen/item_vertical_margin"
@@ -285,6 +298,7 @@
                         android:textSize="@dimen/item_text_title_size" />
 
                     <ImageView
+                        android:id="@+id/ivHelpOtherContent"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentBottom="true"
@@ -303,20 +317,22 @@
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:paddingLeft="8dp"
-                        android:button="@drawable/selector_checkbox_round"
+                        android:id="@+id/rbContentKeep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:button="@drawable/selector_checkbox_round"
+                        android:paddingLeft="8dp"
                         android:text="保留"
                         android:textColor="@color/item_text_content"
                         android:textSize="@dimen/item_text_content_size" />
 
                     <RadioButton
-                        android:paddingLeft="8dp"
-                        android:button="@drawable/selector_checkbox_round"
+                        android:id="@+id/rbContentDelete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
+                        android:button="@drawable/selector_checkbox_round"
+                        android:paddingLeft="8dp"
                         android:text="删除"
                         android:textColor="@color/item_text_content"
                         android:textSize="@dimen/item_text_content_size" />
@@ -342,6 +358,7 @@
                     android:textSize="@dimen/item_text_title_size" />
 
                 <ImageView
+                    android:id="@+id/ivHelpSetSpeed"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
@@ -360,30 +377,33 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:paddingLeft="8dp"
-                    android:button="@drawable/selector_checkbox_round"
+                    android:id="@+id/rbSpeedFast"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:button="@drawable/selector_checkbox_round"
+                    android:paddingLeft="8dp"
                     android:text="极快"
                     android:textColor="@color/item_text_content"
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
-                    android:paddingLeft="8dp"
-                    android:button="@drawable/selector_checkbox_round"
+                    android:id="@+id/rbSpeedStable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:button="@drawable/selector_checkbox_round"
+                    android:paddingLeft="8dp"
                     android:text="稳定"
                     android:textColor="@color/item_text_content"
                     android:textSize="@dimen/item_text_content_size" />
 
                 <RadioButton
-                    android:paddingLeft="8dp"
-                    android:button="@drawable/selector_checkbox_round"
+                    android:id="@+id/rbSpeedSlow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:button="@drawable/selector_checkbox_round"
+                    android:paddingLeft="8dp"
                     android:text="慢速"
                     android:textColor="@color/item_text_content"
                     android:textSize="@dimen/item_text_content_size" />
@@ -413,6 +433,7 @@
                         android:textSize="@dimen/item_text_title_size" />
 
                     <ImageView
+                        android:id="@+id/ivHelpSetCount"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentBottom="true"
@@ -431,20 +452,22 @@
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:paddingLeft="8dp"
-                        android:button="@drawable/selector_checkbox_round"
+                        android:id="@+id/rbCountMax"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:button="@drawable/selector_checkbox_round"
+                        android:paddingLeft="8dp"
                         android:text="自动最大化"
                         android:textColor="@color/item_text_content"
                         android:textSize="@dimen/item_text_content_size" />
 
                     <RadioButton
-                        android:paddingLeft="8dp"
-                        android:button="@drawable/selector_checkbox_round"
+                        android:id="@+id/rbCountCustom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
+                        android:button="@drawable/selector_checkbox_round"
+                        android:paddingLeft="8dp"
                         android:text="指定数量"
                         android:textColor="@color/item_text_content"
                         android:textSize="@dimen/item_text_content_size" />
@@ -452,6 +475,8 @@
                 </RadioGroup>
 
                 <EditText
+                    android:inputType="number"
+                    android:id="@+id/etCountCustom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -468,27 +493,93 @@
 
             <View style="@style/line" />
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/bg_white">
 
                 <TextView
-                    android:gravity="center"
+                    android:id="@+id/tvWorkBg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginBottom="35dp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="25dp"
-                    android:background="@drawable/selector_login_btn"
-                    android:padding="10dp"
+                    android:background="@drawable/selector_work_btn"
+                    android:clickable="false"
+                    android:enabled="false" />
+
+                <TextView
+                    android:id="@+id/tvWork"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tvWorkBg"
+                    android:layout_alignLeft="@+id/tvWorkBg"
+                    android:layout_alignRight="@+id/tvWorkBg"
+                    android:layout_alignTop="@+id/tvWorkBg"
+                    android:gravity="center"
                     android:text="启动抡博"
                     android:textColor="@android:color/white"
                     android:textSize="17sp" />
-            </FrameLayout>
+            </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/llMonitor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="12dp">
+
+                    <View
+                        android:id="@+id/bar1"
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignBottom="@+id/tvWorkMonitor"
+                        android:layout_alignTop="@+id/tvWorkMonitor"
+                        android:background="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tvWorkMonitor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_toRightOf="@+id/bar1"
+                        android:text="抡博监控"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/item_text_title_size" />
+
+                    <ImageView
+                        android:id="@+id/ivHelpMonitor"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_help" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/shape_gray_border"
+                    android:orientation="vertical"></LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/bg_white" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -14,6 +14,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.ssy.pink.common.ConfigProp;
 import com.ssy.pink.glide.OkHttpUrlLoader;
+import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.network.OkHttpClientProvider;
 import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.SharedPreferencesUtil;
@@ -41,10 +42,10 @@ public class MyApplication extends Application {
         initSmartRefreshLayout();
         //初始化配置文件
         initConfigProp();
-        //初始化网络
         //让Glide能获取https图片
         Glide.get(this).register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(OkHttpClientProvider.getNoTokenClient()));
         doUpgrade();
+        WeiboManager.getInstance();
     }
 
     private void initCrashReport() {

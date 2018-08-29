@@ -16,6 +16,8 @@ public class FansOrgInfo implements Serializable {
 
     private String fansorginfotdesc;
 
+    private transient boolean isSelected;
+
     public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
@@ -62,6 +64,14 @@ public class FansOrgInfo implements Serializable {
 
     public String getFansorginfotdesc() {
         return this.fansorginfotdesc;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
+import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.ILoginActivityView;
@@ -64,6 +65,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     private String accout;
     private String password;
     private LoginActivityPresenter presenter;
+    private List<FansOrgInfo> orgsList;
+    private boolean hasGotOrgs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,13 +176,38 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         if (chooseDialog == null) {
             chooseDialog = new LoginChooseDialog(this);
         }
+        if (!hasGotOrgs) {
+            presenter.listFansOrg();
+        }
         chooseDialog.show();
+        if (orgsList != null) {
+            chooseDialog.setDatas(orgsList);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(EventWithObj event) {
         if (EventCode.LOGIN_CHOOSE_ORG == event.eventCode) {
-            tvOrg.setText((String) event.obj);
+            FansOrgInfo fansOrgInfo = (FansOrgInfo) event.obj;
+            if (fansOrgInfo != null) {
+                tvOrg.setText(fansOrgInfo.getFansorginfoname());
+            }
+        }
+    }
+
+    @Override
+    public void setOrgsList(List<FansOrgInfo> orgsList) {
+        this.orgsList = orgsList;
+        if (chooseDialog != null && chooseDialog.isShowing()) {
+            chooseDialog.setDatas(orgsList);
+        }
+    }
+
+    @Override
+    public void hasGotOrgs(boolean hasGot) {
+        hasGotOrgs = hasGot;
+        if (!hasGot && chooseDialog != null && chooseDialog.isShowing()) {
+            chooseDialog.dismiss();
         }
     }
 }

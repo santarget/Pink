@@ -16,7 +16,6 @@ import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.iview.IGroupActivityView;
-import com.ssy.pink.view.recyclerViewBase.LinerRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
 

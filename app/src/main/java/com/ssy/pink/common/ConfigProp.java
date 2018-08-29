@@ -12,10 +12,7 @@ public class ConfigProp {
     /*为了方便引用，用public修饰，但不允许修改*/
     public static String serverUrl = "";
     public static String certName = "";
-    public static boolean showDomain;
     public static boolean verifyCert;
-    public static String crashReportUrl;//配置了就走压缩zip包上传逻辑，为空则维持log文件，且最多保留最新的3个
-    public static boolean showDownloadPath;
 
 
     public static void loadConfigProp() {
@@ -24,12 +21,9 @@ public class ConfigProp {
             in = MyApplication.getInstance().getAssets().open("config.properties");
             Properties properties = new Properties();
             properties.load(in);
-            serverUrl = properties.getProperty("CSI_ECS_server_URL", "");
+            serverUrl = properties.getProperty("SERVER_URL", "");
             certName = properties.getProperty("CERT_NAME", "");
-            crashReportUrl = properties.getProperty("CRASH_REPORT_URL", "");
-            showDomain = "true".equalsIgnoreCase(properties.getProperty("SHOW_DOMAIN", ""));
-            verifyCert = "true".equalsIgnoreCase(properties.getProperty("VERIFY_CERT", ""));
-            showDownloadPath = "true".equalsIgnoreCase(properties.getProperty("SHOW_DOWNLOAD_PATH", ""));
+            verifyCert = Boolean.valueOf(properties.getProperty("VERIFY_CERT", "false"));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

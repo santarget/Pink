@@ -34,45 +34,29 @@
                     android:textColor="@color/txt_dialog_msg"
                     android:textSize="@dimen/item_text_content_size" />
 
-                <EditText
-                    android:singleLine="true"
-                    android:id="@+id/ed1"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/selector_edittext_choose_org"
-                    android:maxLines="1"
-                    android:paddingLeft="10dp"
-                    android:text="#周杰伦" />
+                    android:layout_height="200dp">
 
-                <EditText
-                    android:singleLine="true"
-                    android:id="@+id/ed2"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/selector_edittext_choose_org"
-                    android:maxLines="1"
-                    android:paddingLeft="10dp"
-                    android:text="#周杰伦全球后援" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="5dp"
+                        android:overScrollMode="never"
+                        android:scrollbars="none" />
 
-                <EditText
-                    android:singleLine="true"
-                    android:id="@+id/ed3"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/selector_edittext_choose_org"
-                    android:maxLines="1"
-                    android:paddingLeft="10dp"
-                    android:text="#6666666666666" />
-
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center" />
+                </FrameLayout>
 
                 <View style="@style/line" />
             </LinearLayout>

@@ -5,6 +5,7 @@ import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.iview.ILoginActivityView;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.utils.MyUtils;
 
 import java.util.List;
 
@@ -26,12 +27,16 @@ public class LoginActivityPresenter extends BasePresenter {
 
             @Override
             public void onError(Throwable e) {
+                MyUtils.handleExcep(e);
+                iView.showToast("组织获取失败");
+                iView.hasGotOrgs(false);
             }
 
             @Override
             public void onNext(CommonResp commonResp) {
-                List<FansOrgInfo> infos = commonResp.getData();
-                iView.showToast(infos.toString());
+                iView.hasGotOrgs(true);
+                iView.setOrgsList(commonResp.getData());
+
             }
         });
 

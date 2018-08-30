@@ -55,6 +55,7 @@
         <activity android:name=".activity.SwitchAccoutActivity" />
         <activity android:name=".activity.GroupEditActivity" />
         <activity android:name=".activity.GroupAddActivity"></activity>
+        <activity android:name=".activity.MonthVipActivity"></activity>
     </application>
 
 </manifest>

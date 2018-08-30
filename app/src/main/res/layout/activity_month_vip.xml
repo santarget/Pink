@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTopTips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_white"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:text="已开通月度会员，有效期至2018.10.10"
+                android:textColor="@color/item_text_title"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="包月会员"
+                android:textColor="@color/txt_dialog_title"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rlMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@drawable/selector_edittext_choose_org"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:id="@+id/ivMonth"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/vip_month" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/ivMonth"
+                    android:text="月度会员"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvPriceMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="20"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tvPriceMonth"
+                    android:layout_toLeftOf="@+id/tvPriceMonth"
+                    android:text="￥"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlSeason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/selector_edittext_choose_org"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:id="@+id/ivSeason"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/vip_season" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/ivSeason"
+                    android:text="季度会员"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvPriceSeason"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="60"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tvPriceSeason"
+                    android:layout_toLeftOf="@+id/tvPriceSeason"
+                    android:text="￥"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlHalfYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/selector_edittext_choose_org"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:id="@+id/ivHalfYear"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/vip_half_year" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/ivHalfYear"
+                    android:text="半年度会员"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvPriceHalfYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="120"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tvPriceHalfYear"
+                    android:layout_toLeftOf="@+id/tvPriceHalfYear"
+                    android:text="￥"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_gravity="top"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_info" />
+
+                <TextView
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tips_vip"
+                    android:textColor="@color/item_text_tips"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="20dp"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/wechat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="微信支付"
+                    android:textColor="@color/item_text_content"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_gray_border"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="需支付金额"
+                    android:textColor="@color/txt_dialog_title"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvYuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="元"
+                    android:textColor="@color/txt_dialog_title"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/etMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/tvYuan"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:textColor="@color/txt_dialog_title"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <View
+                style="@style/line"
+                android:layout_marginTop="25dp" />
+
+            <TextView
+                android:id="@+id/tvOk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/selector_login_btn"
+                android:gravity="center"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/sure"
+                android:textColor="@android:color/white"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.activity.GroupActivity;
+import com.ssy.pink.activity.MonthVipActivity;
 import com.ssy.pink.activity.MyIdolActivity;
 import com.ssy.pink.activity.SettingActivity;
 import com.ssy.pink.base.BaseFragment;
@@ -75,7 +76,7 @@ public class MyFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tvModify, R.id.rlMyIdol, R.id.llAddAccout, R.id.llSettings})
+    @OnClick({R.id.tvModify, R.id.rlMyIdol, R.id.llAddAccout, R.id.llSettings, R.id.rlMonthVip})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvModify:
@@ -89,6 +90,9 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.llSettings:
                 mainActivity.startActivity(new Intent(mainActivity, SettingActivity.class));
+                break;
+            case R.id.rlMonthVip:
+                mainActivity.startActivity(new Intent(mainActivity, MonthVipActivity.class));
                 break;
         }
     }

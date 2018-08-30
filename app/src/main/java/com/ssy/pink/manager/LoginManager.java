@@ -161,44 +161,6 @@ public class LoginManager {
 
 
 
-    public void getUfmUrl() {
-       /* getRetrofit(OkHttpClientProvider.getClient()).create(LoginApi.class).getServerUrl("ufm")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ServerResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        EventBus.getDefault().post(EventCode.LOGIN_FAIL);
-                    }
-
-                    @Override
-                    public void onNext(ServerResponse serverResponse) {
-                        MyApplication.ufmAddress = serverResponse.getServerUrl();
-                        MyApplication.isOffline = false;
-                        EventBus.getDefault().post(EventCode.LOGIN_SUCCESS);//取到ufm url之后再登录进主界面
-                    }
-                });*/
-    }
-
-    /*public long saveUserInfo(String accout, String pwd, LoginResponse obj) {
-        UserInfoDaoOperation userDao = (UserInfoDaoOperation) DaoFactory.getUserInfoDao();
-        List<UserInfo> users = userDao.query(null, null, null, null, null);
-        for (UserInfo user : users) {
-            user.setLastLogin(false);
-            userDao.update(user);
-        }
-        UserInfo userInfo = new UserInfo();
-        userInfo.setAccount(accout);
-        userInfo.setPassWord(EnDecrypUtil.AesEncrypt(pwd));
-        userInfo.setLastLogin(true);
-        userInfo.setCloudUserId(obj.getCloudUserId());
-        return userDao.insertOrReplace(userInfo);
-    }*/
 
     /*public UserInfo getLastLoginUser() {
         UserInfoDaoOperation userInfoDao = (UserInfoDaoOperation) DaoFactory.getUserInfoDao();

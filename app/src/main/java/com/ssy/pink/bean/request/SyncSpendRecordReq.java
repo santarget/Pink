@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class SyncSpendRecordReq implements Serializable {
     private static final long serialVersionUID = -7026356385032853988L;
     private String customernum;//会员编号需要存在
-    private String transactionid;//必须是未存在的
+    private String transactionid;
     private long spendbeannum;
-    private long spenddesc;//爱豆数量
+    private String spenddesc;//消费说明信息
 
     public String getCustomernum() {
         return customernum;
@@ -33,11 +33,11 @@ public class SyncSpendRecordReq implements Serializable {
         this.spendbeannum = spendbeannum;
     }
 
-    public long getSpenddesc() {
+    public String getSpenddesc() {
         return spenddesc;
     }
 
-    public void setSpenddesc(long spenddesc) {
+    public void setSpenddesc(String spenddesc) {
         this.spenddesc = spenddesc;
     }
 

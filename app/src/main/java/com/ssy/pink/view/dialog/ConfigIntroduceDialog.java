@@ -26,6 +26,7 @@ public class ConfigIntroduceDialog extends BaseDialog {
     @Override
     protected void init() {
         tvTips = (TextView) rootView.findViewById(R.id.tvTips);
+        setCancelable(true);
     }
 
     public ConfigIntroduceDialog setTips(String str) {

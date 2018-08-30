@@ -40,7 +40,7 @@
         <EditText
             android:id="@+id/etAccout"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="50dp"
             android:background="@null"
             android:drawableLeft="@drawable/ic_accout"
             android:drawablePadding="12dp"
@@ -49,9 +49,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
-            android:text="123"
             android:textColor="#999999"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
@@ -62,7 +61,7 @@
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="50dp"
             android:layout_marginTop="5dp"
             android:background="@null"
             android:drawableLeft="@drawable/ic_password"
@@ -73,9 +72,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
-            android:text="123"
             android:textColor="#999999"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
@@ -86,7 +84,7 @@
         <TextView
             android:id="@+id/tvOrg"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="50dp"
             android:layout_marginTop="5dp"
             android:background="@null"
             android:drawableLeft="@drawable/ic_orgnization"
@@ -99,7 +97,7 @@
             android:paddingRight="10dp"
             android:singleLine="true"
             android:textColor="#999999"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"

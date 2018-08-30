@@ -1,5 +1,6 @@
 package com.ssy.pink.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +13,10 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.activity.GroupActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.iview.IWorkFragmentView;
+import com.ssy.pink.presenter.WorkFragmentPresenter;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 
@@ -64,6 +67,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     LinearLayout llMonitor;
     Unbinder unbinder;
 
+    private WorkFragmentPresenter presenter;
     private boolean isWorking;
     private ConfigIntroduceDialog helpDialog;
 
@@ -77,7 +81,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         unbinder = ButterKnife.bind(this, view);
         initView();
         initListener();
+        presenter = new WorkFragmentPresenter(this);
         // TODO: 2018/8/30 获取分组列表及展示
+        presenter.test();
     }
 
 
@@ -131,7 +137,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.llEnter://进入分组
-
+                startActivity(new Intent(mainActivity, GroupActivity.class));
                 break;
             case R.id.llHelpGetUrl: //如何获取微博链接弹窗
                 showHelpDialog(R.string.dialog_config_introduce);
@@ -162,6 +168,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                 }
                 break;
             case R.id.ivHelpMonitor://抡博监控的帮助信息
+                showHelpDialog(R.string.dialog_config_introduce);
                 break;
         }
     }

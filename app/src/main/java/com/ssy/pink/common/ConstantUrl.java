@@ -10,4 +10,7 @@ public class ConstantUrl {
     public static final String SYNC_CUSTOMER = "adminservice/synCustomerInfo";
     public static final String SYNC_RECHARGE_RECORD = "adminservice/synUserAddMoneyInfo";
     public static final String SYNC_SPEND_RECORD = "adminservice/synUserSpendInfo";
+    public static final String ORDER_ONE_PRODUCE = "adminservice/orderOneProduct";
+    public static final String GET_ORDER_INFO = "adminservice/queryUserOrderInfo";
+    public static final String GET_USER_MONEY_INFO= "adminservice/queryUserAcountInfo";
 }

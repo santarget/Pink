@@ -1,15 +1,9 @@
 package com.ssy.pink.manager;
 
-import android.widget.Toast;
-
 import com.sina.weibo.sdk.WbSdk;
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.ssy.pink.MyApplication;
-import com.ssy.pink.R;
 import com.ssy.pink.common.ConstantWeibo;
 
 public class WeiboManager {

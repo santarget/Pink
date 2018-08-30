@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pink</string>
+    <string name="app_name">小粉拳</string>
     <!-- Strings related to login -->
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">账号必须带@</string>
@@ -393,4 +393,5 @@
     <string name="tips_group_detail">如果账号出现过异常提示，会记录下来并展示，可以侧滑进行移除（异常信息只记录在本地，无法进行云同步，异常账号请通过该设备移除；卸载或清除应用数据后，本地异常信息会被清空，账号显示状态正常，而实际可能异常，该状态无法自主检测，需要启动后才会根据转发情况记录。）</string>
     <string name="add_accout">添加账号</string>
     <string name="done">完成</string>
+    <string name="dialog_config_introduce">需要抡博的主体微博，从微博列表进到微博详情，点击右上角，选择复制链接。输入框右边的小图标可以快速打开链接访问微博，可以确认是否是要抡博的微博，或者查看当前微博的转发数。\n如果监控提示“微博获取失败”，可以点击右方的小图标打开链接看填写的微博链接能不能访问，或者尝试更新IP。</string>
 </resources>

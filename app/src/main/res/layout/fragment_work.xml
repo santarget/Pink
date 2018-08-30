@@ -412,6 +412,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
                 android:layout_marginRight="@dimen/item_horizontal_margin"
                 android:layout_marginTop="@dimen/item_vertical_margin"
@@ -475,7 +476,6 @@
                 </RadioGroup>
 
                 <EditText
-                    android:inputType="number"
                     android:id="@+id/etCountCustom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -484,6 +484,7 @@
                     android:layout_marginLeft="@dimen/item_horizontal_margin"
                     android:layout_marginRight="@dimen/item_horizontal_margin"
                     android:background="@drawable/shape_gray_bg_radius"
+                    android:inputType="number"
                     android:padding="5dp"
                     android:text="5"
                     android:textColor="@color/item_text_content"
@@ -570,6 +571,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:background="@drawable/shape_gray_border"

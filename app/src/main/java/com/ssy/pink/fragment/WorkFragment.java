@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.iview.IWorkFragmentView;
+import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 
 import butterknife.BindView;
@@ -64,6 +65,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     Unbinder unbinder;
 
     private boolean isWorking;
+    private ConfigIntroduceDialog helpDialog;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -132,16 +134,21 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
                 break;
             case R.id.llHelpGetUrl: //如何获取微博链接弹窗
+                showHelpDialog(R.string.dialog_config_introduce);
                 break;
             case R.id.ivVisitUrl://访问连接
                 break;
             case R.id.ivHelpSendContent://发送内容
+                showHelpDialog(R.string.dialog_config_introduce);
                 break;
             case R.id.ivHelpOtherContent://其他人的转发内容
+                showHelpDialog(R.string.dialog_config_introduce);
                 break;
             case R.id.ivHelpSetSpeed://设置转发速度
+                showHelpDialog(R.string.dialog_config_introduce);
                 break;
             case R.id.ivHelpSetCount://数量设置
+                showHelpDialog(R.string.dialog_config_introduce);
                 break;
             case R.id.tvWork://开始抡博
                 if (isWorking) {
@@ -164,18 +171,18 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.rbRandomEmoticon:
-                if (isChecked){
+                if (isChecked) {
                     etCustom.setVisibility(View.GONE);
                 }
 
                 break;
             case R.id.rbCustom:
-                if (isChecked){
+                if (isChecked) {
                     etCustom.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.rbBoth:
-                if (isChecked){
+                if (isChecked) {
                     etCustom.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -195,15 +202,22 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
                 break;
             case R.id.rbCountMax:
-                if (isChecked){
+                if (isChecked) {
                     etCountCustom.setVisibility(View.GONE);
                 }
                 break;
             case R.id.rbCountCustom:
-                if (isChecked){
+                if (isChecked) {
                     etCountCustom.setVisibility(View.VISIBLE);
                 }
                 break;
         }
+    }
+
+    private void showHelpDialog(int strId) {
+        if (helpDialog == null) {
+            helpDialog = new ConfigIntroduceDialog(mainActivity);
+        }
+        helpDialog.setTips(strId).show();
     }
 }

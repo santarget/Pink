@@ -11,7 +11,13 @@ import com.ssy.pink.activity.MonthVipActivity;
 import com.ssy.pink.activity.MyIdolActivity;
 import com.ssy.pink.activity.SettingActivity;
 import com.ssy.pink.base.BaseFragment;
+import com.ssy.pink.bean.MoneyInfo;
+import com.ssy.pink.bean.WeiboCustomerInfo;
+import com.ssy.pink.iview.IMyFragmentView;
+import com.ssy.pink.manager.UserManager;
+import com.ssy.pink.presenter.MyFragmentPresenter;
 import com.ssy.pink.view.CircleImageView;
+import com.ssy.pink.view.dialog.LoginChooseDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +28,7 @@ import butterknife.Unbinder;
  * @author ssy
  * @date 2018/8/10
  */
-public class MyFragment extends BaseFragment {
+public class MyFragment extends BaseFragment implements IMyFragmentView{
     @BindView(R.id.tvFans)
     TextView tvFans;
     @BindView(R.id.tvFollow)
@@ -45,6 +51,9 @@ public class MyFragment extends BaseFragment {
     CircleImageView civIcon;
     Unbinder unbinder;
 
+    private MyFragmentPresenter presenter;
+    private LoginChooseDialog chooseDialog;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.fragment_my;
@@ -62,7 +71,18 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected void onFirstUserVisible() {
-
+        WeiboCustomerInfo userInfo = UserManager.getInstance().userInfo;
+        if (userInfo != null) {
+            tvName.setText(userInfo.getWeiboname());
+            tvOrg.setText(userInfo.getFansorginfoname());
+        }
+        MoneyInfo moneyInfo = UserManager.getInstance().moneyInfo;
+        if (moneyInfo != null) {
+            tvMyIdolNumber.setText(String.valueOf(moneyInfo.getRestBeanNum()));
+            tvAltCurrent.setText(String.valueOf(moneyInfo.getAllSmallNum()));
+            tvAltBlack.setText(String.valueOf(moneyInfo.getAllInValidSmallNum()));
+            tvAltNormal.setText(String.valueOf(moneyInfo.getAllValidSmallNum()));
+        }
     }
 
     @Override
@@ -80,6 +100,7 @@ public class MyFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvModify:
+
                 break;
             case R.id.rlMyIdol:
                 Intent i = new Intent(mainActivity, MyIdolActivity.class);
@@ -95,5 +116,15 @@ public class MyFragment extends BaseFragment {
                 mainActivity.startActivity(new Intent(mainActivity, MonthVipActivity.class));
                 break;
         }
+    }
+    private void showLoginChooseDialog() {
+        if (chooseDialog == null) {
+            chooseDialog = new LoginChooseDialog(mainActivity);
+        }
+
+        chooseDialog.show();
+       /* if (orgsList != null) {
+            chooseDialog.setDatas(orgsList);
+        }*/
     }
 }

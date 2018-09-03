@@ -13,4 +13,5 @@ public class ConstantUrl {
     public static final String ORDER_ONE_PRODUCE = "adminservice/orderOneProduct";
     public static final String GET_ORDER_INFO = "adminservice/queryUserOrderInfo";
     public static final String GET_USER_MONEY_INFO= "adminservice/queryUserAcountInfo";
+    public static final String LIST_GROUP_INFO= "adminservice/queryCustomerGroupinfoList";
 }

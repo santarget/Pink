@@ -14,6 +14,7 @@ import com.ssy.pink.fragment.MyFragment;
 import com.ssy.pink.fragment.SuperFragment;
 import com.ssy.pink.fragment.WorkFragment;
 import com.ssy.pink.iview.IMainActivityView;
+import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.presenter.MainActivityPresenter;
 
 import butterknife.BindView;
@@ -54,6 +55,8 @@ public class MainActivity extends BaseActivity implements IMainActivityView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        UserManager.getInstance().initAfterSync();
         presenter = new MainActivityPresenter(this);
         selectFragment(FRAGMENT_WORK);
     }

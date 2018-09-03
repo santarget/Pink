@@ -53,8 +53,8 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         //设置分割线
 //        recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
         recyclerView.addItemDecoration(new SpaceItemDecoration());
-        datas.add(new GroupInfo("默认分组", 22, 20));
-        datas.add(new GroupInfo("小朋友", 50, 37));
+        datas.add(new GroupInfo());
+        datas.add(new GroupInfo());
         adapter = new GroupAdapter(this, datas);
         recyclerView.setAdapter(adapter);
     }

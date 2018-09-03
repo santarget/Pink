@@ -1,5 +1,6 @@
 package com.ssy.pink.network.api;
 
+import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.RechargeRecordInfo;
 import com.ssy.pink.bean.FansOrgInfo;
@@ -58,12 +59,21 @@ public class PinkNet {
         return subscription;
     }
 
-    public static Subscription syncCustomer(Subscriber<CommonResp<WeiboCustomerInfo>> subscriber) {
+    /**
+     * @param weiboId    微博id
+     * @param weiboNum   微博账号
+     * @param weiboName  微博名
+     * @param fansOrgNum 粉丝组织编号
+     * @param subscriber
+     * @return
+     */
+    public static Subscription syncCustomer(String weiboId, String weiboNum, String weiboName, String fansOrgNum,
+                                            Subscriber<CommonResp<WeiboCustomerInfo>> subscriber) {
         SyncCustomerReq req = new SyncCustomerReq();
-        req.setWeiboid("weiboid97979");
-        req.setWeibonum("1234567777");
-        req.setWeiboname("weibo name ssy");
-        req.setFansorginfonum("1");
+        req.setWeiboid(weiboId);
+        req.setWeibonum(weiboNum);
+        req.setWeiboname(weiboName);
+        req.setFansorginfonum(fansOrgNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().syncCustomer(requestBody)
                 .subscribeOn(Schedulers.io())
@@ -129,9 +139,9 @@ public class PinkNet {
      * @param subscriber
      * @return
      */
-    public static Subscription listOrderedInfo(Subscriber<CommonListResp<UserProductInfo>> subscriber) {
+    public static Subscription listOrderedInfo(String customerNum, Subscriber<CommonListResp<UserProductInfo>> subscriber) {
         ListOrderedReq req = new ListOrderedReq();
-        req.setCustomernum("C0825231708734008524");
+        req.setCustomernum(customerNum);
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().listOrderedInfo(requestBody)
@@ -142,9 +152,9 @@ public class PinkNet {
         return subscription;
     }
 
-    public static Subscription getUserMoney(Subscriber<CommonResp<MoneyInfo>> subscriber) {
+    public static Subscription getUserMoney(String customerNum, Subscriber<CommonResp<MoneyInfo>> subscriber) {
         ListOrderedReq req = new ListOrderedReq();
-        req.setCustomernum("C0825231708734008524");
+        req.setCustomernum(customerNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().getUserMoney(requestBody)
                 .subscribeOn(Schedulers.io())
@@ -152,5 +162,27 @@ public class PinkNet {
                 .subscribe(subscriber);
         mSubscriptions.add(subscription);
         return subscription;
+
     }
+
+    /**
+     * 查询分组信息
+     *
+     * @param customerNum
+     * @param subscriber
+     * @return
+     */
+    public static Subscription listGroup(String customerNum, Subscriber<CommonListResp<GroupInfo>> subscriber) {
+        ListOrderedReq req = new ListOrderedReq();
+        req.setCustomernum(customerNum);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().listGroup(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+
 }

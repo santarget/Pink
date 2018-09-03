@@ -41,7 +41,7 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         GroupInfo info = data.get(position);
         GroupRecycleViewHolder myHolder = (GroupRecycleViewHolder) holder;
-        myHolder.tvName.setText(info.name);
+        myHolder.tvName.setText(info.getCustomerGroupName());
         myHolder.tvTotalCount.setText(String.valueOf(info.totalCount));
         myHolder.tvNormalCount.setText(String.valueOf(info.normalCount));
     }

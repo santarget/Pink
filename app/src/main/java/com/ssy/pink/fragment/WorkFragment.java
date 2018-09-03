@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,11 +14,16 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.activity.GroupActivity;
+import com.ssy.pink.adapter.WorkFragmentGroupAdapter;
 import com.ssy.pink.base.BaseFragment;
+import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.iview.IWorkFragmentView;
 import com.ssy.pink.presenter.WorkFragmentPresenter;
+import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +35,10 @@ import butterknife.Unbinder;
  * @date 2018/8/10
  */
 public class WorkFragment extends BaseFragment implements IWorkFragmentView, CompoundButton.OnCheckedChangeListener {
+    @BindView(R.id.cbDefaultGroup)
+    CheckBox cbDefaultGroup;
+    @BindView(R.id.tvDefaultGroupNumber)
+    TextView tvDefaultGroupNumber;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.etWeiboUrl)
@@ -68,6 +78,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     private WorkFragmentPresenter presenter;
     private boolean isWorking;
     private ConfigIntroduceDialog helpDialog;
+    private WorkFragmentGroupAdapter groupAdapter;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -81,7 +92,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         initListener();
         presenter = new WorkFragmentPresenter(this);
         // TODO: 2018/8/30 获取分组列表及展示
-        presenter.test();
+        presenter.listGroup();
     }
 
 
@@ -109,13 +120,14 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         //设置RecyclerView垂直布局
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, OrientationHelper.VERTICAL, false));
         //设置分割线
-        recyclerView.addItemDecoration(new SpaceItemDecoration(15));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(5));
         rbRandomEmoticon.setChecked(true);
         etCustom.setVisibility(View.GONE);
         rbContentKeep.setChecked(true);
         rbSpeedSlow.setChecked(true);
         rbCountMax.setChecked(true);
         etCountCustom.setVisibility(View.GONE);
+
     }
 
     private void initListener() {
@@ -228,5 +240,17 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
             helpDialog = new ConfigIntroduceDialog(mainActivity);
         }
         helpDialog.setTips(strId).show();
+    }
+
+    @Override
+    public void loadGroups(List<GroupInfo> groupInfos) {
+        if (!ListUtils.isEmpty(groupInfos)) {
+            if (groupAdapter == null) {
+                groupAdapter = new WorkFragmentGroupAdapter(mainActivity, groupInfos);
+                recyclerView.setAdapter(groupAdapter);
+            } else {
+                groupAdapter.updateAll(groupInfos);
+            }
+        }
     }
 }

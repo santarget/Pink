@@ -87,6 +87,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
      */
     private SsoHandler mSsoHandler;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +138,9 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             showProgress(true);
 //            LoginManager.getInstance().login(accout, password);
 //            mSsoHandler.authorize(new SelfWbAuthListener());
+
+            UserManager.getInstance().syncCustomer("weibo id", etAccout.getText().toString(), "weibo name",
+                    UserManager.getInstance().fansOrgInfo == null ? "" : UserManager.getInstance().fansOrgInfo.getFansorginfonum());
         }
     }
 
@@ -184,7 +188,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     }
 
     public void toMainActivity() {
-        UserManager.getInstance().init();
+        // TODO: 2018/9/3 获取微博id 获取微博用户的相关信息（头像，关注，粉丝，名称等）
+
         Intent loginActivity = new Intent(this, MainActivity.class);
         startActivity(loginActivity);
         finish();
@@ -220,9 +225,9 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(EventWithObj event) {
         if (EventCode.LOGIN_CHOOSE_ORG == event.eventCode) {
-            FansOrgInfo fansOrgInfo = (FansOrgInfo) event.obj;
-            if (fansOrgInfo != null) {
-                tvOrg.setText(fansOrgInfo.getFansorginfoname());
+            UserManager.getInstance().fansOrgInfo = (FansOrgInfo) event.obj;
+            if (UserManager.getInstance().fansOrgInfo != null) {
+                tvOrg.setText(UserManager.getInstance().fansOrgInfo.getFansorginfoname());
             }
         }
     }

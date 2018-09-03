@@ -1,5 +1,6 @@
 package com.ssy.pink.network.api;
 
+import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.RechargeRecordInfo;
 import com.ssy.pink.bean.FansOrgInfo;
@@ -53,4 +54,7 @@ public interface PinkApi {
 
     @POST(ConstantUrl.GET_USER_MONEY_INFO)
     Observable<CommonResp<MoneyInfo>> getUserMoney(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.LIST_GROUP_INFO)
+    Observable<CommonListResp<GroupInfo>> listGroup(@Body RequestBody requestBody);
 }

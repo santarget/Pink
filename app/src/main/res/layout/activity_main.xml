@@ -23,8 +23,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/aivWork"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 app:srcCompat="@drawable/selector_data" />
 
             <TextView
@@ -46,8 +46,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/aivSuper"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 app:srcCompat="@drawable/selector_super" />
 
             <TextView
@@ -69,8 +69,8 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/aivMy"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 app:srcCompat="@drawable/selector_my" />
 
             <TextView

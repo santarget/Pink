@@ -21,7 +21,7 @@ public class WaitingDialog extends Dialog {
      * @param context
      */
     public WaitingDialog(Context context) {
-        super(context, R.style.dialog_normal);
+        super(context, R.style.DialogNormal);
         this.context = context;
         setCanceledOnTouchOutside(false);
         WindowManager.LayoutParams lp = getWindow().getAttributes();

@@ -19,7 +19,7 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <style name="dialog_normal" parent="android:Theme.Dialog">
+    <style name="DialogNormal" parent="android:Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
         <!--说明提示框是否有边框-->
         <item name="android:windowFrame">@null</item>
@@ -32,7 +32,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="line">
+    <style name="Line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
         <item name="android:background">@color/line</item>
@@ -44,4 +44,10 @@
         <attr name="mhShadowRadius" format="dimension" />
         <attr name="mhShowBezierWave" format="boolean" />
     </declare-styleable>
+
+    <style name="IconHelp">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:src">@drawable/ic_help</item>
+    </style>
 </resources>

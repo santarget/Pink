@@ -69,7 +69,7 @@
                 android:textColor="@color/item_text_content"
                 android:textSize="@dimen/item_text_tips_size" />
 
-            <View style="@style/line" />
+            <View style="@style/Line" />
 
             <TextView
                 android:id="@+id/tvOK"

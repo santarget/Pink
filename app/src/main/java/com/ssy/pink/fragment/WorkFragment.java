@@ -133,9 +133,13 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         rbCountCustom.setOnCheckedChangeListener(this);
     }
 
-    @OnClick({R.id.llEnter, R.id.llHelpGetUrl, R.id.ivVisitUrl, R.id.ivHelpSendContent, R.id.ivHelpOtherContent, R.id.ivHelpSetSpeed, R.id.ivHelpSetCount, R.id.tvWork, R.id.ivHelpMonitor})
+    @OnClick({R.id.llEnter, R.id.llHelpGetUrl, R.id.ivVisitUrl, R.id.ivHelpSendContent, R.id.ivHelpOtherContent,
+            R.id.ivHelpSetSpeed, R.id.ivHelpSetCount, R.id.tvWork, R.id.ivHelpMonitor, R.id.ivCourse})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ivCourse://教程
+
+                break;
             case R.id.llEnter://进入分组
                 startActivity(new Intent(mainActivity, GroupActivity.class));
                 break;

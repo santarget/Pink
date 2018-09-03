@@ -18,6 +18,15 @@
             android:text="@string/data"
             android:textColor="@android:color/white"
             android:textSize="@dimen/title_text_size" />
+
+        <ImageView
+            android:id="@+id/ivCourse"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_course" />
     </RelativeLayout>
 
     <ScrollView
@@ -73,8 +82,8 @@
                         android:textSize="@dimen/item_text_tips_size" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="2dp"
                         android:src="@drawable/ic_arrow_right" />
@@ -151,11 +160,9 @@
                         android:textSize="@dimen/item_text_tips_size" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        style="@style/IconHelp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="2dp"
-                        android:src="@drawable/ic_help" />
+                        android:layout_marginLeft="2dp" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -191,7 +198,7 @@
                     app:srcCompat="@drawable/ic_transmit" />
             </RelativeLayout>
 
-            <View style="@style/line" />
+            <View style="@style/Line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -209,12 +216,10 @@
 
                 <ImageView
                     android:id="@+id/ivHelpSendContent"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    style="@style/IconHelp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/ic_help" />
+                    android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             </RelativeLayout>
 
@@ -299,12 +304,10 @@
 
                     <ImageView
                         android:id="@+id/ivHelpOtherContent"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        style="@style/IconHelp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:src="@drawable/ic_help" />
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
                 </RelativeLayout>
 
@@ -341,7 +344,7 @@
 
             </LinearLayout>
 
-            <View style="@style/line" />
+            <View style="@style/Line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -359,12 +362,10 @@
 
                 <ImageView
                     android:id="@+id/ivHelpSetSpeed"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    style="@style/IconHelp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/ic_help" />
+                    android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             </RelativeLayout>
 
@@ -435,12 +436,10 @@
 
                     <ImageView
                         android:id="@+id/ivHelpSetCount"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        style="@style/IconHelp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:src="@drawable/ic_help" />
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
                 </RelativeLayout>
 
@@ -492,7 +491,7 @@
 
             </LinearLayout>
 
-            <View style="@style/line" />
+            <View style="@style/Line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -561,11 +560,9 @@
 
                     <ImageView
                         android:id="@+id/ivHelpMonitor"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        style="@style/IconHelp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_help" />
+                        android:layout_centerVertical="true" />
                 </RelativeLayout>
 
                 <LinearLayout

@@ -84,7 +84,7 @@
                     android:textSize="@dimen/item_text_tips_size" />
             </LinearLayout>
 
-            <View style="@style/line" />
+            <View style="@style/Line" />
 
             <TextView
                 android:id="@+id/tvOK"

@@ -58,7 +58,7 @@
                         android:layout_gravity="center" />
                 </FrameLayout>
 
-                <View style="@style/line" />
+                <View style="@style/Line" />
             </LinearLayout>
 
             <TextView

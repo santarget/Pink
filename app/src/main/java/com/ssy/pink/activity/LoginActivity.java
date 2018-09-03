@@ -2,6 +2,7 @@ package com.ssy.pink.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -35,6 +36,7 @@ import com.ssy.pink.iview.ILoginActivityView;
 import com.ssy.pink.manager.LoginManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.presenter.LoginActivityPresenter;
+import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.StatusBarUtil;
 import com.ssy.pink.view.CircleImageView;
 import com.ssy.pink.view.WaitingDialog;
@@ -89,9 +91,28 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        initView();
         mSsoHandler = new SsoHandler(this);
         presenter = new LoginActivityPresenter(this);
         presenter.listFansOrg();
+    }
+
+    private void initView() {
+        int size = (int) CommonUtils.dip2px(15);
+        Drawable drawable1 = getResources().getDrawable(R.drawable.ic_accout);
+        drawable1.setBounds(0, 0, size, size);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
+        etAccout.setCompoundDrawables(drawable1, null, null, null);//只放左边
+
+        Drawable drawable2 = getResources().getDrawable(R.drawable.ic_password);
+        drawable2.setBounds(0, 0, size, size);
+        etPassword.setCompoundDrawables(drawable2, null, null, null);
+
+        Drawable drawable3 = getResources().getDrawable(R.drawable.ic_orgnization);
+        drawable3.setBounds(0, 0, size, size);
+        Drawable drawable4 = getResources().getDrawable(R.drawable.ic_arrow_right);
+        drawable4.setBounds(0, 0, size, size);
+        tvOrg.setCompoundDrawables(drawable3, null, drawable4, null);
+
     }
 
     /**
@@ -109,9 +130,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         if (TextUtils.isEmpty(accout) || TextUtils.isEmpty(password)) {
             showToast(R.string.a_or_p_not_blank);
             cancel = true;
-        } else if (!isEmailValid(accout)) {
-            showToast(R.string.error_invalid_email);
-            cancel = true;
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
@@ -120,12 +138,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 //            mSsoHandler.authorize(new SelfWbAuthListener());
         }
     }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return true;
-    }
-
 
     /**
      * Shows the progress UI and hides the login form.

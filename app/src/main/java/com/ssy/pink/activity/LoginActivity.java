@@ -34,6 +34,7 @@ import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.ILoginActivityView;
 import com.ssy.pink.manager.LoginManager;
+import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.presenter.LoginActivityPresenter;
 import com.ssy.pink.utils.CommonUtils;
@@ -183,6 +184,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     }
 
     public void toMainActivity() {
+        UserManager.getInstance().init();
         Intent loginActivity = new Intent(this, MainActivity.class);
         startActivity(loginActivity);
         finish();

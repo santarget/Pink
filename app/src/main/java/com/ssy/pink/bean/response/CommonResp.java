@@ -1,38 +1,37 @@
 package com.ssy.pink.bean.response;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class CommonResp<T> implements Serializable {
-    private static final long serialVersionUID = -471782101375908894L;
+    private static final long serialVersionUID = -7055658343857288333L;
     private String code;
 
-    private List<T> data;
+    private T data;
 
     private String msg;
+
+    public String getCode() {
+        return code;
+    }
 
     public void setCode(String code) {
         this.code = code;
     }
 
-    public String getCode() {
-        return this.code;
+    public T getData() {
+        return data;
     }
 
-    public void setData(List<T> data) {
+    public void setData(T data) {
         this.data = data;
     }
 
-    public List<T> getData() {
-        return this.data;
+    public String getMsg() {
+        return msg;
     }
 
     public void setMsg(String msg) {
         this.msg = msg;
-    }
-
-    public String getMsg() {
-        return this.msg;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
+import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ConstantUrl;
@@ -18,10 +19,10 @@ import rx.Observable;
 public interface PinkApi {
 
     @POST(ConstantUrl.LIST_FANS_Org)
-    Observable<CommonResp<FansOrgInfo>> listFansOrg();
+    Observable<CommonListResp<FansOrgInfo>> listFansOrg();
 
     @POST(ConstantUrl.LIST_PRODUCT)
-    Observable<CommonResp<ProductInfo>> listProduct();
+    Observable<CommonListResp<ProductInfo>> listProduct();
 
     @POST(ConstantUrl.SYNC_CUSTOMER)
     Observable<CommonResp<WeiboCustomerInfo>> syncCustomer(@Body RequestBody requestBody);
@@ -48,7 +49,7 @@ public interface PinkApi {
      * @return
      */
     @POST(ConstantUrl.GET_ORDER_INFO)
-    Observable<CommonResp<UserProductInfo>> listOrderedInfo(@Body RequestBody requestBody);
+    Observable<CommonListResp<UserProductInfo>> listOrderedInfo(@Body RequestBody requestBody);
 
     @POST(ConstantUrl.GET_USER_MONEY_INFO)
     Observable<CommonResp<MoneyInfo>> getUserMoney(@Body RequestBody requestBody);

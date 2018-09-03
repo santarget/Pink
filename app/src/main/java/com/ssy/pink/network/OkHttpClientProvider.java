@@ -95,7 +95,7 @@ public class OkHttpClientProvider {
                 .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                     @Override
                     public void log(String message) {
-                        LogUtil.i("unsafeclient", message);
+                        LogUtil.i("serverdata", message);
                     }
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(new TokenInterceptor())

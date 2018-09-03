@@ -11,6 +11,7 @@ import com.ssy.pink.bean.request.OrderProductReq;
 import com.ssy.pink.bean.request.SyncRechargeRecordReq;
 import com.ssy.pink.bean.request.SyncCustomerReq;
 import com.ssy.pink.bean.request.SyncSpendRecordReq;
+import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.network.OkHttpClientProvider;
@@ -39,7 +40,7 @@ public class PinkNet {
         return pinkApi;
     }
 
-    public static Subscription listFansOrg(Subscriber<CommonResp<FansOrgInfo>> subscriber) {
+    public static Subscription listFansOrg(Subscriber<CommonListResp<FansOrgInfo>> subscriber) {
         Subscription subscription = getPinkApi().listFansOrg()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -48,7 +49,7 @@ public class PinkNet {
         return subscription;
     }
 
-    public static Subscription listProduct(Subscriber<CommonResp<ProductInfo>> subscriber) {
+    public static Subscription listProduct(Subscriber<CommonListResp<ProductInfo>> subscriber) {
         Subscription subscription = getPinkApi().listProduct()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -128,7 +129,7 @@ public class PinkNet {
      * @param subscriber
      * @return
      */
-    public static Subscription listOrderedInfo(Subscriber<CommonResp<UserProductInfo>> subscriber) {
+    public static Subscription listOrderedInfo(Subscriber<CommonListResp<UserProductInfo>> subscriber) {
         ListOrderedReq req = new ListOrderedReq();
         req.setCustomernum("C0825231708734008524");
 

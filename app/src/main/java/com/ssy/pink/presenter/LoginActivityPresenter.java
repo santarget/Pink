@@ -2,12 +2,10 @@ package com.ssy.pink.presenter;
 
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.FansOrgInfo;
-import com.ssy.pink.bean.response.CommonResp;
+import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.iview.ILoginActivityView;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.utils.MyUtils;
-
-import java.util.List;
 
 import rx.Subscriber;
 
@@ -20,7 +18,7 @@ public class LoginActivityPresenter extends BasePresenter {
 
     public void listFansOrg() {
 
-        PinkNet.listFansOrg(new Subscriber<CommonResp<FansOrgInfo>>() {
+        PinkNet.listFansOrg(new Subscriber<CommonListResp<FansOrgInfo>>() {
             @Override
             public void onCompleted() {
             }
@@ -33,9 +31,9 @@ public class LoginActivityPresenter extends BasePresenter {
             }
 
             @Override
-            public void onNext(CommonResp commonResp) {
+            public void onNext(CommonListResp commonListResp) {
                 iView.hasGotOrgs(true);
-                iView.setOrgsList(commonResp.getData());
+                iView.setOrgsList(commonListResp.getData());
 
             }
         });

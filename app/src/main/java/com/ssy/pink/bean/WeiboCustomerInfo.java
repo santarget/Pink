@@ -2,6 +2,9 @@ package com.ssy.pink.bean;
 
 import java.io.Serializable;
 
+/**
+ * 小粉拳会员对象
+ */
 public class WeiboCustomerInfo implements Serializable {
     private static final long serialVersionUID = -5217524867985702580L;
     private String customernum;

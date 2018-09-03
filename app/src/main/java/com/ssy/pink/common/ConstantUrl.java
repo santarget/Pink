@@ -3,6 +3,7 @@ package com.ssy.pink.common;
 public class ConstantUrl {
     /* weibo */
     public static final String WEIBO_LOGIN = "oauth2/authorize";
+    public static final String WEIBO_USER_INFO= "2/users/show.json";
 
     /* pink */
     public static final String LIST_FANS_Org = "adminservice/queryFansOrgInfoList";

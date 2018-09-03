@@ -134,7 +134,7 @@ public class OkHttpClientProvider {
         });
     }
 
-    public static Retrofit getWeiboRetrofit(OkHttpClient client) {
+    public static Retrofit getWeiboRetrofit() {
         if (weiboRetrofit == null) {
             synchronized (OkHttpClientProvider.class) {
                 if (weiboRetrofit == null) {
@@ -143,7 +143,7 @@ public class OkHttpClientProvider {
                             .addConverterFactory(NobodyConverterFactory.create())
                             .addConverterFactory(FastJsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .client(client)
+                            .client(OkHttpClientProvider.getClient())
                             .build();
                 }
             }

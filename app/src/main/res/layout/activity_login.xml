@@ -38,6 +38,7 @@
 
 
         <EditText
+            android:text="不用输账号密码，直接登录"
             android:id="@+id/etAccout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -59,6 +60,7 @@
             android:background="#e3e2eb" />
 
         <EditText
+            android:text="111"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"

@@ -29,28 +29,28 @@
                     android:orientation="horizontal">
 
                     <View
-                        android:layout_width="45dp"
+                        android:layout_width="53dp"
                         android:layout_height="1dp"
                         android:background="@color/colorPrimary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:text="登录使用说明"
                         android:textColor="@color/txt_dialog_title"
-                        android:textSize="@dimen/item_text_content_size" />
+                        android:textSize="15sp" />
 
                     <View
-                        android:layout_width="45dp"
+                        android:layout_width="53dp"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@color/colorPrimary" />
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="69dp"
+                    android:layout_height="61dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:src="@drawable/icon_dialog_top" />
@@ -66,13 +66,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="25dp"
                     android:text="登录账号说明"
                     android:textColor="@color/txt_dialog_title"
                     android:textSize="@dimen/item_text_tips_size" />
 
                 <TextView
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"

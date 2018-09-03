@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="222dp"
         android:background="@drawable/bg_my_idol"
         android:paddingBottom="20dp">
 
@@ -18,60 +18,64 @@
             android:layout_height="30dp"
             android:layout_marginLeft="13dp"
             android:layout_marginTop="30dp"
-            android:padding="5dp"
+            android:padding="2dp"
             app:srcCompat="@drawable/ic_back" />
 
-        <ImageView
-            android:layout_alignParentBottom="true"
-            android:id="@+id/ivIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_idol" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ivIcon"
-            android:layout_alignTop="@+id/ivIcon"
-            android:layout_marginLeft="7dp"
-            android:layout_toRightOf="@+id/ivIcon"
-            android:orientation="vertical">
+            android:layout_alignParentBottom="true">
 
-            <TextView
-                android:layout_gravity="center_vertical"
+            <ImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_idol" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的爱豆"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/ivIcon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="我的爱豆"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvIdolNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="12dp"
+                    android:text="40"
+                    android:textColor="#FFf6d431"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tvIdolNumber"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="40"
-                android:textColor="#FFD1AA3E"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvRecord"
-            android:layout_width="86dp"
-            android:layout_height="27dp"
-            android:layout_alignBottom="@+id/ivIcon"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bg_btn_record"
-            />
+                android:id="@+id/tvRecord"
+                android:layout_width="86dp"
+                android:layout_height="27dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_btn_record" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="22dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -85,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:text="微信充值"
-            android:textColor="@color/txt_dialog_title"
+            android:textColor="#666666"
             android:textSize="@dimen/item_text_content_size" />
     </LinearLayout>
 
@@ -94,13 +98,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@android:color/white"
-        android:padding="10dp">
+        android:padding="12dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="充值金额" />
+            android:text="充值金额"
+            android:textColor="#333333" />
 
         <TextView
             android:id="@+id/tvYuan"
@@ -108,11 +113,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="元" />
+            android:text="元"
+            android:textColor="#333333" />
 
         <EditText
             android:id="@+id/etMoney"
-            android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -120,6 +125,8 @@
             android:layout_toLeftOf="@+id/tvYuan"
             android:background="@null"
             android:hint="请输入金额"
+            android:inputType="number"
+            android:textColor="#333333"
             android:textSize="13sp" />
     </RelativeLayout>
 
@@ -127,7 +134,9 @@
         android:id="@+id/tvRecharge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="30dp"
         android:background="@drawable/selector_login_btn"
         android:gravity="center"
         android:padding="12dp"

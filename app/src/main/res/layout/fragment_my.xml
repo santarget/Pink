@@ -139,8 +139,10 @@
                     android:background="@drawable/bg_text_modify"
                     android:gravity="center"
                     android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
                     android:text="修改"
-                    android:textColor="@android:color/holo_blue_dark" />
+                    android:textColor="#718cf7"
+                    android:textSize="13sp" />
 
             </LinearLayout>
 

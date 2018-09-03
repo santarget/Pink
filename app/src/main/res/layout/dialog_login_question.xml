@@ -29,28 +29,28 @@
                     android:orientation="horizontal">
 
                     <View
-                        android:layout_width="45dp"
+                        android:layout_width="53dp"
                         android:layout_height="1dp"
                         android:background="@color/colorPrimary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:text="登录常见问题"
                         android:textColor="@color/txt_dialog_title"
-                        android:textSize="@dimen/item_text_content_size" />
+                        android:textSize="15sp" />
 
                     <View
-                        android:layout_width="45dp"
+                        android:layout_width="53dp"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@color/colorPrimary" />
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="69dp"
+                    android:layout_height="61dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:src="@drawable/icon_dialog_top" />
@@ -61,10 +61,10 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:lineSpacingMultiplier="1.5"
-                android:paddingBottom="10dp"
+                android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="5dp"
+                android:paddingTop="25dp"
                 android:text="@string/dialog_login_question"
                 android:textColor="@color/item_text_content"
                 android:textSize="@dimen/item_text_tips_size" />

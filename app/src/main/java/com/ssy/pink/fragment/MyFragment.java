@@ -11,13 +11,22 @@ import com.ssy.pink.activity.MonthVipActivity;
 import com.ssy.pink.activity.MyIdolActivity;
 import com.ssy.pink.activity.SettingActivity;
 import com.ssy.pink.base.BaseFragment;
+import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
+import com.ssy.pink.common.EventCode;
+import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.IMyFragmentView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.presenter.MyFragmentPresenter;
 import com.ssy.pink.view.CircleImageView;
 import com.ssy.pink.view.dialog.LoginChooseDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +37,7 @@ import butterknife.Unbinder;
  * @author ssy
  * @date 2018/8/10
  */
-public class MyFragment extends BaseFragment implements IMyFragmentView{
+public class MyFragment extends BaseFragment implements IMyFragmentView {
     @BindView(R.id.tvFans)
     TextView tvFans;
     @BindView(R.id.tvFollow)
@@ -53,6 +62,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView{
 
     private MyFragmentPresenter presenter;
     private LoginChooseDialog chooseDialog;
+    private List<FansOrgInfo> orgsList;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -62,11 +72,14 @@ public class MyFragment extends BaseFragment implements IMyFragmentView{
     @Override
     protected void initViewsAndEvents(View view) {
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
+        presenter = new MyFragmentPresenter(this);
     }
 
     @Override
     protected void DetoryViewAndThing() {
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -100,7 +113,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView{
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvModify:
-
+                showLoginChooseDialog();
                 break;
             case R.id.rlMyIdol:
                 Intent i = new Intent(mainActivity, MyIdolActivity.class);
@@ -117,14 +130,45 @@ public class MyFragment extends BaseFragment implements IMyFragmentView{
                 break;
         }
     }
+
     private void showLoginChooseDialog() {
         if (chooseDialog == null) {
             chooseDialog = new LoginChooseDialog(mainActivity);
         }
-
+        if (!hasGotOrgs) {
+            presenter.listFansOrg();
+        }
         chooseDialog.show();
-       /* if (orgsList != null) {
+        if (orgsList != null) {
             chooseDialog.setDatas(orgsList);
-        }*/
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(EventWithObj event) {
+        if (EventCode.LOGIN_CHOOSE_ORG == event.eventCode) {
+            FansOrgInfo fansOrgInfo = (FansOrgInfo) event.obj;
+            if (fansOrgInfo != null) {
+                tvOrg.setText(fansOrgInfo.getFansorginfoname());
+            }
+        }
+    }
+
+    @Override
+    public void setFansOrgList(List<FansOrgInfo> list) {
+        orgsList = list;
+        if (chooseDialog != null && chooseDialog.isShowing()) {
+            chooseDialog.setDatas(orgsList);
+        }
+    }
+
+    private boolean hasGotOrgs;
+
+    @Override
+    public void hasGotOrgs(boolean hasGot) {
+        hasGotOrgs = hasGot;
+        if (!hasGot && chooseDialog != null && chooseDialog.isShowing()) {
+            chooseDialog.dismiss();
+        }
     }
 }

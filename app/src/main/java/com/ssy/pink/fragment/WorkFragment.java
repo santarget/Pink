@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.activity.GroupActivity;
-import com.ssy.pink.adapter.WorkFragmentGroupAdapter;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.iview.IWorkFragmentView;
 import com.ssy.pink.presenter.WorkFragmentPresenter;
 import com.ssy.pink.utils.ListUtils;
+import com.ssy.pink.view.ChooseGroupView;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 
@@ -39,8 +39,8 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     CheckBox cbDefaultGroup;
     @BindView(R.id.tvDefaultGroupNumber)
     TextView tvDefaultGroupNumber;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.llGroupRoot)
+    LinearLayout llGroupRoot;
     @BindView(R.id.etWeiboUrl)
     EditText etWeiboUrl;
     @BindView(R.id.rbRandomEmoticon)
@@ -78,7 +78,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     private WorkFragmentPresenter presenter;
     private boolean isWorking;
     private ConfigIntroduceDialog helpDialog;
-    private WorkFragmentGroupAdapter groupAdapter;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -117,10 +116,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     }
 
     private void initView() {
-        //设置RecyclerView垂直布局
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity, OrientationHelper.VERTICAL, false));
-        //设置分割线
-        recyclerView.addItemDecoration(new SpaceItemDecoration(5));
         rbRandomEmoticon.setChecked(true);
         etCustom.setVisibility(View.GONE);
         rbContentKeep.setChecked(true);
@@ -245,11 +240,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     @Override
     public void loadGroups(List<GroupInfo> groupInfos) {
         if (!ListUtils.isEmpty(groupInfos)) {
-            if (groupAdapter == null) {
-                groupAdapter = new WorkFragmentGroupAdapter(mainActivity, groupInfos);
-                recyclerView.setAdapter(groupAdapter);
-            } else {
-                groupAdapter.updateAll(groupInfos);
+            for (GroupInfo groupInfo : groupInfos) {
+                ChooseGroupView view = new ChooseGroupView(mainActivity).setData(groupInfo);
+                llGroupRoot.addView(view);
             }
         }
     }

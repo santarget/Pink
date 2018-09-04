@@ -5,6 +5,7 @@ import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.RechargeRecordInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.ProductInfo;
+import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.request.ListOrderedReq;
@@ -177,6 +178,25 @@ public class PinkNet {
         req.setCustomernum(customerNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().listGroup(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    /**
+     * 查询所有绑定小号的信息
+     *
+     * @param customerNum
+     * @param subscriber
+     * @return
+     */
+    public static Subscription listSmall(String customerNum, Subscriber<CommonListResp<SmallInfo>> subscriber) {
+        ListOrderedReq req = new ListOrderedReq();
+        req.setCustomernum(customerNum);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().listSmall(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

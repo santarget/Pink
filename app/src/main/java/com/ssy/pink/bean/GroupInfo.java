@@ -1,6 +1,7 @@
 package com.ssy.pink.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author ssy
@@ -13,9 +14,11 @@ public class GroupInfo implements Serializable {
     private String customerNum;//会员id
     private String createTime;
     private String createUser;
+
+    //以下由本地遍历
     public int totalCount;
     public int normalCount;
-
+    public List<SmallInfo> smallInfos;//属于这个分组的小号集合
 
     private transient boolean isChecked;
 
@@ -83,6 +86,14 @@ public class GroupInfo implements Serializable {
         isChecked = checked;
     }
 
+    public List<SmallInfo> getSmallInfos() {
+        return smallInfos;
+    }
+
+    public void setSmallInfos(List<SmallInfo> smallInfos) {
+        this.smallInfos = smallInfos;
+    }
+
     @Override
     public String toString() {
         return "GroupInfo{" +
@@ -93,6 +104,8 @@ public class GroupInfo implements Serializable {
                 ", createUser='" + createUser + '\'' +
                 ", totalCount=" + totalCount +
                 ", normalCount=" + normalCount +
+                ", smallInfos=" + smallInfos +
+                ", isChecked=" + isChecked +
                 '}';
     }
 }

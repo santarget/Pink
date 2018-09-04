@@ -127,11 +127,11 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         accout = etAccout.getText().toString();
         password = etPassword.getText().toString();
 
-        boolean cancel = false;
 
         if (TextUtils.isEmpty(accout) || TextUtils.isEmpty(password)) {
             showToast(R.string.a_or_p_not_blank);
-            cancel = true;
+        } else if (UserManager.getInstance().fansOrgInfo == null) {
+            showToast(R.string.please_choose_org);
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.

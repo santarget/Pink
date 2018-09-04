@@ -5,9 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.bean.GroupInfo;
 
 /**
  * @author ssy
@@ -15,6 +19,10 @@ import com.ssy.pink.R;
  */
 public class ChooseGroupView extends FrameLayout {
     private Context context;
+    private CheckBox checkbox;
+    private TextView tvName;
+    private TextView tvNumber;
+    private GroupInfo groupInfo;
 
     public ChooseGroupView(@NonNull Context context) {
         super(context);
@@ -36,5 +44,23 @@ public class ChooseGroupView extends FrameLayout {
 
     private void init() {
         LayoutInflater.from(context).inflate(R.layout.view_choose_group, this);
+        checkbox = (CheckBox) findViewById(R.id.checkbox);
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvNumber = (TextView) findViewById(R.id.tvNumber);
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                groupInfo.setChecked(isChecked);
+            }
+        });
+    }
+
+    public ChooseGroupView setData(GroupInfo groupInfo) {
+        this.groupInfo = groupInfo;
+        checkbox.setChecked(groupInfo.isChecked());
+        tvName.setText(groupInfo.getCustomerGroupName());
+        String str = String.format("[%d/%d]", 2, 4);
+        tvNumber.setText(str);
+        return this;
     }
 }

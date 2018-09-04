@@ -3,7 +3,7 @@ package com.ssy.pink.common;
 public class ConstantUrl {
     /* weibo */
     public static final String WEIBO_LOGIN = "oauth2/authorize";
-    public static final String WEIBO_USER_INFO= "2/users/show.json";
+    public static final String WEIBO_USER_INFO = "2/users/show.json";
 
     /* pink */
     public static final String LIST_FANS_Org = "adminservice/queryFansOrgInfoList";
@@ -13,6 +13,7 @@ public class ConstantUrl {
     public static final String SYNC_SPEND_RECORD = "adminservice/synUserSpendInfo";
     public static final String ORDER_ONE_PRODUCE = "adminservice/orderOneProduct";
     public static final String GET_ORDER_INFO = "adminservice/queryUserOrderInfo";
-    public static final String GET_USER_MONEY_INFO= "adminservice/queryUserAcountInfo";
-    public static final String LIST_GROUP_INFO= "adminservice/queryCustomerGroupinfoList";
+    public static final String GET_USER_MONEY_INFO = "adminservice/queryUserAcountInfo";
+    public static final String LIST_GROUP_INFO = "adminservice/queryCustomerGroupinfoList";
+    public static final String LIST_SMALL_INFO = "adminservice/querySmallCustomerDetailList";
 }

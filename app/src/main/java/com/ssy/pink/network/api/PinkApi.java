@@ -5,6 +5,7 @@ import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.RechargeRecordInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.ProductInfo;
+import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.response.CommonListResp;
@@ -55,6 +56,21 @@ public interface PinkApi {
     @POST(ConstantUrl.GET_USER_MONEY_INFO)
     Observable<CommonResp<MoneyInfo>> getUserMoney(@Body RequestBody requestBody);
 
+    /**
+     * 查询所有分组
+     *
+     * @param requestBody
+     * @return
+     */
     @POST(ConstantUrl.LIST_GROUP_INFO)
     Observable<CommonListResp<GroupInfo>> listGroup(@Body RequestBody requestBody);
+
+    /**
+     * 查询所有小号信息
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(ConstantUrl.LIST_SMALL_INFO)
+    Observable<CommonListResp<SmallInfo>> listSmall(@Body RequestBody requestBody);
 }

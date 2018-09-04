@@ -108,4 +108,14 @@ public class UserManager {
             }
         });
     }
+
+    /**
+     * 退出登录，重置
+     */
+    public void reset() {
+        userInfo = new WeiboCustomerInfo();
+        orderedInfos = null;
+        moneyInfo = null;
+        fansOrgInfo = null;
+    }
 }

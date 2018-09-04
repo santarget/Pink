@@ -10,6 +10,8 @@ import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.utils.MyUtils;
 
+import java.util.List;
+
 import rx.Subscriber;
 
 public class WorkFragmentPresenter extends BasePresenter {
@@ -57,6 +59,22 @@ public class WorkFragmentPresenter extends BasePresenter {
             @Override
             public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
                 GroupManager.getInstance().smallInfos = smallInfoCommonListResp.getData();
+                GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<GroupInfo> groupInfos) {
+
+                    }
+                });
             }
         });
     }

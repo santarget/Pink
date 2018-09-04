@@ -4,12 +4,14 @@ import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.utils.ListUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -19,7 +21,7 @@ import rx.schedulers.Schedulers;
 public class GroupManager {
     private static GroupManager instance;
     public List<GroupInfo> groupInfos;
-    public List<SmallInfo> smallInfos;
+    public List<SmallInfo> smallInfos;//所有小号集合
 
     private GroupManager() {
     }
@@ -38,22 +40,27 @@ public class GroupManager {
     /**
      * 给小号归类
      */
-    public void classifySmall() {
+    public void classifySmall(Subscriber<List<GroupInfo>> subscriber) {
         if (ListUtils.isEmpty(groupInfos) || ListUtils.isEmpty(smallInfos)) {
             return;
         }
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<GroupInfo>() {
-            @Override
-            public void call(Subscriber<? super GroupInfo> subscriber) {
-
-            }
-        })
+        Subscription subscription = Observable.from(groupInfos)
+                .map(new Func1<GroupInfo, List<GroupInfo>>() {
+                    @Override
+                    public List<GroupInfo> call(GroupInfo groupInfo) {
+                        List<SmallInfo> smalls = new ArrayList<>();
+                        for (SmallInfo smallInfo : smallInfos) {
+                            if (smallInfo.getCustomerGroupNum().equalsIgnoreCase(groupInfo.getCustomerGroupNum())) {
+                                smalls.add(smallInfo);
+                            }
+                        }
+                        groupInfo.setSmallInfos(smalls);
+                        return groupInfos;
+                    }
+                })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(subscriber);
     }
 
-    private void classfifySmall() {
-
-    }
 }

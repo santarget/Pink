@@ -3,11 +3,13 @@ package com.ssy.pink.presenter;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.MyUtils;
 
 import java.util.List;
@@ -72,12 +74,10 @@ public class WorkFragmentPresenter extends BasePresenter {
 
                     @Override
                     public void onNext(List<GroupInfo> groupInfos) {
-
+                        iView.loadGroups(groupInfos);
                     }
                 });
             }
         });
     }
-
-
 }

@@ -17,7 +17,7 @@ public class SmallInfo implements Serializable{
     private String weibosmallNumId;
     private String smallNumFansOrgInfoName;//所属粉丝组织
     private String smallNumFansOrgInfoNum;
-    private String smallNumStatus;
+    private String smallNumStatus;//0无效  1有效
 
     public String getCustomerNum() {
         return customerNum;

@@ -16,4 +16,5 @@ public class ConstantUrl {
     public static final String GET_USER_MONEY_INFO = "adminservice/queryUserAcountInfo";
     public static final String LIST_GROUP_INFO = "adminservice/queryCustomerGroupinfoList";
     public static final String LIST_SMALL_INFO = "adminservice/querySmallCustomerDetailList";
+    public static final String GET_SMALL_STATUS = "adminservice/queryCustomerStatusGroupNum";
 }

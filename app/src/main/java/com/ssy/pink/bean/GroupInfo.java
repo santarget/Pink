@@ -16,9 +16,8 @@ public class GroupInfo implements Serializable {
     private String createUser;
 
     //以下由本地遍历
-    public int totalCount;
-    public int normalCount;
-    public List<SmallInfo> smallInfos;//属于这个分组的小号集合
+    public List<SmallInfo> allSmallInfos;//属于这个分组的所有小号集合
+    public List<SmallInfo> validSmallInfos;//属于这个分组的有效小号集合
 
     private transient boolean isChecked;
 
@@ -62,21 +61,6 @@ public class GroupInfo implements Serializable {
         this.createUser = createUser;
     }
 
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public int getNormalCount() {
-        return normalCount;
-    }
-
-    public void setNormalCount(int normalCount) {
-        this.normalCount = normalCount;
-    }
 
     public boolean isChecked() {
         return isChecked;
@@ -86,12 +70,20 @@ public class GroupInfo implements Serializable {
         isChecked = checked;
     }
 
-    public List<SmallInfo> getSmallInfos() {
-        return smallInfos;
+    public List<SmallInfo> getAllSmallInfos() {
+        return allSmallInfos;
     }
 
-    public void setSmallInfos(List<SmallInfo> smallInfos) {
-        this.smallInfos = smallInfos;
+    public void setAllSmallInfos(List<SmallInfo> allSmallInfos) {
+        this.allSmallInfos = allSmallInfos;
+    }
+
+    public List<SmallInfo> getValidSmallInfos() {
+        return validSmallInfos;
+    }
+
+    public void setValidSmallInfos(List<SmallInfo> validSmallInfos) {
+        this.validSmallInfos = validSmallInfos;
     }
 
     @Override
@@ -102,9 +94,8 @@ public class GroupInfo implements Serializable {
                 ", customerNum='" + customerNum + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", createUser='" + createUser + '\'' +
-                ", totalCount=" + totalCount +
-                ", normalCount=" + normalCount +
-                ", smallInfos=" + smallInfos +
+                ", allSmallInfos=" + allSmallInfos +
+                ", validSmallInfos=" + validSmallInfos +
                 ", isChecked=" + isChecked +
                 '}';
     }

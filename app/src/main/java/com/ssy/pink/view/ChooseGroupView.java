@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.bean.GroupInfo;
+import com.ssy.pink.utils.ListUtils;
 
 /**
  * @author ssy
@@ -59,8 +60,13 @@ public class ChooseGroupView extends FrameLayout {
         this.groupInfo = groupInfo;
         checkbox.setChecked(groupInfo.isChecked());
         tvName.setText(groupInfo.getCustomerGroupName());
-        String str = String.format("[%d/%d]", 2, 4);
+        String str = String.format("[%d/%d]", ListUtils.isEmpty(groupInfo.getValidSmallInfos()) ? 0 : groupInfo.getValidSmallInfos().size(),
+                ListUtils.isEmpty(groupInfo.getAllSmallInfos()) ? 0 : groupInfo.getAllSmallInfos().size());
         tvNumber.setText(str);
         return this;
+    }
+
+    public void setCheckboxEnable(boolean enable) {
+        checkbox.setEnabled(enable);
     }
 }

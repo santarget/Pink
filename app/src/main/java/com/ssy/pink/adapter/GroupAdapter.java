@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.GroupInfo;
+import com.ssy.pink.utils.ListUtils;
 
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
         GroupInfo info = data.get(position);
         GroupRecycleViewHolder myHolder = (GroupRecycleViewHolder) holder;
         myHolder.tvName.setText(info.getCustomerGroupName());
-        myHolder.tvTotalCount.setText(String.valueOf(info.totalCount));
-        myHolder.tvNormalCount.setText(String.valueOf(info.normalCount));
+        myHolder.tvTotalCount.setText(ListUtils.isEmpty(info.getAllSmallInfos()) ? "0" : String.valueOf(ListUtils.isEmpty(info.getAllSmallInfos())));
+        myHolder.tvNormalCount.setText(ListUtils.isEmpty(info.getValidSmallInfos()) ? "0" : String.valueOf(ListUtils.isEmpty(info.getValidSmallInfos())));
     }
 
     class GroupRecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

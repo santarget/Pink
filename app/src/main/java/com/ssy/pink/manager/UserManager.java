@@ -6,8 +6,11 @@ import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
+import com.ssy.pink.common.EventCode;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.utils.MyUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -91,7 +94,7 @@ public class UserManager {
      * 获取用户的金额信息
      */
     public void getUserMoney() {
-        PinkNet.getUserMoney(userInfo.getCustomernum(), new Subscriber<CommonResp<MoneyInfo>>() {
+        PinkNet.getUserMoney("C0902100924280005699", new Subscriber<CommonResp<MoneyInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -105,6 +108,7 @@ public class UserManager {
             @Override
             public void onNext(CommonResp<MoneyInfo> moneyInfoCommonListResp) {
                 moneyInfo = moneyInfoCommonListResp.getData();
+                EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
             }
         });
     }

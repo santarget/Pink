@@ -6,6 +6,7 @@ import com.ssy.pink.bean.RechargeRecordInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.response.CommonListResp;
@@ -73,4 +74,13 @@ public interface PinkApi {
      */
     @POST(ConstantUrl.LIST_SMALL_INFO)
     Observable<CommonListResp<SmallInfo>> listSmall(@Body RequestBody requestBody);
+
+    /**
+     * 获取全部和有效的小号数量
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(ConstantUrl.GET_SMALL_STATUS)
+    Observable<CommonListResp<SmallStatusInfo>> getSmallStutas(@Body RequestBody requestBody);
 }

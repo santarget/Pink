@@ -6,9 +6,10 @@ import com.ssy.pink.bean.RechargeRecordInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
-import com.ssy.pink.bean.request.ListOrderedReq;
+import com.ssy.pink.bean.request.OnlyCustomernumReq;
 import com.ssy.pink.bean.request.OrderProductReq;
 import com.ssy.pink.bean.request.SyncRechargeRecordReq;
 import com.ssy.pink.bean.request.SyncCustomerReq;
@@ -141,7 +142,7 @@ public class PinkNet {
      * @return
      */
     public static Subscription listOrderedInfo(String customerNum, Subscriber<CommonListResp<UserProductInfo>> subscriber) {
-        ListOrderedReq req = new ListOrderedReq();
+        OnlyCustomernumReq req = new OnlyCustomernumReq();
         req.setCustomernum(customerNum);
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
@@ -154,7 +155,7 @@ public class PinkNet {
     }
 
     public static Subscription getUserMoney(String customerNum, Subscriber<CommonResp<MoneyInfo>> subscriber) {
-        ListOrderedReq req = new ListOrderedReq();
+        OnlyCustomernumReq req = new OnlyCustomernumReq();
         req.setCustomernum(customerNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().getUserMoney(requestBody)
@@ -174,7 +175,7 @@ public class PinkNet {
      * @return
      */
     public static Subscription listGroup(String customerNum, Subscriber<CommonListResp<GroupInfo>> subscriber) {
-        ListOrderedReq req = new ListOrderedReq();
+        OnlyCustomernumReq req = new OnlyCustomernumReq();
         req.setCustomernum(customerNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().listGroup(requestBody)
@@ -193,10 +194,29 @@ public class PinkNet {
      * @return
      */
     public static Subscription listSmall(String customerNum, Subscriber<CommonListResp<SmallInfo>> subscriber) {
-        ListOrderedReq req = new ListOrderedReq();
+        OnlyCustomernumReq req = new OnlyCustomernumReq();
         req.setCustomernum(customerNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().listSmall(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    /**
+     * 获取全部和有效的小号数量
+     *
+     * @param customerNum
+     * @param subscriber
+     * @return
+     */
+    public static Subscription getSmallStutas(String customerNum, Subscriber<CommonListResp<SmallStatusInfo>> subscriber) {
+        OnlyCustomernumReq req = new OnlyCustomernumReq();
+        req.setCustomernum(customerNum);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().getSmallStutas(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

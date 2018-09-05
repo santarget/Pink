@@ -16,12 +16,20 @@ import com.ssy.pink.R;
 import com.ssy.pink.activity.GroupActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
+import com.ssy.pink.common.EventCode;
+import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.IWorkFragmentView;
+import com.ssy.pink.manager.GroupManager;
+import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.presenter.WorkFragmentPresenter;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.ChooseGroupView;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -87,6 +95,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     @Override
     protected void initViewsAndEvents(View view) {
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         initView();
         initListener();
         presenter = new WorkFragmentPresenter(this);
@@ -98,6 +107,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     @Override
     protected void DetoryViewAndThing() {
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -126,6 +136,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     }
 
     private void initListener() {
+        cbDefaultGroup.setOnCheckedChangeListener(this);
         rbRandomEmoticon.setOnCheckedChangeListener(this);
         rbCustom.setOnCheckedChangeListener(this);
         rbBoth.setOnCheckedChangeListener(this);
@@ -166,15 +177,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                 showHelpDialog(R.string.dialog_config_introduce);
                 break;
             case R.id.tvWork://开始抡博
-                if (isWorking) {
-                    isWorking = false;
-                    tvWork.setText("开始抡博");
-                    tvWorkBg.setEnabled(false);
-                } else {
-                    isWorking = true;
-                    tvWork.setText("停止抡博");
-                    tvWorkBg.setEnabled(true);
-                }
+                setWorkStatus(!isWorking);
                 break;
             case R.id.ivHelpMonitor://抡博监控的帮助信息
                 showHelpDialog(R.string.dialog_config_introduce);
@@ -186,6 +189,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
+            case R.id.cbDefaultGroup:
+
+                break;
             case R.id.rbRandomEmoticon:
                 if (isChecked) {
                     etCustom.setVisibility(View.GONE);
@@ -240,10 +246,39 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     @Override
     public void loadGroups(List<GroupInfo> groupInfos) {
         if (!ListUtils.isEmpty(groupInfos)) {
+            llGroupRoot.removeAllViews();
             for (GroupInfo groupInfo : groupInfos) {
                 ChooseGroupView view = new ChooseGroupView(mainActivity).setData(groupInfo);
                 llGroupRoot.addView(view);
             }
+        }
+    }
+
+    private void setWorkStatus(boolean isWorking) {
+        this.isWorking = isWorking;
+        if (isWorking) {
+            tvWork.setText("停止抡博");
+            tvWorkBg.setEnabled(true);
+            cbDefaultGroup.setEnabled(false);
+        } else {
+            tvWork.setText("开始抡博");
+            tvWorkBg.setEnabled(false);
+            cbDefaultGroup.setEnabled(true);
+        }
+        //工作状态，小号分组的checkbox不可选
+        for (int i = 0; i < llGroupRoot.getChildCount(); i++) {
+            ((ChooseGroupView) (llGroupRoot.getChildAt(i))).setCheckboxEnable(!isWorking);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(Integer eventCode) {
+        switch (eventCode) {
+            case EventCode.GET_MONEY_INFO:
+                String str = String.format("[%d/%d]", UserManager.getInstance().moneyInfo.getAllValidSmallNum(),
+                        UserManager.getInstance().moneyInfo.getAllSmallNum());
+                tvDefaultGroupNumber.setText(str);
+                break;
         }
     }
 }

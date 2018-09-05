@@ -13,12 +13,15 @@ import com.ssy.pink.activity.SettingActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.MoneyInfo;
+import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.IMyFragmentView;
+import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.presenter.MyFragmentPresenter;
+import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.CircleImageView;
 import com.ssy.pink.view.dialog.LoginChooseDialog;
 
@@ -95,6 +98,8 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
             tvAltCurrent.setText(String.valueOf(moneyInfo.getAllSmallNum()));
             tvAltBlack.setText(String.valueOf(moneyInfo.getAllInValidSmallNum()));
             tvAltNormal.setText(String.valueOf(moneyInfo.getAllValidSmallNum()));
+        }else{
+            presenter.getSmallStutas();
         }
     }
 
@@ -169,6 +174,35 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
         hasGotOrgs = hasGot;
         if (!hasGot && chooseDialog != null && chooseDialog.isShowing()) {
             chooseDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void loadSmallCount(List<SmallStatusInfo> smallStatusInfos) {
+        if (!ListUtils.isEmpty(smallStatusInfos)) {
+            int valid = 0;
+            int invalid = 0;
+            for (SmallStatusInfo info : smallStatusInfos) {
+                if (info.getSmallnumstatus().equalsIgnoreCase("0")) {
+                    invalid = info.getCountnum();
+                } else if (info.getSmallnumstatus().equalsIgnoreCase("1")) {
+                    valid = info.getCountnum();
+                }
+            }
+            tvAltBlack.setText(String.valueOf(invalid));
+            tvAltNormal.setText(String.valueOf(valid));
+            tvAltCurrent.setText(String.valueOf(invalid + valid));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(Integer eventCode) {
+        switch (eventCode) {
+            case EventCode.GET_MONEY_INFO:
+                tvAltBlack.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllInValidSmallNum()));
+                tvAltNormal.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
+                tvAltCurrent.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
+                break;
         }
     }
 }

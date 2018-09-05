@@ -17,4 +17,5 @@ public class EventCode {
     /* 分组和小号*/
     public static final int ADD_GROUP = 30;//添加分组
     public static final int UPDATE_GROUPS = 31;//刷新分组信息
+    public static final int EDIT_GROUP = 32;//编辑分组信息
 }

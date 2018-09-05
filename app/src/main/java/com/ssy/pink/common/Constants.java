@@ -19,4 +19,6 @@ public class Constants {
      */
     public static final String BASE_PATH = MyApplication.getInstance().getExternalFilesDir(null) + "";
     public static final String LOG_PATH = BASE_PATH + "/log";
+
+    public static final String INTENT_KEY_DATA = "data";
 }

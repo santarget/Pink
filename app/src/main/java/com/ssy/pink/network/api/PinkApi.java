@@ -89,4 +89,7 @@ public interface PinkApi {
 
     @POST(ConstantUrl.DELETE_GROUP)
     Observable<CommonResp<NoBodyEntity>> deleteGroup(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.UPDATE_GROUP)
+    Observable<CommonResp<GroupInfo>> updateGroup(@Body RequestBody requestBody);
 }

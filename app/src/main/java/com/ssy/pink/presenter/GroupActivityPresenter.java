@@ -5,7 +5,6 @@ import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
-import com.ssy.pink.common.Constants;
 import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.iview.IGroupActivityView;
 import com.ssy.pink.manager.GroupManager;

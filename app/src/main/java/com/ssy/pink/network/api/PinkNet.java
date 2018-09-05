@@ -16,6 +16,7 @@ import com.ssy.pink.bean.request.OrderProductReq;
 import com.ssy.pink.bean.request.SyncRechargeRecordReq;
 import com.ssy.pink.bean.request.SyncCustomerReq;
 import com.ssy.pink.bean.request.SyncSpendRecordReq;
+import com.ssy.pink.bean.request.UpdateGroupReq;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
@@ -241,6 +242,17 @@ public class PinkNet {
         DeleteGroupReq req = new DeleteGroupReq(customerNum, groupNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().deleteGroup(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    public static Subscription updateGroup(String customerNum, String groupNum, String newName, Subscriber<CommonResp<GroupInfo>> subscriber) {
+        UpdateGroupReq req = new UpdateGroupReq(customerNum, groupNum,newName);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().updateGroup(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

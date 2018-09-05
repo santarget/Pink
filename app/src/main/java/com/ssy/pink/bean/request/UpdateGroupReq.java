@@ -6,13 +6,15 @@ import java.io.Serializable;
  * @author ssy
  * @date 2018/9/5
  */
-public class AddGroupReq implements Serializable {
-    private static final long serialVersionUID = 5616370548513212228L;
+public class UpdateGroupReq implements Serializable {
+    private static final long serialVersionUID = -6763665612354280957L;
     private String customernum;
-    private String customergroupname;
+    private String customergroupnum;
+    private String customergroupname;//修改后的小组名称
 
-    public AddGroupReq(String customernum, String customergroupname) {
+    public UpdateGroupReq(String customernum, String customergroupnum, String customergroupname) {
         this.customernum = customernum;
+        this.customergroupnum = customergroupnum;
         this.customergroupname = customergroupname;
     }
 
@@ -24,6 +26,14 @@ public class AddGroupReq implements Serializable {
         this.customernum = customernum;
     }
 
+    public String getCustomergroupnum() {
+        return customergroupnum;
+    }
+
+    public void setCustomergroupnum(String customergroupnum) {
+        this.customergroupnum = customergroupnum;
+    }
+
     public String getCustomergroupname() {
         return customergroupname;
     }
@@ -32,10 +42,12 @@ public class AddGroupReq implements Serializable {
         this.customergroupname = customergroupname;
     }
 
+
     @Override
     public String toString() {
-        return "AddGroupReq{" +
+        return "UpdateGroupReq{" +
                 "customernum='" + customernum + '\'' +
+                ", customergroupnum='" + customergroupnum + '\'' +
                 ", customergroupname='" + customergroupname + '\'' +
                 '}';
     }

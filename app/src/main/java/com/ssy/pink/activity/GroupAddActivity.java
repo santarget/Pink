@@ -10,7 +10,6 @@ import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.response.CommonResp;
-import com.ssy.pink.common.Constants;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.manager.GroupManager;
@@ -62,7 +61,7 @@ public class GroupAddActivity extends BaseActivity {
     private void addGroup() {
         String name = etName.getText().toString().trim();
         if (TextUtils.isEmpty(name)) {
-            showToast(R.string.hint_add_group_name);
+            showToast(R.string.hint_input_group_name);
             return;
         }
         PinkNet.addGroup(UserManager.getInstance().userInfo.getCustomernum(), name, new Subscriber<CommonResp<GroupInfo>>() {

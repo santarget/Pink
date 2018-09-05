@@ -18,6 +18,7 @@ import com.ssy.pink.adapter.GroupAdapter;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.GroupInfo;
+import com.ssy.pink.common.Constants;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.iview.IGroupActivityView;
 import com.ssy.pink.manager.GroupManager;
@@ -100,8 +101,8 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         adapter.setMenuListener(new GroupAdapter.OnSlideMenuListener() {
             @Override
             public void onEdit(int position) {
-                showToast(position + " onEdit");
                 Intent intent = new Intent(GroupActivity.this, GroupEditActivity.class);
+                intent.putExtra(Constants.INTENT_KEY_DATA, adapter.getData(position));
                 startActivity(intent);
             }
 
@@ -173,6 +174,9 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
             case EventCode.ADD_GROUP:
                 adapter.notifyDataSetChanged();
                 setNullTipsVisible();
+                break;
+            case EventCode.EDIT_GROUP:
+                adapter.notifyDataSetChanged();
                 break;
         }
     }

@@ -21,4 +21,5 @@ public class ConstantUrl {
     public static final String GET_SMALL_STATUS = "adminservice/queryCustomerStatusGroupNum";
     public static final String ADD_GROUP = "adminservice/addSelfOneGroup";
     public static final String DELETE_GROUP = "adminservice/deleteSelfOneGroup";
+    public static final String UPDATE_GROUP = "adminservice/updateSelfOneGroup";
 }

@@ -25,8 +25,8 @@ import rx.schedulers.Schedulers;
 public class GroupManager {
     public static final String DEFAULT_GROUP = "default";
     private static GroupManager instance;
-    public List<GroupInfo> groupInfos;
-    public List<SmallInfo> smallInfos;//所有小号集合
+    public List<GroupInfo> groupInfos = new ArrayList<>();
+    public List<SmallInfo> smallInfos = new ArrayList<>();//所有小号集合
 
     private GroupManager() {
     }
@@ -78,7 +78,7 @@ public class GroupManager {
      * 退出登录，重置
      */
     public void reset() {
-        groupInfos = null;
-        smallInfos = null;
+        groupInfos.clear();
+        smallInfos.clear();
     }
 }

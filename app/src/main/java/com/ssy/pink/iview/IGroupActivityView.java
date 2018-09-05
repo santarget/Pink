@@ -5,4 +5,5 @@ package com.ssy.pink.iview;
  * @date 2018/8/17
  */
 public interface IGroupActivityView extends IView {
+    void loadGroups();
 }

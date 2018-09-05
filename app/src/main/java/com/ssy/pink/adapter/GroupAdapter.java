@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
@@ -43,8 +44,13 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
         GroupInfo info = data.get(position);
         GroupRecycleViewHolder myHolder = (GroupRecycleViewHolder) holder;
         myHolder.tvName.setText(info.getCustomerGroupName());
-        myHolder.tvTotalCount.setText(ListUtils.isEmpty(info.getAllSmallInfos()) ? "0" : String.valueOf(ListUtils.isEmpty(info.getAllSmallInfos())));
-        myHolder.tvNormalCount.setText(ListUtils.isEmpty(info.getValidSmallInfos()) ? "0" : String.valueOf(ListUtils.isEmpty(info.getValidSmallInfos())));
+        myHolder.tvTotalCount.setText(ListUtils.isEmpty(info.getAllSmallInfos()) ? "0" : String.valueOf(info.getAllSmallInfos().size()));
+        myHolder.tvNormalCount.setText(ListUtils.isEmpty(info.getValidSmallInfos()) ? "0" : String.valueOf(info.getValidSmallInfos().size()));
+        if (position % 2 == 0) {
+            myHolder.ivIcon.setImageResource(R.drawable.ic_group2);
+        } else {
+            myHolder.ivIcon.setImageResource(R.drawable.ic_group3);
+        }
     }
 
     class GroupRecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -54,6 +60,8 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
         TextView tvTotalCount;
         @BindView(R.id.tvNormalCount)
         TextView tvNormalCount;
+        @BindView(R.id.ivIcon)
+        ImageView ivIcon;
 
 
         public GroupRecycleViewHolder(View itemView) {

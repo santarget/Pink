@@ -1,12 +1,8 @@
 package com.ssy.pink.fragment;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,7 +15,6 @@ import com.ssy.pink.activity.GroupActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.EventCode;
-import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
@@ -27,13 +22,10 @@ import com.ssy.pink.presenter.WorkFragmentPresenter;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.ChooseGroupView;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
-import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,10 +37,6 @@ import butterknife.Unbinder;
  * @date 2018/8/10
  */
 public class WorkFragment extends BaseFragment implements IWorkFragmentView, CompoundButton.OnCheckedChangeListener {
-    @BindView(R.id.cbDefaultGroup)
-    CheckBox cbDefaultGroup;
-    @BindView(R.id.tvDefaultGroupNumber)
-    TextView tvDefaultGroupNumber;
     @BindView(R.id.llGroupRoot)
     LinearLayout llGroupRoot;
     @BindView(R.id.etWeiboUrl)
@@ -138,7 +126,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     }
 
     private void initListener() {
-        cbDefaultGroup.setOnCheckedChangeListener(this);
         rbRandomEmoticon.setOnCheckedChangeListener(this);
         rbCustom.setOnCheckedChangeListener(this);
         rbBoth.setOnCheckedChangeListener(this);
@@ -200,9 +187,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
-            case R.id.cbDefaultGroup:
-
-                break;
             case R.id.rbRandomEmoticon:
                 if (isChecked) {
                     etCustom.setVisibility(View.GONE);
@@ -255,10 +239,10 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     }
 
     @Override
-    public void loadGroups(List<GroupInfo> groupInfos) {
-        if (!ListUtils.isEmpty(groupInfos)) {
-            llGroupRoot.removeAllViews();
-            for (GroupInfo groupInfo : groupInfos) {
+    public void loadGroups() {
+        llGroupRoot.removeAllViews();
+        if (!ListUtils.isEmpty(GroupManager.getInstance().groupInfos)) {
+            for (GroupInfo groupInfo : GroupManager.getInstance().groupInfos) {
                 ChooseGroupView view = new ChooseGroupView(mainActivity).setData(groupInfo);
                 llGroupRoot.addView(view);
             }
@@ -270,11 +254,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         if (isWorking) {
             tvWork.setText("停止抡博");
             tvWorkBg.setEnabled(true);
-            cbDefaultGroup.setEnabled(false);
         } else {
             tvWork.setText("开始抡博");
             tvWorkBg.setEnabled(false);
-            cbDefaultGroup.setEnabled(true);
         }
         //工作状态，小号分组的checkbox不可选
         for (int i = 0; i < llGroupRoot.getChildCount(); i++) {
@@ -285,10 +267,8 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(Integer eventCode) {
         switch (eventCode) {
-            case EventCode.GET_MONEY_INFO:
-                String str = String.format("[%d/%d]", UserManager.getInstance().moneyInfo.getAllValidSmallNum(),
-                        UserManager.getInstance().moneyInfo.getAllSmallNum());
-                tvDefaultGroupNumber.setText(str);
+            case EventCode.UPDATE_GROUPS:
+                loadGroups();
                 break;
         }
     }

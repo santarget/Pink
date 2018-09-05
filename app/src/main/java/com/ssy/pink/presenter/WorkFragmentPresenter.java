@@ -24,8 +24,7 @@ public class WorkFragmentPresenter extends BasePresenter {
     }
 
     public void listGroup() {
-//        PinkNet.listGroup(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonListResp<GroupInfo>>() {
-        PinkNet.listGroup("C0902100924280005699", new Subscriber<CommonListResp<GroupInfo>>() {
+        PinkNet.listGroup(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonListResp<GroupInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -38,16 +37,17 @@ public class WorkFragmentPresenter extends BasePresenter {
 
             @Override
             public void onNext(CommonListResp<GroupInfo> groupInfoCommonListResp) {
-                GroupManager.getInstance().groupInfos = groupInfoCommonListResp.getData();
+                GroupManager.getInstance().groupInfos.clear();
+                GroupManager.getInstance().groupInfos.addAll(groupInfoCommonListResp.getData());
                 listSmall();
-                iView.loadGroups(groupInfoCommonListResp.getData());
+                iView.loadGroups();
 
             }
         });
     }
 
     public void listSmall() {
-        PinkNet.listSmall("C0902100924280005699", new Subscriber<CommonListResp<SmallInfo>>() {
+        PinkNet.listSmall(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonListResp<SmallInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -74,7 +74,7 @@ public class WorkFragmentPresenter extends BasePresenter {
 
                     @Override
                     public void onNext(List<GroupInfo> groupInfos) {
-                        iView.loadGroups(groupInfos);
+                        iView.loadGroups();
                     }
                 });
             }

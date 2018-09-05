@@ -14,4 +14,7 @@ public class EventCode {
     /* 用户数据更新 */
     public static final int GET_MONEY_INFO = 20;//获取用户金额信息(金额，爱豆，小号) MoneyInfo
 
+    /* 分组和小号*/
+    public static final int ADD_GROUP = 30;//添加分组
+    public static final int UPDATE_GROUPS = 31;//刷新分组信息
 }

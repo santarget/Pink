@@ -396,4 +396,5 @@
     <string name="dialog_config_introduce">需要抡博的主体微博，从微博列表进到微博详情，点击右上角，选择复制链接。输入框右边的小图标可以快速打开链接访问微博，可以确认是否是要抡博的微博，或者查看当前微博的转发数。\n如果监控提示“微博获取失败”，可以点击右方的小图标打开链接看填写的微博链接能不能访问，或者尝试更新IP。</string>
     <string name="tips_vip">包月用户可在30天内，任意添加小号，在此期间添加的所有号码均不会另外扣除爱豆。使用包月功能添加的小号只能在包月期间使用，过期如果需要继续使用，可选择续约或单独购买。</string>
     <string name="please_choose_org">请选择组织</string>
+    <string name="hint_add_group_name">请输入分组名称</string>
 </resources>

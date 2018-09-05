@@ -11,7 +11,6 @@ import com.ssy.pink.MyApplication;
 public class Constants {
     //permission
     public static final String[] PERMISSION_NEED = {
-            Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };

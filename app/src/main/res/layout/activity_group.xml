@@ -40,10 +40,18 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:padding="5dp"
-            app:srcCompat="@drawable/weibo" />
+            android:padding="1dp"
+            app:srcCompat="@drawable/ic_add_group" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvNull"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="20dp"
+        android:text="暂没有分组，请点击右上角添加分组" />
 
     <FrameLayout
         android:id="@+id/flContent"
@@ -60,7 +68,7 @@
 
 
             <com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView
-                
+
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,6 +78,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/llSlideTips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"

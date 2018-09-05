@@ -2,6 +2,7 @@ package com.ssy.pink.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author ssy
@@ -84,6 +85,20 @@ public class GroupInfo implements Serializable {
 
     public void setValidSmallInfos(List<SmallInfo> validSmallInfos) {
         this.validSmallInfos = validSmallInfos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GroupInfo)) return false;
+        GroupInfo info = (GroupInfo) o;
+        return Objects.equals(customerGroupNum, info.customerGroupNum) &&
+                Objects.equals(customerNum, info.customerNum);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerGroupNum, customerNum);
     }
 
     @Override

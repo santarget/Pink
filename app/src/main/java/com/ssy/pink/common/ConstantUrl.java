@@ -14,7 +14,11 @@ public class ConstantUrl {
     public static final String ORDER_ONE_PRODUCE = "adminservice/orderOneProduct";
     public static final String GET_ORDER_INFO = "adminservice/queryUserOrderInfo";
     public static final String GET_USER_MONEY_INFO = "adminservice/queryUserAcountInfo";
+
+    //分组和小号
     public static final String LIST_GROUP_INFO = "adminservice/queryCustomerGroupinfoList";
     public static final String LIST_SMALL_INFO = "adminservice/querySmallCustomerDetailList";
     public static final String GET_SMALL_STATUS = "adminservice/queryCustomerStatusGroupNum";
+    public static final String ADD_GROUP = "adminservice/addSelfOneGroup";
+    public static final String DELETE_GROUP = "adminservice/deleteSelfOneGroup";
 }

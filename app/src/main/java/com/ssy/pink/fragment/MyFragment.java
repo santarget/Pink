@@ -18,7 +18,6 @@ import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.iview.IMyFragmentView;
-import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.presenter.MyFragmentPresenter;
 import com.ssy.pink.utils.ListUtils;

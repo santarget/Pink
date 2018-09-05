@@ -83,4 +83,10 @@ public interface PinkApi {
      */
     @POST(ConstantUrl.GET_SMALL_STATUS)
     Observable<CommonListResp<SmallStatusInfo>> getSmallStutas(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.ADD_GROUP)
+    Observable<CommonResp<GroupInfo>> addGroup(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.DELETE_GROUP)
+    Observable<CommonResp<NoBodyEntity>> deleteGroup(@Body RequestBody requestBody);
 }

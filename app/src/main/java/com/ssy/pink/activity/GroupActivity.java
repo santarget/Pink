@@ -1,11 +1,14 @@
 package com.ssy.pink.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -15,9 +18,19 @@ import com.ssy.pink.adapter.GroupAdapter;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.GroupInfo;
+import com.ssy.pink.common.EventCode;
 import com.ssy.pink.iview.IGroupActivityView;
+import com.ssy.pink.manager.GroupManager;
+import com.ssy.pink.manager.UserManager;
+import com.ssy.pink.presenter.GroupActivityPresenter;
+import com.ssy.pink.utils.ListUtils;
+import com.ssy.pink.view.CommonDialog;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +47,14 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.flContent)
     FrameLayout flContent;
+    @BindView(R.id.llSlideTips)
+    LinearLayout llSlideTips;
+    @BindView(R.id.tvNull)
+    TextView tvNull;
 
-    private List<GroupInfo> datas = new ArrayList<>();
+    private GroupActivityPresenter presenter;
     private GroupAdapter adapter;
+    private CommonDialog deleteDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +63,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         ButterKnife.bind(this);
         init();
         initListener();
+        presenter = new GroupActivityPresenter(this);
     }
 
     private void init() {
@@ -53,10 +72,10 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         //设置分割线
 //        recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
         recyclerView.addItemDecoration(new SpaceItemDecoration());
-        datas.add(new GroupInfo());
-        datas.add(new GroupInfo());
-        adapter = new GroupAdapter(this, datas);
+
+        adapter = new GroupAdapter(this, GroupManager.getInstance().groupInfos);
         recyclerView.setAdapter(adapter);
+        setNullTipsVisible();
     }
 
     private void initListener() {
@@ -88,7 +107,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
 
             @Override
             public void onDelete(int position) {
-                showToast(position + " onDelete");
+                showDeleteDialog(adapter.getData(position));
             }
         });
     }
@@ -105,5 +124,58 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        EventBus.getDefault().post(EventCode.UPDATE_GROUPS);
+        super.onBackPressed();
+    }
+
+    private void setNullTipsVisible() {
+        if (ListUtils.isEmpty(adapter.getDatas())) {
+            llSlideTips.setVisibility(View.GONE);
+            tvNull.setVisibility(View.VISIBLE);
+        } else {
+            llSlideTips.setVisibility(View.VISIBLE);
+            tvNull.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void loadGroups() {
+        adapter.notifyDataSetChanged();
+        setNullTipsVisible();
+    }
+
+    private void showDeleteDialog(final GroupInfo info) {
+        deleteDialog = new CommonDialog.Builder(this)
+                .setTitle("确定要删除这个分组吗？")
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        presenter.deleteGroup(info);
+                    }
+                })
+                .create();
+        deleteDialog.show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(Integer eventCode) {
+        switch (eventCode) {
+            case EventCode.ADD_GROUP:
+                adapter.notifyDataSetChanged();
+                setNullTipsVisible();
+                break;
+        }
+    }
+
 
 }

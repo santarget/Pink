@@ -94,7 +94,7 @@ public class UserManager {
      * 获取用户的金额信息
      */
     public void getUserMoney() {
-        PinkNet.getUserMoney("C0902100924280005699", new Subscriber<CommonResp<MoneyInfo>>() {
+        PinkNet.getUserMoney(userInfo.getCustomernum(), new Subscriber<CommonResp<MoneyInfo>>() {
             @Override
             public void onCompleted() {
 

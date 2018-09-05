@@ -38,11 +38,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:id="@+id/ivIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/weibo" />
+            android:src="@drawable/ic_group2" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -69,7 +70,7 @@
                     android:id="@+id/tvTotalCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20"
+                    android:text="0"
                     android:textColor="@color/item_text_title"
                     android:textSize="@dimen/item_text_content_size" />
 
@@ -85,8 +86,8 @@
                     android:id="@+id/tvNormalCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:text="22"
+                    android:layout_marginLeft="30dp"
+                    android:text="0"
                     android:textColor="@color/item_text_title"
                     android:textSize="@dimen/item_text_content_size" />
 

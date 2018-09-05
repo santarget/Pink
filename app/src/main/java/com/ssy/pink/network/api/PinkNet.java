@@ -9,6 +9,8 @@ import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
+import com.ssy.pink.bean.request.AddGroupReq;
+import com.ssy.pink.bean.request.DeleteGroupReq;
 import com.ssy.pink.bean.request.OnlyCustomernumReq;
 import com.ssy.pink.bean.request.OrderProductReq;
 import com.ssy.pink.bean.request.SyncRechargeRecordReq;
@@ -217,6 +219,28 @@ public class PinkNet {
         req.setCustomernum(customerNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().getSmallStutas(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    public static Subscription addGroup(String customerNum, String name, Subscriber<CommonResp<GroupInfo>> subscriber) {
+        AddGroupReq req = new AddGroupReq(customerNum, name);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().addGroup(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    public static Subscription deleteGroup(String customerNum, String groupNum, Subscriber<CommonResp<NoBodyEntity>> subscriber) {
+        DeleteGroupReq req = new DeleteGroupReq(customerNum, groupNum);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().deleteGroup(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

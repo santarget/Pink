@@ -17,4 +17,8 @@
     <color name="slide_edit">#FF6880FE</color>
     <color name="slide_delete">#FFE02852</color>
     <color name="txt_blue">#FF8C9FFB</color>
+
+    <color name="txt_small_name">#FF424242</color>
+    <color name="txt_small_log_gray">#FF9d9d9d</color>
+    <color name="txt_small_log_red">#FFF24A69</color>
 </resources>

@@ -17,5 +17,10 @@
     <dimen name="item_group_height">65dp</dimen>
     <dimen name="item_group_slide_width">60dp</dimen>
 
+    <dimen name="item_small_height">80dp</dimen>
+    <dimen name="item_small_slide_width">65dp</dimen>
+    <dimen name="txt_small_name_size">17sp</dimen>
+    <dimen name="txt_small_log_size">13sp</dimen>
+
 
 </resources>

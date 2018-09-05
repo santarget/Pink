@@ -94,8 +94,9 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         adapter.setItemClickListen(new BaseRecycleViewAdapter.OnItemClickListen() {
             @Override
             public void onItemClick(View view, int position) {
-                showToast(position + "");
-                startActivity(new Intent(GroupActivity.this, GroupDetailActivity.class));
+                Intent intent = new Intent(GroupActivity.this, GroupDetailActivity.class);
+                intent.putExtra(Constants.INTENT_KEY_DATA, adapter.getData(position));
+                startActivity(intent);
             }
         });
         adapter.setMenuListener(new GroupAdapter.OnSlideMenuListener() {

@@ -19,6 +19,11 @@ public class SmallInfo implements Serializable{
     private String smallNumFansOrgInfoNum;
     private String smallNumStatus;//0无效  1有效
 
+    public SmallInfo(String smallWeiboNum, String smallWeiboName) {
+        this.smallWeiboNum = smallWeiboNum;
+        this.smallWeiboName = smallWeiboName;
+    }
+
     public String getCustomerNum() {
         return customerNum;
     }

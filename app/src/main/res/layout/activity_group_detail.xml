@@ -43,23 +43,21 @@
             android:textSize="@dimen/item_text_tips_size" />
 
         <TextView
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
             android:id="@+id/tvDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/shape_txt_white_bg_theme_border_radius"
+            android:paddingBottom="3dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:paddingTop="3dp"
             android:text="@string/delete"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
 
         <TextView
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
             android:id="@+id/tvMove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,8 +65,10 @@
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/tvDelete"
             android:background="@drawable/shape_txt_white_bg_blue_border_radius"
+            android:paddingBottom="3dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:paddingTop="3dp"
             android:text="@string/file_move"
             android:textColor="@color/txt_blue"
             android:textSize="12sp" />
@@ -117,11 +117,11 @@
         android:paddingRight="15dp">
 
         <LinearLayout
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView

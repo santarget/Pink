@@ -11,17 +11,25 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.ssy.pink.R;
 import com.ssy.pink.adapter.GroupAdapter;
+import com.ssy.pink.adapter.SmallAdapter;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.GroupInfo;
+import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.common.Constants;
+import com.ssy.pink.iview.IGroupDetailActivityView;
+import com.ssy.pink.presenter.GroupDetailActivityPresenter;
 import com.ssy.pink.view.recyclerViewBase.LinerRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GroupDetailActivity extends BaseActivity {
+public class GroupDetailActivity extends BaseActivity implements IGroupDetailActivityView {
 
     @BindView(R.id.tvTitle)
     TextView tvTitle;
@@ -40,25 +48,33 @@ public class GroupDetailActivity extends BaseActivity {
     @BindView(R.id.tvAccoutNumber)
     TextView tvAccoutNumber;
 
+    GroupDetailActivityPresenter presenter;
+    GroupInfo groupInfo;
+    SmallAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detail);
         ButterKnife.bind(this);
         init();
+        presenter = new GroupDetailActivityPresenter(this);
     }
 
     private void init() {
-        tvTitle.setText("小朋友");
-        tvRight.setText("完成");
+        groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
+        tvTitle.setText(groupInfo.getCustomerGroupName());
+        tvRight.setText(R.string.done);
         //设置RecyclerView垂直布局
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         //设置分割线
         recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
-//        datas.add(new GroupInfo("默认分组", 22, 20));
-//        datas.add(new GroupInfo("小朋友", 50, 37));
-//        adapter = new GroupAdapter(this, datas);
-//        recyclerView.setAdapter(adapter);
+//        adapter = new SmallAdapter(this, groupInfo.getAllSmallInfos());
+        List<SmallInfo> datas = new ArrayList<>();
+        datas.add(new SmallInfo("180222222", "哈哈哈"));
+        datas.add(new SmallInfo("18033333", "用户123893723"));
+        adapter = new SmallAdapter(this, datas);
+        recyclerView.setAdapter(adapter);
     }
 
     @OnClick({R.id.aivBack, R.id.tvRight, R.id.tvDelete, R.id.tvMove, R.id.llAdd})

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -13,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.activity.BrowserActivity;
 import com.ssy.pink.activity.GroupActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
@@ -163,6 +165,15 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                 showHelpDialog(R.string.dialog_config_introduce);
                 break;
             case R.id.ivVisitUrl://访问连接
+                String url = etWeiboUrl.getText().toString().trim();
+                if (TextUtils.isEmpty(url)) {
+                    showToast("请输入微博链接");
+                } else {
+                    Intent i = new Intent(mainActivity, BrowserActivity.class);
+                    i.putExtra("url", etWeiboUrl.getText().toString());
+                    mainActivity.startActivity(i);
+                }
+
                 break;
             case R.id.ivHelpSendContent://发送内容
                 showHelpDialog(R.string.dialog_config_introduce);

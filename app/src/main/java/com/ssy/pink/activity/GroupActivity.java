@@ -22,7 +22,6 @@ import com.ssy.pink.common.Constants;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.iview.IGroupActivityView;
 import com.ssy.pink.manager.GroupManager;
-import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.presenter.GroupActivityPresenter;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.CommonDialog;
@@ -32,9 +31,6 @@ import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,10 +64,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     }
 
     private void init() {
-        //设置RecyclerView垂直布局
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
-        //设置分割线
-//        recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
         recyclerView.addItemDecoration(new SpaceItemDecoration());
 
         adapter = new GroupAdapter(this, GroupManager.getInstance().groupInfos);

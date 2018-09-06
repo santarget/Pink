@@ -25,6 +25,7 @@ import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.presenter.GroupActivityPresenter;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.CommonDialog;
+import com.ssy.pink.view.dialog.DeletaDialog;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
 
@@ -51,7 +52,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
 
     private GroupActivityPresenter presenter;
     private GroupAdapter adapter;
-    private CommonDialog deleteDialog;
+    private DeletaDialog deleteDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,15 +144,15 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     }
 
     private void showDeleteDialog(final GroupInfo info) {
-        deleteDialog = new CommonDialog.Builder(this)
-                .setTitle("确定要删除这个分组吗？")
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        deleteDialog = new DeletaDialog.Builder(this)
+                .setMessage("所删除的分组包含账号，删除后账号将回归默认分组，确定继续吗？")
+                .setNegativeButton(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+                .setPositiveButton( new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

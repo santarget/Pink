@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -50,11 +51,14 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
     TextView tvAccoutNumber;
     @BindView(R.id.ivIp)
     ImageView ivIp;
+    @BindView(R.id.llMulti)
+    LinearLayout llMulti;
 
     GroupDetailActivityPresenter presenter;
     GroupInfo groupInfo;
     SmallAdapter adapter;
     DeletaDialog deleteDialog;
+    boolean isMulti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,6 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
     private void init() {
         groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
         tvTitle.setText(groupInfo.getCustomerGroupName());
-        tvRight.setText(R.string.done);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
         List<SmallInfo> datas = new ArrayList<>();
@@ -77,6 +80,7 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         adapter = new SmallAdapter(this, datas);
         recyclerView.setAdapter(adapter);
         adapter.setMenuListener(this);
+        setMultiMode(false);
     }
 
     @OnClick({R.id.aivBack, R.id.tvRight, R.id.tvDelete, R.id.tvMove, R.id.llAdd})
@@ -86,6 +90,7 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
                 onBackPressed();
                 break;
             case R.id.tvRight:
+                setMultiMode(!isMulti);
                 break;
             case R.id.tvDelete:
                 break;
@@ -119,5 +124,17 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
     @Override
     public void onDelete(int position) {
         showDeleteDialog(adapter.getData(position));
+    }
+
+    public void setMultiMode(boolean isMulti) {
+        this.isMulti = isMulti;
+        adapter.setMultiMode(isMulti);
+        if (isMulti) {
+            tvRight.setText(R.string.done);
+            llMulti.setVisibility(View.VISIBLE);
+        } else {
+            tvRight.setText(R.string.manage);
+            llMulti.setVisibility(View.GONE);
+        }
     }
 }

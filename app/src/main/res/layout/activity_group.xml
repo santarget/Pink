@@ -99,6 +99,6 @@
             android:padding="3dp"
             android:text="侧滑可以编辑或删除"
             android:textColor="@color/item_text_tips"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

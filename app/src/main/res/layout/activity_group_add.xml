@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_white"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".activity.GroupAddActivity">
@@ -12,6 +12,7 @@
     <include layout="@layout/title_bar_right_txt" />
 
     <TextView
+        android:textColor="@color/txt_small_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -19,6 +20,9 @@
         android:text="分组名称" />
 
     <EditText
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:background="@drawable/shape_gray_bg_radius"
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

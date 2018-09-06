@@ -46,10 +46,12 @@ public class GroupAdapter extends BaseRecycleViewAdapter<GroupInfo> {
         myHolder.tvName.setText(info.getCustomerGroupName());
         myHolder.tvTotalCount.setText(ListUtils.isEmpty(info.getAllSmallInfos()) ? "0" : String.valueOf(info.getAllSmallInfos().size()));
         myHolder.tvNormalCount.setText(ListUtils.isEmpty(info.getValidSmallInfos()) ? "0" : String.valueOf(info.getValidSmallInfos().size()));
-        if (position % 2 == 0) {
+        if (position % 3 == 0) {
             myHolder.ivIcon.setImageResource(R.drawable.ic_group2);
-        } else {
+        } else if (position % 3 == 1){
             myHolder.ivIcon.setImageResource(R.drawable.ic_group3);
+        }else{
+            myHolder.ivIcon.setImageResource(R.drawable.ic_group1);
         }
     }
 

@@ -11,82 +11,88 @@
         android:id="@+id/title"
         layout="@layout/title_bar_right_txt" />
 
-    <RelativeLayout
-        android:id="@+id/rlTop"
+    <LinearLayout
+        android:id="@+id/llMulti"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:background="@android:color/white"
-        android:paddingBottom="10dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="10dp">
+        android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/cbSelectAll"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="全选"
-            android:textColor="@color/item_text_content"
-            android:textSize="@dimen/item_text_tips_size" />
 
-        <CheckBox
-            android:id="@+id/cbAllAbnormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/cbSelectAll"
-            android:text="所有异常账号"
-            android:textColor="@color/item_text_content"
-            android:textSize="@dimen/item_text_tips_size" />
+            android:background="@android:color/white"
+            android:paddingBottom="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="10dp">
 
-        <TextView
-            android:id="@+id/tvDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/shape_txt_white_bg_theme_border_radius"
-            android:paddingBottom="3dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="3dp"
-            android:text="@string/delete"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp" />
+            <CheckBox
+                android:id="@+id/cbSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="全选"
+                android:textColor="@color/item_text_content"
+                android:textSize="@dimen/item_text_tips_size" />
 
-        <TextView
-            android:id="@+id/tvMove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/tvDelete"
-            android:background="@drawable/shape_txt_white_bg_blue_border_radius"
-            android:paddingBottom="3dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="3dp"
-            android:text="@string/file_move"
-            android:textColor="@color/txt_blue"
-            android:textSize="12sp" />
-    </RelativeLayout>
+            <CheckBox
+                android:id="@+id/cbAllAbnormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/cbSelectAll"
+                android:text="所有异常账号"
+                android:textColor="@color/item_text_content"
+                android:textSize="@dimen/item_text_tips_size" />
 
-    <View
-        android:id="@+id/divide"
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:layout_below="@+id/rlTop"
-        android:background="@color/bg_white" />
+            <TextView
+                android:id="@+id/tvDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_txt_white_bg_theme_border_radius"
+                android:paddingBottom="3dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="3dp"
+                android:text="@string/delete"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvMove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/tvDelete"
+                android:background="@drawable/shape_txt_white_bg_blue_border_radius"
+                android:paddingBottom="3dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="3dp"
+                android:text="@string/file_move"
+                android:textColor="@color/txt_blue"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/divide"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="@color/bg_white" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/flContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/llTips"
-        android:layout_below="@+id/divide">
+        android:layout_below="@+id/llMulti">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"

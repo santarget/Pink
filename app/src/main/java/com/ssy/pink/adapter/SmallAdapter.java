@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import butterknife.OnClick;
  */
 public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
 
+    private boolean isMulti;
     private OnSlideMenuListener menuListener;
 
     public SmallAdapter(Context context, List<SmallInfo> data) {
@@ -46,6 +48,11 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
         GroupRecycleViewHolder myHolder = (GroupRecycleViewHolder) holder;
         myHolder.tvName.setText(info.getSmallWeiboName());
         myHolder.tvWeiboAccout.setText(info.getSmallWeiboNum());
+        if (isMulti) {
+            myHolder.checkbox.setVisibility(View.VISIBLE);
+        } else {
+            myHolder.checkbox.setVisibility(View.GONE);
+        }
     }
 
     class GroupRecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -61,6 +68,8 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
         TextView tvLog;
         @BindView(R.id.tvTime)
         TextView tvTime;
+        @BindView(R.id.checkbox)
+        CheckBox checkbox;
 
         public GroupRecycleViewHolder(View itemView) {
             super(itemView);
@@ -92,5 +101,10 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
 
     public interface OnSlideMenuListener {
         void onDelete(int position);
+    }
+
+    public void setMultiMode(boolean isMulti) {
+        this.isMulti = isMulti;
+        notifyDataSetChanged();
     }
 }

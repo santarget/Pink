@@ -398,4 +398,5 @@
     <string name="please_choose_org">请选择组织</string>
     <string name="hint_input_group_name">请输入分组名称</string>
     <string name="update_success">修改成功</string>
+    <string name="manage">管理</string>
 </resources>

@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.GroupAddActivity">
+    tools:context=".mvp.activity.GroupAddActivity">
 
     <include layout="@layout/title_bar_right_txt" />
 

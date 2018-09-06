@@ -1,4 +1,4 @@
-package com.ssy.pink.activity;
+package com.ssy.pink.mvp.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;

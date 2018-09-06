@@ -7,7 +7,7 @@
     android:background="@color/bg_white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.GroupActivity">
+    tools:context=".mvp.activity.GroupActivity">
 
     <RelativeLayout
         android:id="@+id/rlRoot"

@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".mvp.activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/TransparentTheme">
             <intent-filter>
@@ -36,51 +36,51 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".mvp.activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".mvp.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MyIdolActivity"
+            android:name=".mvp.activity.MyIdolActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.RecordActivity"
+            android:name=".mvp.activity.RecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SettingActivity"
+            android:name=".mvp.activity.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.GroupActivity"
+            android:name=".mvp.activity.GroupActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.GroupDetailActivity"
+            android:name=".mvp.activity.GroupDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ShareAppActivity"
+            android:name=".mvp.activity.ShareAppActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CheckUpdateActivity"
+            android:name=".mvp.activity.CheckUpdateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SwitchAccoutActivity"
+            android:name=".mvp.activity.SwitchAccoutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.GroupEditActivity"
+            android:name=".mvp.activity.GroupEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.GroupAddActivity"
+            android:name=".mvp.activity.GroupAddActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MonthVipActivity"
+            android:name=".mvp.activity.MonthVipActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BrowserActivity"
+            android:name=".mvp.activity.BrowserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AddSmallActivity"
+            android:name=".mvp.activity.AddSmallActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>

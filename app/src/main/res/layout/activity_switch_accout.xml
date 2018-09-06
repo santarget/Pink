@@ -7,7 +7,7 @@
     android:background="@color/bg_white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.SwitchAccoutActivity">
+    tools:context=".mvp.activity.SwitchAccoutActivity">
 
     <include layout="@layout/title_bar" />
 

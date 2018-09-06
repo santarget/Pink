@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.R;
-import com.ssy.pink.activity.MyIdolActivity;
-import com.ssy.pink.activity.SplashActivity;
+import com.ssy.pink.mvp.activity.MyIdolActivity;
+import com.ssy.pink.mvp.activity.SplashActivity;
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.exception.ExceptionResponse;
 import com.ssy.pink.common.ConstantErrorCode;

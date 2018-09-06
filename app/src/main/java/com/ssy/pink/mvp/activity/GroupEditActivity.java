@@ -1,4 +1,4 @@
-package com.ssy.pink.activity;
+package com.ssy.pink.mvp.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;

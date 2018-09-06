@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activity.ShareAppActivity">
+    tools:context=".mvp.activity.ShareAppActivity">
 
     <include layout="@layout/title_bar" />
 

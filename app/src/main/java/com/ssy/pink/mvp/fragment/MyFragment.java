@@ -6,10 +6,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
-import com.ssy.pink.activity.GroupActivity;
-import com.ssy.pink.activity.MonthVipActivity;
-import com.ssy.pink.activity.MyIdolActivity;
-import com.ssy.pink.activity.SettingActivity;
+import com.ssy.pink.mvp.activity.GroupActivity;
+import com.ssy.pink.mvp.activity.MonthVipActivity;
+import com.ssy.pink.mvp.activity.MyIdolActivity;
+import com.ssy.pink.mvp.activity.SettingActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.MoneyInfo;

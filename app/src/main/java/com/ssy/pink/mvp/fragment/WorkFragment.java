@@ -10,8 +10,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
-import com.ssy.pink.activity.BrowserActivity;
-import com.ssy.pink.activity.GroupActivity;
+import com.ssy.pink.mvp.activity.BrowserActivity;
+import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.EventCode;

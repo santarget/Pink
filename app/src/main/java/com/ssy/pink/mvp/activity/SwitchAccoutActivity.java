@@ -1,7 +1,7 @@
-package com.ssy.pink.activity;
+package com.ssy.pink.mvp.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,36 +12,32 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CheckUpdateActivity extends BaseActivity {
+public class SwitchAccoutActivity extends BaseActivity {
 
     @BindView(R.id.tvTitle)
     TextView tvTitle;
-    @BindView(R.id.aivBack)
-    AppCompatImageView aivBack;
-    @BindView(R.id.tvVersion)
-    TextView tvVersion;
-    @BindView(R.id.tvIntroduce)
-    TextView tvIntroduce;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_update);
+        setContentView(R.layout.activity_switch_accout);
         ButterKnife.bind(this);
         init();
     }
 
     private void init() {
-        tvTitle.setText("检查更新");
+        tvTitle.setText("切换账号");
     }
 
-    @OnClick({R.id.aivBack, R.id.tvVersion})
+    @OnClick({R.id.aivBack, R.id.llAddAccout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.aivBack:
                 onBackPressed();
                 break;
-            case R.id.tvVersion:
+            case R.id.llAddAccout:
                 break;
         }
     }

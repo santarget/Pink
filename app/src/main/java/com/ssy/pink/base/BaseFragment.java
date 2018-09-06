@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
-import com.ssy.pink.activity.MainActivity;
+import com.ssy.pink.mvp.activity.MainActivity;
 import com.ssy.pink.mvp.iview.IView;
 import com.ssy.pink.utils.ToastUtils;
 

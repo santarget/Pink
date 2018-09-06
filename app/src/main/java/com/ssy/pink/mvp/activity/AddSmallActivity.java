@@ -1,4 +1,4 @@
-package com.ssy.pink.activity;
+package com.ssy.pink.mvp.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +9,8 @@ import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.Constants;
+import com.ssy.pink.mvp.iview.IAddSmallActivityView;
+import com.ssy.pink.mvp.presenter.AddSmallActivityPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,12 +20,15 @@ import butterknife.OnClick;
  * @author ssy
  * @date 2018/9/6
  */
-public class AddSmallActivity extends BaseActivity {
+public class AddSmallActivity extends BaseActivity implements IAddSmallActivityView {
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.etAccout)
     EditText etAccout;
+
+    AddSmallActivityPresenter presenter;
     GroupInfo groupInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,8 @@ public class AddSmallActivity extends BaseActivity {
         setContentView(R.layout.activity_small_add);
         ButterKnife.bind(this);
         init();
+        presenter = new AddSmallActivityPresenter(this);
+
     }
 
     private void init() {

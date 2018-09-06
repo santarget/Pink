@@ -1,4 +1,4 @@
-package com.ssy.pink.activity;
+package com.ssy.pink.mvp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,6 +55,7 @@ public class SettingActivity extends BaseActivity {
                 startActivity(new Intent(SettingActivity.this, SwitchAccoutActivity.class));
                 break;
             case R.id.tvLoginOut:
+                //退出登录，重置数据
                 MyApplication.token = "";
                 MyApplication.tokenTimeStamp = 0;
                 UserManager.getInstance().reset();

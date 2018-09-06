@@ -1,8 +1,8 @@
-package com.ssy.pink.presenter;
+package com.ssy.pink.mvp.presenter;
 
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.SmallInfo;
-import com.ssy.pink.iview.IGroupDetailActivityView;
+import com.ssy.pink.mvp.iview.IGroupDetailActivityView;
 
 /**
  * @author ssy

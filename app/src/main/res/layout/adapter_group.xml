@@ -52,7 +52,8 @@
             android:layout_marginLeft="15dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.ssy.pink.view.MarqueeTextView
+                android:singleLine="true"
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

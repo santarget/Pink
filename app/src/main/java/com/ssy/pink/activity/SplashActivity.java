@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.view.Gravity;
 import android.view.Window;
@@ -14,8 +13,8 @@ import android.view.WindowManager;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.common.Constants;
-import com.ssy.pink.iview.ISplashActivityView;
-import com.ssy.pink.presenter.SplashActivityPresenter;
+import com.ssy.pink.mvp.iview.ISplashActivityView;
+import com.ssy.pink.mvp.presenter.SplashActivityPresenter;
 import com.ssy.pink.view.CommonDialog;
 
 import java.util.ArrayList;

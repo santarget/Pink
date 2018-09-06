@@ -1,4 +1,4 @@
-package com.ssy.pink.fragment;
+package com.ssy.pink.mvp.fragment;
 
 import android.view.View;
 

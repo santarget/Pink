@@ -8,14 +8,12 @@ import android.widget.Toast;
 
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.R;
-import com.ssy.pink.activity.LoginActivity;
 import com.ssy.pink.activity.MyIdolActivity;
-import com.ssy.pink.activity.MyIdolActivity_ViewBinding;
 import com.ssy.pink.activity.SplashActivity;
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.exception.ExceptionResponse;
 import com.ssy.pink.common.ConstantErrorCode;
-import com.ssy.pink.iview.IView;
+import com.ssy.pink.mvp.iview.IView;
 import com.ssy.pink.receiver.NetChangeReceiver;
 import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.StatusBarUtil;

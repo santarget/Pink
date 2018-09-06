@@ -1,10 +1,10 @@
-package com.ssy.pink.presenter;
+package com.ssy.pink.mvp.presenter;
 
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.response.CommonListResp;
-import com.ssy.pink.iview.IMyFragmentView;
+import com.ssy.pink.mvp.iview.IMyFragmentView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.utils.MyUtils;

@@ -1,6 +1,7 @@
 package com.ssy.pink.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -18,8 +19,8 @@ import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.common.Constants;
-import com.ssy.pink.iview.IGroupDetailActivityView;
-import com.ssy.pink.presenter.GroupDetailActivityPresenter;
+import com.ssy.pink.mvp.iview.IGroupDetailActivityView;
+import com.ssy.pink.mvp.presenter.GroupDetailActivityPresenter;
 import com.ssy.pink.view.dialog.DeletaDialog;
 import com.ssy.pink.view.recyclerViewBase.LinerRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
@@ -97,6 +98,9 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
             case R.id.tvMove:
                 break;
             case R.id.llAdd:
+                Intent i = new Intent(this, AddSmallActivity.class);
+                i.putExtra(Constants.INTENT_KEY_DATA, groupInfo);
+                startActivity(i);
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package com.ssy.pink.fragment;
+package com.ssy.pink.mvp.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -15,10 +15,9 @@ import com.ssy.pink.activity.GroupActivity;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.EventCode;
-import com.ssy.pink.iview.IWorkFragmentView;
+import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
-import com.ssy.pink.manager.UserManager;
-import com.ssy.pink.presenter.WorkFragmentPresenter;
+import com.ssy.pink.mvp.presenter.WorkFragmentPresenter;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.ChooseGroupView;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;

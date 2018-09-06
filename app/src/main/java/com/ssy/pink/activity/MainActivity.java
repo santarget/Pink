@@ -10,12 +10,12 @@ import android.widget.TextView;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.base.BaseFragment;
-import com.ssy.pink.fragment.MyFragment;
-import com.ssy.pink.fragment.SuperFragment;
-import com.ssy.pink.fragment.WorkFragment;
-import com.ssy.pink.iview.IMainActivityView;
+import com.ssy.pink.mvp.fragment.MyFragment;
+import com.ssy.pink.mvp.fragment.SuperFragment;
+import com.ssy.pink.mvp.fragment.WorkFragment;
+import com.ssy.pink.mvp.iview.IMainActivityView;
 import com.ssy.pink.manager.UserManager;
-import com.ssy.pink.presenter.MainActivityPresenter;
+import com.ssy.pink.mvp.presenter.MainActivityPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

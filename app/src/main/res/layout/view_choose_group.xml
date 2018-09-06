@@ -15,11 +15,12 @@
         android:layout_height="20dp"
         android:button="@drawable/selector_checkbox" />
 
-    <TextView
+    <com.ssy.pink.view.MarqueeTextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:singleLine="true"
         android:text="默认分组"
         android:textColor="@color/item_text_title"
         android:textSize="16sp" />

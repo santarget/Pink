@@ -79,6 +79,10 @@
         <activity
             android:name=".activity.BrowserActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddSmallActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

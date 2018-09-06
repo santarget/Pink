@@ -1,4 +1,4 @@
-package com.ssy.pink.fragment;
+package com.ssy.pink.mvp.fragment;
 
 import android.content.Intent;
 import android.view.View;
@@ -17,9 +17,9 @@ import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
-import com.ssy.pink.iview.IMyFragmentView;
+import com.ssy.pink.mvp.iview.IMyFragmentView;
 import com.ssy.pink.manager.UserManager;
-import com.ssy.pink.presenter.MyFragmentPresenter;
+import com.ssy.pink.mvp.presenter.MyFragmentPresenter;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.CircleImageView;
 import com.ssy.pink.view.dialog.LoginChooseDialog;

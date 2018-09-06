@@ -3,7 +3,6 @@ package com.ssy.pink.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.activity.MainActivity;
-import com.ssy.pink.iview.IView;
+import com.ssy.pink.mvp.iview.IView;
 import com.ssy.pink.utils.ToastUtils;
 
 /**

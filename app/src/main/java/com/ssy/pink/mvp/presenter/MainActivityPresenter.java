@@ -1,7 +1,7 @@
-package com.ssy.pink.presenter;
+package com.ssy.pink.mvp.presenter;
 
 import com.ssy.pink.base.BasePresenter;
-import com.ssy.pink.iview.IMainActivityView;
+import com.ssy.pink.mvp.iview.IMainActivityView;
 
 /**
  * @author ssy

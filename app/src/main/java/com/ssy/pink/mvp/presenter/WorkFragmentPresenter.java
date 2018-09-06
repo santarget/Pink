@@ -1,15 +1,13 @@
-package com.ssy.pink.presenter;
+package com.ssy.pink.mvp.presenter;
 
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
-import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.response.CommonListResp;
-import com.ssy.pink.iview.IWorkFragmentView;
+import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
-import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.MyUtils;
 
 import java.util.List;

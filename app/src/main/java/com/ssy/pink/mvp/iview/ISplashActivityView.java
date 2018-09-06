@@ -1,4 +1,4 @@
-package com.ssy.pink.iview;
+package com.ssy.pink.mvp.iview;
 
 import java.util.ArrayList;
 

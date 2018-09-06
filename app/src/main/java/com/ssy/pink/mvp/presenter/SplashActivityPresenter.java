@@ -1,13 +1,12 @@
-package com.ssy.pink.presenter;
+package com.ssy.pink.mvp.presenter;
 
 import android.text.TextUtils;
 
 import com.ssy.pink.R;
 import com.ssy.pink.base.BasePresenter;
-import com.ssy.pink.iview.ISplashActivityView;
+import com.ssy.pink.mvp.iview.ISplashActivityView;
 import com.ssy.pink.manager.LoginManager;
 import com.ssy.pink.utils.CommonUtils;
-import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.SharedPreferencesUtil;
 
 /**

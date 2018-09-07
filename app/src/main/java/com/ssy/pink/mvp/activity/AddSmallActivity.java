@@ -1,6 +1,7 @@
 package com.ssy.pink.mvp.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.Constants;
 import com.ssy.pink.mvp.iview.IAddSmallActivityView;
 import com.ssy.pink.mvp.presenter.AddSmallActivityPresenter;
+import com.ssy.pink.view.dialog.CheckDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +30,7 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
 
     AddSmallActivityPresenter presenter;
     GroupInfo groupInfo;
+    CheckDialog checkDialog;
 
 
     @Override
@@ -52,9 +55,27 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
                 onBackPressed();
                 break;
             case R.id.tvCheck:
+                String str = etAccout.getText().toString().trim();
+                if (TextUtils.isEmpty(str)){
+                    showToast("请添加账号");
+                }else{
+                    presenter.checkAccout(str);
+                }
                 break;
             case R.id.tvBind:
                 break;
         }
+    }
+
+    @Override
+    public void setCheckDialog(int status) {
+        if (checkDialog == null) {
+            checkDialog = new CheckDialog(this);
+        }
+        checkDialog.setStatus(status);
+        if (status == CheckDialog.STATUS_ERROR) {
+            checkDialog.setErrorWord(presenter.errorWord);
+        }
+        checkDialog.show();
     }
 }

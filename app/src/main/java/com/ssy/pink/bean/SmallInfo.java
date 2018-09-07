@@ -24,6 +24,9 @@ public class SmallInfo implements Serializable{
         this.smallWeiboName = smallWeiboName;
     }
 
+    public SmallInfo() {
+    }
+
     public String getCustomerNum() {
         return customerNum;
     }

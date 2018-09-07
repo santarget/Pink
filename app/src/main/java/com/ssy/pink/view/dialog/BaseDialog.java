@@ -32,11 +32,7 @@ public abstract class BaseDialog extends Dialog {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.width = (int) (CommonUtils.getScreenWidth() * .95f);
         getWindow().setAttributes(lp);
-    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rootView = mInflater.inflate(getLayoutId(), null);
         // 上两句如同这一句LayoutInflater.from(context).inflate(resourceId,null);
@@ -54,6 +50,7 @@ public abstract class BaseDialog extends Dialog {
         }
         init();
     }
+
 
     public abstract int getLayoutId();
 

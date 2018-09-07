@@ -83,6 +83,9 @@
             android:name=".mvp.activity.AddSmallActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".mvp.activity.BindSmallActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IAddSmallActivityView;
 import com.ssy.pink.view.dialog.CheckDialog;
 
@@ -21,19 +22,17 @@ public class AddSmallActivityPresenter extends BasePresenter {
     private static final int CODE_ERROR = 1;
     private static final int CODE_FINISH = 2;
     private IAddSmallActivityView iView;
-    private List<SmallInfo> smallInfos = new ArrayList<>();
     public String errorWord;
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case CODE_ERROR:
-                    Log.i("aaaa", smallInfos.toString());
                     iView.setCheckDialog(CheckDialog.STATUS_ERROR);
                     break;
                 case CODE_FINISH:
                     iView.setCheckDialog(CheckDialog.STATUS_FINISH);
-                    Log.i("aaaa", smallInfos.toString());
                     break;
             }
         }
@@ -48,7 +47,7 @@ public class AddSmallActivityPresenter extends BasePresenter {
      * @return 出错位置的关键词，null则表示无错误
      */
     public void checkAccout(final String content) {
-        smallInfos.clear();
+        BindManager.getInstance().smallInfos.clear();
         iView.setCheckDialog(CheckDialog.STATUS_CHECKING);
         new Thread(new Runnable() {
             @Override
@@ -67,7 +66,7 @@ public class AddSmallActivityPresenter extends BasePresenter {
                         SmallInfo info = new SmallInfo();
                         info.setSmallWeiboNum(temp[0]);
                         info.setUsepwd(temp[1]);
-                        smallInfos.add(info);
+                        BindManager.getInstance().smallInfos.add(info);
                     }
                 }
                 handler.sendEmptyMessage(CODE_FINISH);

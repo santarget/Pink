@@ -1,5 +1,6 @@
 package com.ssy.pink.mvp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.Constants;
+import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IAddSmallActivityView;
 import com.ssy.pink.mvp.presenter.AddSmallActivityPresenter;
 import com.ssy.pink.view.dialog.CheckDialog;
@@ -29,9 +31,9 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
     EditText etAccout;
 
     AddSmallActivityPresenter presenter;
-    GroupInfo groupInfo;
     CheckDialog checkDialog;
-
+    int checkStatus;
+    String content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
     }
 
     private void init() {
-        groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
+        BindManager.getInstance().groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
         tvTitle.setText("绑号");
     }
 
@@ -55,20 +57,30 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
                 onBackPressed();
                 break;
             case R.id.tvCheck:
-                String str = etAccout.getText().toString().trim();
-                if (TextUtils.isEmpty(str)){
+                content = etAccout.getText().toString().trim();
+                if (TextUtils.isEmpty(content)) {
                     showToast("请添加账号");
-                }else{
-                    presenter.checkAccout(str);
+                } else {
+                    presenter.checkAccout(content);
                 }
                 break;
             case R.id.tvBind:
+                if (TextUtils.isEmpty(content) || !content.equals(etAccout.getText().toString().trim())) {
+                    showToast("请先检测格式");
+                } else if (checkStatus == CheckDialog.STATUS_CHECKING) {
+                    showToast("请先检测格式");
+                } else if (checkStatus == CheckDialog.STATUS_ERROR) {
+                    showToast("账号格式存在异常");
+                } else {
+                    startActivity(new Intent(this, BindSmallActivity.class));
+                }
                 break;
         }
     }
 
     @Override
     public void setCheckDialog(int status) {
+        checkStatus = status;
         if (checkDialog == null) {
             checkDialog = new CheckDialog(this);
         }

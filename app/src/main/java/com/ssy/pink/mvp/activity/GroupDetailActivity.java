@@ -72,7 +72,7 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
 
     private void init() {
         groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
-        tvTitle.setText(groupInfo.getCustomerGroupName());
+        tvTitle.setText(groupInfo.getCustomergroupname());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
         List<SmallInfo> datas = new ArrayList<>();

@@ -57,7 +57,7 @@ public class GroupManager {
                         List<SmallInfo> allSmalls = new ArrayList<>();
                         List<SmallInfo> validSmalls = new ArrayList<>();
                         for (SmallInfo smallInfo : smallInfos) {
-                            if (smallInfo.getCustomerGroupNum().equalsIgnoreCase(groupInfo.getCustomerGroupNum())) {
+                            if (smallInfo.getCustomerGroupNum().equalsIgnoreCase(groupInfo.getCustomergroupnum())) {
                                 allSmalls.add(smallInfo);
                                 if (smallInfo.getSmallNumStatus().equals("1")) {
                                     validSmalls.add(smallInfo);

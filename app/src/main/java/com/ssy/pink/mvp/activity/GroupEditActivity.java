@@ -49,7 +49,7 @@ public class GroupEditActivity extends BaseActivity {
         tvTitle.setText("编辑分组");
         tvRight.setText(R.string.done);
         groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
-        etName.setText(groupInfo.getCustomerGroupName());
+        etName.setText(groupInfo.getCustomergroupname());
     }
 
     @OnClick({R.id.aivBack, R.id.tvRight})
@@ -69,7 +69,7 @@ public class GroupEditActivity extends BaseActivity {
         if (TextUtils.isEmpty(str)) {
             showToast(R.string.hint_input_group_name);
         } else {
-            PinkNet.updateGroup(UserManager.getInstance().userInfo.getCustomernum(), groupInfo.getCustomerGroupNum(),
+            PinkNet.updateGroup(UserManager.getInstance().userInfo.getCustomernum(), groupInfo.getCustomergroupnum(),
                     str, new Subscriber<CommonResp<GroupInfo>>() {
                         @Override
                         public void onCompleted() {

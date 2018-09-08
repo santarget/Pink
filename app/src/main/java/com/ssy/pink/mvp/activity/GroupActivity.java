@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.ssy.pink.R;
 import com.ssy.pink.adapter.GroupAdapter;
@@ -81,7 +82,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
 
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-
+                presenter.listGroup();
             }
         });
         adapter.setItemClickListen(new BaseRecycleViewAdapter.OnItemClickListen() {
@@ -142,6 +143,11 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         setNullTipsVisible();
     }
 
+    @Override
+    public void finishRefresh() {
+        refreshLayout.finishRefresh();
+    }
+
     private void showDeleteDialog(final GroupInfo info) {
         deleteDialog = new DeletaDialog.Builder(this)
                 .setMessage("所删除的分组包含账号，删除后账号将回归默认分组，确定继续吗？")
@@ -151,7 +157,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton( new DialogInterface.OnClickListener() {
+                .setPositiveButton(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -174,6 +180,4 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
                 break;
         }
     }
-
-
 }

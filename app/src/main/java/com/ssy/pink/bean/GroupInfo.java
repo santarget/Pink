@@ -10,11 +10,11 @@ import java.util.Objects;
  */
 public class GroupInfo implements Serializable {
     private static final long serialVersionUID = 3999468443934077500L;
-    private String customerGroupName;//分组名
-    private String customerGroupNum;//分组id
-    private String customerNum;//会员id
-    private String createTime;
-    private String createUser;
+    private String customergroupname;//分组名
+    private String customergroupnum;//分组id
+    private String customernum;//会员id
+    private String createtime;
+    private String createuser;
 
     //以下由本地遍历
     public List<SmallInfo> allSmallInfos;//属于这个分组的所有小号集合
@@ -22,46 +22,45 @@ public class GroupInfo implements Serializable {
 
     private transient boolean isChecked;
 
-    public String getCustomerGroupName() {
-        return customerGroupName;
+    public String getCustomergroupname() {
+        return customergroupname;
     }
 
-    public void setCustomerGroupName(String customerGroupName) {
-        this.customerGroupName = customerGroupName;
+    public void setCustomergroupname(String customergroupname) {
+        this.customergroupname = customergroupname;
     }
 
-    public String getCustomerGroupNum() {
-        return customerGroupNum;
+    public String getCustomergroupnum() {
+        return customergroupnum;
     }
 
-    public void setCustomerGroupNum(String customerGroupNum) {
-        this.customerGroupNum = customerGroupNum;
+    public void setCustomergroupnum(String customergroupnum) {
+        this.customergroupnum = customergroupnum;
     }
 
-    public String getCustomerNum() {
-        return customerNum;
+    public String getCustomernum() {
+        return customernum;
     }
 
-    public void setCustomerNum(String customerNum) {
-        this.customerNum = customerNum;
+    public void setCustomernum(String customernum) {
+        this.customernum = customernum;
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public String getCreatetime() {
+        return createtime;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
     }
 
-    public String getCreateUser() {
-        return createUser;
+    public String getCreateuser() {
+        return createuser;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
+    public void setCreateuser(String createuser) {
+        this.createuser = createuser;
     }
-
 
     public boolean isChecked() {
         return isChecked;
@@ -90,25 +89,25 @@ public class GroupInfo implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GroupInfo)) return false;
-        GroupInfo info = (GroupInfo) o;
-        return Objects.equals(customerGroupNum, info.customerGroupNum) &&
-                Objects.equals(customerNum, info.customerNum);
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupInfo groupInfo = (GroupInfo) o;
+        return Objects.equals(customergroupnum, groupInfo.customergroupnum) &&
+                Objects.equals(customernum, groupInfo.customernum);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerGroupNum, customerNum);
+        return Objects.hash(customergroupnum, customernum);
     }
 
     @Override
     public String toString() {
         return "GroupInfo{" +
-                "customerGroupName='" + customerGroupName + '\'' +
-                ", customerGroupNum='" + customerGroupNum + '\'' +
-                ", customerNum='" + customerNum + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", createUser='" + createUser + '\'' +
+                "customergroupname='" + customergroupname + '\'' +
+                ", customergroupnum='" + customergroupnum + '\'' +
+                ", customernum='" + customernum + '\'' +
+                ", createtime='" + createtime + '\'' +
+                ", createuser='" + createuser + '\'' +
                 ", allSmallInfos=" + allSmallInfos +
                 ", validSmallInfos=" + validSmallInfos +
                 ", isChecked=" + isChecked +

@@ -8,6 +8,7 @@ import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.MyUtils;
 
 import java.util.List;
@@ -23,24 +24,26 @@ public class WorkFragmentPresenter extends BasePresenter {
 
     public void listGroup() {
         PinkNet.listGroup(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonListResp<GroupInfo>>() {
-            @Override
-            public void onCompleted() {
+                @Override
+                public void onCompleted() {
 
-            }
+                }
 
-            @Override
-            public void onError(Throwable e) {
-                MyUtils.handleExcep(e);
-            }
+                @Override
+                public void onError(Throwable e) {
+                    MyUtils.handleExcep(e);
+                }
 
-            @Override
-            public void onNext(CommonListResp<GroupInfo> groupInfoCommonListResp) {
-                GroupManager.getInstance().groupInfos.clear();
-                GroupManager.getInstance().groupInfos.addAll(groupInfoCommonListResp.getData());
-                listSmall();
-                iView.loadGroups();
+                @Override
+                public void onNext(CommonListResp<GroupInfo> groupInfoCommonListResp) {
+                    GroupManager.getInstance().groupInfos.clear();
+                    if (!ListUtils.isEmpty(groupInfoCommonListResp.getData())) {
+                        GroupManager.getInstance().groupInfos.addAll(groupInfoCommonListResp.getData());
+                    }
+                    listSmall();
+                    iView.loadGroups();
 
-            }
+                }
         });
     }
 
@@ -53,12 +56,16 @@ public class WorkFragmentPresenter extends BasePresenter {
 
             @Override
             public void onError(Throwable e) {
-
+                MyUtils.handleExcep(e);
             }
 
             @Override
             public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
-                GroupManager.getInstance().smallInfos = smallInfoCommonListResp.getData();
+                GroupManager.getInstance().smallInfos.clear();
+                if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
+                    return;
+                }
+                GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override
                     public void onCompleted() {
@@ -67,7 +74,7 @@ public class WorkFragmentPresenter extends BasePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        MyUtils.handleExcep(e);
                     }
 
                     @Override

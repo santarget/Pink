@@ -59,7 +59,7 @@ public class ChooseGroupView extends FrameLayout {
     public ChooseGroupView setData(GroupInfo groupInfo) {
         this.groupInfo = groupInfo;
         checkbox.setChecked(groupInfo.isChecked());
-        tvName.setText(groupInfo.getCustomerGroupName());
+        tvName.setText(groupInfo.getCustomergroupname());
         String str = String.format("[%d/%d]", ListUtils.isEmpty(groupInfo.getValidSmallInfos()) ? 0 : groupInfo.getValidSmallInfos().size(),
                 ListUtils.isEmpty(groupInfo.getAllSmallInfos()) ? 0 : groupInfo.getAllSmallInfos().size());
         tvNumber.setText(str);

@@ -6,4 +6,6 @@ package com.ssy.pink.mvp.iview;
  */
 public interface IGroupActivityView extends IView {
     void loadGroups();
+
+    void finishRefresh();
 }

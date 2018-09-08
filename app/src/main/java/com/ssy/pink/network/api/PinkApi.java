@@ -92,4 +92,7 @@ public interface PinkApi {
 
     @POST(ConstantUrl.UPDATE_GROUP)
     Observable<CommonResp<GroupInfo>> updateGroup(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.BIND_SMALL)
+    Observable<CommonResp<NoBodyEntity>> bindSmall(@Body RequestBody requestBody);
 }

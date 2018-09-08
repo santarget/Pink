@@ -19,8 +19,10 @@ import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.common.Constants;
+import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.iview.IGroupDetailActivityView;
 import com.ssy.pink.mvp.presenter.GroupDetailActivityPresenter;
+import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.dialog.DeletaDialog;
 import com.ssy.pink.view.recyclerViewBase.LinerRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
@@ -75,13 +77,11 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         tvTitle.setText(groupInfo.getCustomergroupname());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
-        List<SmallInfo> datas = new ArrayList<>();
-        datas.add(new SmallInfo("180222222", "哈哈哈"));
-        datas.add(new SmallInfo("18033333", "用户123893723"));
-        adapter = new SmallAdapter(this, datas);
+        adapter = new SmallAdapter(this, groupInfo.getAllSmallInfos());
         recyclerView.setAdapter(adapter);
         adapter.setMenuListener(this);
         setMultiMode(false);
+        tvAccoutNumber.setText(ListUtils.isEmpty(groupInfo.getAllSmallInfos()) ? "0" : String.valueOf(groupInfo.getAllSmallInfos().size()));
     }
 
     @OnClick({R.id.aivBack, R.id.tvRight, R.id.tvDelete, R.id.tvMove, R.id.llAdd})

@@ -27,8 +27,7 @@
             android:layout_height="8dp"
             android:layout_weight="1"
             android:background="@color/bg_white"
-            android:max="100"
-            android:progress="10"
+            android:progress="1"
             android:progressDrawable="@drawable/progress_bar_radius" />
 
         <TextView

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author ssy
  * @date 2018/9/3
  */
-public class SmallInfo implements Serializable{
+public class SmallInfo implements Serializable {
     private static final long serialVersionUID = 6711175802828272175L;
     private String customerNum;//所属的大号的会员id
     private String customerGroupNum;//所属分组的编号
@@ -25,6 +25,21 @@ public class SmallInfo implements Serializable{
     }
 
     public SmallInfo() {
+    }
+
+    public SmallInfo(String customerNum, String customerGroupNum, String customerGroupName, String smallWeiboNum,
+                     String usepwd, String smallWeiboName, String weibosmallNumId, String smallNumFansOrgInfoName,
+                     String smallNumFansOrgInfoNum, String smallNumStatus) {
+        this.customerNum = customerNum;
+        this.customerGroupNum = customerGroupNum;
+        this.customerGroupName = customerGroupName;
+        this.smallWeiboNum = smallWeiboNum;
+        this.usepwd = usepwd;
+        this.smallWeiboName = smallWeiboName;
+        this.weibosmallNumId = weibosmallNumId;
+        this.smallNumFansOrgInfoName = smallNumFansOrgInfoName;
+        this.smallNumFansOrgInfoNum = smallNumFansOrgInfoNum;
+        this.smallNumStatus = smallNumStatus;
     }
 
     public String getCustomerNum() {

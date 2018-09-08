@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class BindManager {
     private static BindManager instance;
-    public List<SmallInfo> smallInfos = new ArrayList<>();
-    public GroupInfo groupInfo;
+    public List<SmallInfo> smallInfos = new ArrayList<>();//待绑定的小号集合
+    public GroupInfo groupInfo = new GroupInfo();//要添加进的分组
 
     private BindManager() {
     }

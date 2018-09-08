@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.manager.BindManager;
+import com.ssy.pink.mvp.iview.IBindSmallActivityView;
+import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter;
 import com.ssy.pink.view.recyclerViewBase.DashgapLineRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 
@@ -19,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BindSmallActivity extends BaseActivity {
+public class BindSmallActivity extends BaseActivity implements IBindSmallActivityView {
 
     @BindView(R.id.tvTitle)
     TextView tvTitle;
@@ -34,12 +36,16 @@ public class BindSmallActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    BindSmallActivityPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bind_small);
         ButterKnife.bind(this);
         init();
+        presenter = new BindSmallActivityPresenter(this);
+        presenter.bindSmall();
     }
 
     private void init() {
@@ -60,5 +66,17 @@ public class BindSmallActivity extends BaseActivity {
             case R.id.tvRight:
                 break;
         }
+    }
+
+    @Override
+    public void setCurrentProgress(int finished) {
+        tvFinish.setText(String.valueOf(finished));
+        progressBar.setProgress(finished / BindManager.getInstance().smallInfos.size() * 100);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 }

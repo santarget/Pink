@@ -10,6 +10,7 @@ import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.request.AddGroupReq;
+import com.ssy.pink.bean.request.BindSmallReq;
 import com.ssy.pink.bean.request.DeleteGroupReq;
 import com.ssy.pink.bean.request.OnlyCustomernumReq;
 import com.ssy.pink.bean.request.OrderProductReq;
@@ -20,14 +21,19 @@ import com.ssy.pink.bean.request.UpdateGroupReq;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
+import com.ssy.pink.common.ResponseCode;
+import com.ssy.pink.manager.GroupManager;
+import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.OkHttpClientProvider;
 import com.ssy.pink.utils.JsonUtils;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -250,13 +256,26 @@ public class PinkNet {
     }
 
     public static Subscription updateGroup(String customerNum, String groupNum, String newName, Subscriber<CommonResp<GroupInfo>> subscriber) {
-        UpdateGroupReq req = new UpdateGroupReq(customerNum, groupNum,newName);
+        UpdateGroupReq req = new UpdateGroupReq(customerNum, groupNum, newName);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().updateGroup(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    public static Subscription bindSmall(final String customerNum, final String smallWeiboId, final String smallWeiboNum,
+                                         final String smallWeiboPwd, final String smallWeiboName, final String customerGroupNum,
+                                         Observer<CommonResp<NoBodyEntity>> observer) {
+        BindSmallReq req = new BindSmallReq(customerNum, smallWeiboId, smallWeiboNum, smallWeiboPwd, smallWeiboName, customerGroupNum);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().bindSmall(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+//        mSubscriptions.add(subscription);
         return subscription;
     }
 

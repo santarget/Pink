@@ -5,8 +5,8 @@ android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.sina.weibo.sdk.demo"
-//        applicationId "com.ssy.pink"
+//        applicationId "com.sina.weibo.sdk.demo"
+        applicationId "com.ssy.pink"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -38,17 +38,17 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('../debug.keystore')
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
+            storeFile file('../pink.jks')
+            storePassword "test@123"
+            keyAlias "pink"
+            keyPassword "test@123"
 
         }
         release {
-            storeFile file('../debug.keystore')
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
+            storeFile file('../pink.jks')
+            storePassword "test@123"
+            keyAlias "pink"
+            keyPassword "test@123"
         }
     }
 }

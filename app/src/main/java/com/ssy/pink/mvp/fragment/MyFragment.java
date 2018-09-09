@@ -1,11 +1,13 @@
 package com.ssy.pink.mvp.fragment;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.bean.WeiboUserInfo;
 import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.mvp.activity.MonthVipActivity;
 import com.ssy.pink.mvp.activity.MyIdolActivity;
@@ -20,6 +22,7 @@ import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.mvp.iview.IMyFragmentView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.presenter.MyFragmentPresenter;
+import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.CircleImageView;
 import com.ssy.pink.view.dialog.LoginChooseDialog;
@@ -34,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Subscriber;
 
 /**
  * @author ssy
@@ -76,6 +80,22 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         presenter = new MyFragmentPresenter(this);
+        WeiboNet.getUserInfo(new Subscriber<WeiboUserInfo>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(WeiboUserInfo weiboUserInfo) {
+                Log.i("aaaa", weiboUserInfo.toString());
+            }
+        });
     }
 
     @Override
@@ -97,7 +117,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
             tvAltCurrent.setText(String.valueOf(moneyInfo.getAllSmallNum()));
             tvAltBlack.setText(String.valueOf(moneyInfo.getAllInValidSmallNum()));
             tvAltNormal.setText(String.valueOf(moneyInfo.getAllValidSmallNum()));
-        }else{
+        } else {
             presenter.getSmallStutas();
         }
     }

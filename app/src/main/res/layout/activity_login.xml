@@ -38,7 +38,6 @@
 
 
         <EditText
-            android:text="不用输账号密码，直接登录"
             android:id="@+id/etAccout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -50,6 +49,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
+            android:text="18915967910"
             android:textColor="#999999"
             android:textSize="14sp" />
 
@@ -60,7 +60,6 @@
             android:background="#e3e2eb" />
 
         <EditText
-            android:text="111"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -74,6 +73,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
+            android:text="test@123"
             android:textColor="#999999"
             android:textSize="14sp" />
 
@@ -162,8 +162,6 @@
     </LinearLayout>
 
     <TextView
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp"
         android:id="@+id/tvLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -173,6 +171,8 @@
         android:layout_marginTop="60dp"
         android:background="@drawable/selector_login_btn"
         android:gravity="center"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
         android:text="@string/login"
         android:textAllCaps="false"
         android:textColor="@android:color/white"

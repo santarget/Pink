@@ -1,7 +1,24 @@
 package com.ssy.pink.network.api;
 
-import com.ssy.pink.network.OkHttpClientProvider;
+import android.util.Log;
 
+import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.request.WeiboReq;
+import com.ssy.pink.manager.WeiboManager;
+import com.ssy.pink.network.OkHttpClientProvider;
+import com.ssy.pink.utils.JsonUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class WeiboNet {
@@ -17,5 +34,30 @@ public class WeiboNet {
             }
         }
         return weiboApi;
+    }
+
+    public static Subscription getUserInfo(Subscriber<WeiboUserInfo> subscriber) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("access_token", WeiboManager.getInstance().mAccessToken.getToken());
+        map.put("uid", WeiboManager.getInstance().mAccessToken.getUid());
+        Subscription subscription = getWeiboApi().getWeiboUserInfo(map, WeiboManager.getInstance().mAccessToken.getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    public static void getUser() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("access_token", WeiboManager.getInstance().mAccessToken.getToken());
+        map.put("uid", WeiboManager.getInstance().mAccessToken.getUid());
+
+        try {
+            retrofit2.Response<Void> response = getWeiboApi().getUser(map).execute();
+            Log.i("aaaa", response.message());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

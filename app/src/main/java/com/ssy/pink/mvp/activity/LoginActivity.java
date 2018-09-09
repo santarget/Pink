@@ -22,6 +22,7 @@ import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.presenter.LoginActivityPresenter;
+import com.ssy.pink.network.api.WeiboApi;
 import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.view.WaitingDialog;
 import com.ssy.pink.view.dialog.LoginChooseDialog;
@@ -118,9 +119,11 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+//            showProgress(true);
 //            LoginManager.getInstance().login(accout, password);
+//            WeiboManager.getInstance().login(accout, password);
 //            mSsoHandler.authorize(new SelfWbAuthListener());
+            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
 
             UserManager.getInstance().syncCustomer("weibo id", etAccout.getText().toString(), "weibo name",
                     UserManager.getInstance().fansOrgInfo == null ? "" : UserManager.getInstance().fansOrgInfo.getFansorginfonum());

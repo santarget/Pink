@@ -10,12 +10,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.adapter.BindLogAdapter;
 import com.ssy.pink.base.BaseActivity;
+import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IBindSmallActivityView;
 import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter;
 import com.ssy.pink.view.recyclerViewBase.DashgapLineRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +42,8 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
     RecyclerView recyclerView;
 
     BindSmallActivityPresenter presenter;
+    BindLogAdapter adapter;
+    List<BindLogInfo> logInfos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,8 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new DashgapLineRecyclerItemDecoration(this, OrientationHelper.HORIZONTAL));
+        adapter = new BindLogAdapter(this, logInfos);
+        recyclerView.setAdapter(adapter);
     }
 
     @OnClick({R.id.aivBack, R.id.tvRight})
@@ -72,6 +81,11 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
     public void setCurrentProgress(int finished) {
         tvFinish.setText(String.valueOf(finished));
         progressBar.setProgress(finished / BindManager.getInstance().smallInfos.size() * 100);
+    }
+
+    @Override
+    public BindLogAdapter getAdapter() {
+        return adapter;
     }
 
     @Override

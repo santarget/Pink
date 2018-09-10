@@ -20,7 +20,7 @@ public class UserManager {
     public static UserManager instance;
     public WeiboCustomerInfo userInfo = new WeiboCustomerInfo();
     public List<UserProductInfo> orderedInfos;
-    public MoneyInfo moneyInfo;
+    public MoneyInfo moneyInfo = new MoneyInfo();
     public FansOrgInfo fansOrgInfo;
 
     private UserManager() {
@@ -119,7 +119,7 @@ public class UserManager {
     public void reset() {
         userInfo = new WeiboCustomerInfo();
         orderedInfos = null;
-        moneyInfo = null;
+        moneyInfo = new MoneyInfo();
         fansOrgInfo = null;
     }
 }

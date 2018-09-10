@@ -15,6 +15,7 @@ import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.MyUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,6 +54,9 @@ public class GroupAddActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tvRight:
+                if (CommonUtils.isDoubleTap(view)) {
+                    return;
+                }
                 addGroup();
                 break;
         }

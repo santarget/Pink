@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.mvp.activity.MonthVipActivity;
 import com.ssy.pink.mvp.activity.MyIdolActivity;
@@ -80,22 +81,25 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         presenter = new MyFragmentPresenter(this);
-        WeiboNet.getUserInfo(new Subscriber<WeiboUserInfo>() {
-            @Override
-            public void onCompleted() {
+        if (WeiboManager.getInstance().mAccessToken!=null){
+            WeiboNet.getUserInfo(new Subscriber<WeiboUserInfo>() {
+                @Override
+                public void onCompleted() {
 
-            }
+                }
 
-            @Override
-            public void onError(Throwable e) {
+                @Override
+                public void onError(Throwable e) {
 
-            }
+                }
 
-            @Override
-            public void onNext(WeiboUserInfo weiboUserInfo) {
-                Log.i("aaaa", weiboUserInfo.toString());
-            }
-        });
+                @Override
+                public void onNext(WeiboUserInfo weiboUserInfo) {
+                    Log.i("aaaa", weiboUserInfo.toString());
+                }
+            });
+        }
+
     }
 
     @Override

@@ -45,37 +45,97 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tvNull"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="20dp"
-        android:text="暂没有分组，请点击右上角添加分组" />
-
-    <FrameLayout
-        android:id="@+id/flContent"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/item_group_height"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/ic_group1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <com.ssy.pink.view.MarqueeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="默认分组 (不能编辑或删除)"
+                android:textColor="@color/txt_small_name"
+                android:textSize="@dimen/item_text_title_size" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTotalCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/txt_small_name"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="账号数"
+                    android:textColor="@color/item_text_tips"
+                    android:textSize="@dimen/item_text_tips_size" />
+
+                <TextView
+                    android:id="@+id/tvNormalCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="0"
+                    android:textColor="@color/txt_small_name"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="正常状态数"
+                    android:textColor="@color/item_text_tips"
+                    android:textSize="@dimen/item_text_tips_size" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="25px" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srlEnableLoadmoreWhenContentNotFull="false"
+        app:srlEnableRefresh="true"
+        app:srlEnableScrollContentWhenLoaded="true">
+
+
+        <com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView
+
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srlEnableLoadmoreWhenContentNotFull="false"
-            app:srlEnableRefresh="true"
-            app:srlEnableScrollContentWhenLoaded="true">
-
-
-            <com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView
-
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:scrollbars="vertical" />
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-    </FrameLayout>
+            android:overScrollMode="never"
+            android:scrollbars="vertical" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <LinearLayout
         android:id="@+id/llSlideTips"

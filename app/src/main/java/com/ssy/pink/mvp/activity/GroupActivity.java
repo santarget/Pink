@@ -21,6 +21,7 @@ import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.Constants;
 import com.ssy.pink.common.EventCode;
+import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.iview.IGroupActivityView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.presenter.GroupActivityPresenter;
@@ -43,12 +44,10 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     SwipeRecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.flContent)
-    FrameLayout flContent;
-    @BindView(R.id.llSlideTips)
-    LinearLayout llSlideTips;
-    @BindView(R.id.tvNull)
-    TextView tvNull;
+    @BindView(R.id.tvTotalCount)
+    TextView tvTotalCount;
+    @BindView(R.id.tvNormalCount)
+    TextView tvNormalCount;
 
     private GroupActivityPresenter presenter;
     private GroupAdapter adapter;
@@ -65,12 +64,12 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     }
 
     private void init() {
+        tvTotalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
+        tvNormalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new SpaceItemDecoration());
-
         adapter = new GroupAdapter(this, GroupManager.getInstance().groupInfos);
         recyclerView.setAdapter(adapter);
-        setNullTipsVisible();
     }
 
     private void initListener() {
@@ -127,20 +126,9 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         super.onBackPressed();
     }
 
-    private void setNullTipsVisible() {
-        if (ListUtils.isEmpty(adapter.getDatas())) {
-            llSlideTips.setVisibility(View.GONE);
-            tvNull.setVisibility(View.VISIBLE);
-        } else {
-            llSlideTips.setVisibility(View.VISIBLE);
-            tvNull.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public void loadGroups() {
         adapter.notifyDataSetChanged();
-        setNullTipsVisible();
     }
 
     @Override
@@ -173,7 +161,6 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         switch (eventCode) {
             case EventCode.ADD_GROUP:
                 adapter.notifyDataSetChanged();
-                setNullTipsVisible();
                 break;
             case EventCode.EDIT_GROUP:
                 adapter.notifyDataSetChanged();

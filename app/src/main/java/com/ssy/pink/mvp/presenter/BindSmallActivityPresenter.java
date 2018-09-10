@@ -1,6 +1,7 @@
 package com.ssy.pink.mvp.presenter;
 
 import com.ssy.pink.base.BasePresenter;
+import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
@@ -29,22 +30,31 @@ public class BindSmallActivityPresenter extends BasePresenter {
     }
 
     public void bindSmall() {
+        List<BindLogInfo> logInfos = iView.getAdapter().getDatas();
         for (SmallInfo info : BindManager.getInstance().smallInfos) {
-            bindSmallSingle(info);
+            BindLogInfo logInfo = new BindLogInfo();
+            logInfo.setSmallInfo(info);
+            logInfo.setStatus(2);
+            logInfos.add(0, logInfo);
+            iView.getAdapter().notifyItemChanged(0);
+            bindSmallSingle(logInfo);
         }
     }
 
-    private void bindSmallSingle(final SmallInfo info) {
+    private void bindSmallSingle(final BindLogInfo bindLogInfo) {
+        final SmallInfo info = bindLogInfo.getSmallInfo();
         Subscription subscription = PinkNet.bindSmall(UserManager.getInstance().userInfo.getCustomernum(), info.getWeibosmallNumId(), info.getSmallWeiboNum(),
                 info.getUsepwd(), info.getSmallWeiboName(), BindManager.getInstance().groupInfo.getCustomergroupnum(), new Subscriber<CommonResp<NoBodyEntity>>() {
                     @Override
                     public void onCompleted() {
                         iView.setCurrentProgress(getFinishCount());
+                        iView.getAdapter().notifyDataSetChanged();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         iView.setCurrentProgress(getFinishCount());
+                        iView.getAdapter().notifyDataSetChanged();
                     }
 
                     @Override
@@ -57,8 +67,13 @@ public class BindSmallActivityPresenter extends BasePresenter {
                                     info.getWeibosmallNumId(), UserManager.getInstance().userInfo.getFansorginfoname(),
                                     UserManager.getInstance().userInfo.getFansorginfonum(), info.getSmallNumStatus());
                             successList.add(smallInfo);
+                            bindLogInfo.setSmallInfo(smallInfo);
+                            bindLogInfo.setStatus(1);
                         } else {
                             failList.add(info);
+                            bindLogInfo.setStatus(0);
+                            // TODO: 2018/9/10  
+                            bindLogInfo.setMsg("账号密码不正确");
                         }
                     }
 

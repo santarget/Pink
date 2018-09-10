@@ -91,6 +91,42 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/cbDefaultGroup"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:button="@drawable/selector_checkbox" />
+
+                <com.ssy.pink.view.MarqueeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:maxWidth="280dp"
+                    android:singleLine="true"
+                    android:text="默认分组"
+                    android:textColor="@color/item_text_title"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvDefalutCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="[0/0]"
+                    android:textColor="@color/item_text_tips"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/llGroupRoot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

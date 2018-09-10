@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +22,7 @@ public class DashgapLineRecyclerItemDecoration extends RecyclerView.ItemDecorati
     private final int mOrientation;
     private Paint pain;
     private int defaultDividingLineColor = R.color.line;
-    private float defaultDividerWidth = 1;
+    private float defaultDividerWidth = 10;
     private float leftOffset = 0;
     private float rightOffset = 0;
 
@@ -38,7 +39,7 @@ public class DashgapLineRecyclerItemDecoration extends RecyclerView.ItemDecorati
     }
 
     protected void settingPaint() {
-        pain.setStyle(Paint.Style.FILL);
+        pain.setStyle(Paint.Style.STROKE);
         pain.setAntiAlias(true);
         pain.setColor(getDividingLineColor());
         pain.setStrokeWidth(getDividerWidth());
@@ -68,6 +69,7 @@ public class DashgapLineRecyclerItemDecoration extends RecyclerView.ItemDecorati
     }
 
     private void drawHorizontal(Canvas c, RecyclerView parent, RecyclerView.State state) {
+
         final int top = parent.getPaddingTop();
         final int bottom = parent.getHeight() - parent.getPaddingBottom();
         int childCount = parent.getChildCount();
@@ -75,8 +77,12 @@ public class DashgapLineRecyclerItemDecoration extends RecyclerView.ItemDecorati
             View itemView = parent.getChildAt(i);
             RecyclerView.LayoutParams itemViewLayoutParams = (RecyclerView.LayoutParams) itemView.getLayoutParams();
             final float left = itemView.getRight() + itemViewLayoutParams.rightMargin;
-            final float right = left + getDividerWidth();
-            c.drawRect(left, top, right, bottom, pain);
+//            final float right = left + getDividerWidth();
+            Path path = new Path();
+            path.moveTo(left, top);
+            path.lineTo(left,bottom);
+            c.drawPath(path, pain);
+//            c.drawRect(left, top, right, bottom, pain);
         }
     }
 

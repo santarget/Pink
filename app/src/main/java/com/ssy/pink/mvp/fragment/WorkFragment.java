@@ -3,6 +3,7 @@ package com.ssy.pink.mvp.fragment;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.activity.BrowserActivity;
 import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.base.BaseFragment;
@@ -26,6 +28,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.Format;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +40,10 @@ import butterknife.Unbinder;
  * @date 2018/8/10
  */
 public class WorkFragment extends BaseFragment implements IWorkFragmentView, CompoundButton.OnCheckedChangeListener {
+    @BindView(R.id.cbDefaultGroup)
+    CheckBox cbDefaultGroup;
+    @BindView(R.id.tvDefalutCount)
+    TextView tvDefalutCount;
     @BindView(R.id.llGroupRoot)
     LinearLayout llGroupRoot;
     @BindView(R.id.etWeiboUrl)
@@ -121,6 +129,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         rbSpeedSlow.setChecked(true);
         rbCountMax.setChecked(true);
         etCountCustom.setVisibility(View.GONE);
+        String str = String.format("[%d/%d]", UserManager.getInstance().moneyInfo.getAllValidSmallNum(),
+                UserManager.getInstance().moneyInfo.getAllSmallNum());
+        tvDefalutCount.setText(str);
 
     }
 

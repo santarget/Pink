@@ -1,6 +1,7 @@
 package com.ssy.pink.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,8 +18,8 @@ public class GroupInfo implements Serializable {
     private String createuser;
 
     //以下由本地遍历
-    public List<SmallInfo> allSmallInfos;//属于这个分组的所有小号集合
-    public List<SmallInfo> validSmallInfos;//属于这个分组的有效小号集合
+    public List<SmallInfo> allSmallInfos = new ArrayList<>();//属于这个分组的所有小号集合
+    public List<SmallInfo> validSmallInfos = new ArrayList<>();//属于这个分组的有效小号集合
 
     private transient boolean isChecked;
 

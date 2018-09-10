@@ -117,10 +117,10 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         } else if (UserManager.getInstance().fansOrgInfo == null) {
             showToast(R.string.please_choose_org);
         } else {
-            showProgress(true);
+//            showProgress(true);
 //            WeiboManager.getInstance().login(accout, password);
 //            mSsoHandler.authorize(new SelfWbAuthListener());
-//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
 
             UserManager.getInstance().syncCustomer("weibo id", etAccout.getText().toString(), "weibo name",
                     UserManager.getInstance().fansOrgInfo == null ? "" : UserManager.getInstance().fansOrgInfo.getFansorginfonum());

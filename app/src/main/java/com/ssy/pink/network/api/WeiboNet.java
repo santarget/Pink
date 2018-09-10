@@ -37,10 +37,8 @@ public class WeiboNet {
     }
 
     public static Subscription getUserInfo(Subscriber<WeiboUserInfo> subscriber) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("access_token", WeiboManager.getInstance().mAccessToken.getToken());
-        map.put("uid", WeiboManager.getInstance().mAccessToken.getUid());
-        Subscription subscription = getWeiboApi().getWeiboUserInfo(map, WeiboManager.getInstance().mAccessToken.getToken())
+        Subscription subscription = getWeiboApi().getWeiboUserInfo(WeiboManager.getInstance().mAccessToken.getToken(),
+                WeiboManager.getInstance().mAccessToken.getUid())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -48,16 +46,5 @@ public class WeiboNet {
         return subscription;
     }
 
-    public static void getUser() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("access_token", WeiboManager.getInstance().mAccessToken.getToken());
-        map.put("uid", WeiboManager.getInstance().mAccessToken.getUid());
 
-        try {
-            retrofit2.Response<Void> response = getWeiboApi().getUser(map).execute();
-            Log.i("aaaa", response.message());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

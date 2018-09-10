@@ -4,14 +4,9 @@ import com.ssy.pink.bean.WeiboUserInfo;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ConstantUrl;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -22,10 +17,14 @@ public interface WeiboApi {
     @POST("oauth/request_token")
     Observable<NoBodyEntity> login(@HeaderMap Map<String, String> headers);
 
+    /**
+     * 获取用户信息
+     * @param access_token
+     * @param uid
+     * @return
+     */
     @GET(ConstantUrl.WEIBO_USER_INFO)
-    Observable<WeiboUserInfo> getWeiboUserInfo(@HeaderMap Map<String, String> headers, @Query("access_token") String access_token);
+    Observable<WeiboUserInfo> getWeiboUserInfo(@Query("access_token") String access_token, @Query("uid") String uid);
 
-    @HTTP(method = "GET", path = ConstantUrl.WEIBO_USER_INFO, hasBody = true)
-    Call<Void> getUser(@Body HashMap<String, String> content);
-
+//获取官方表情
 }

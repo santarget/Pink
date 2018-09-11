@@ -106,9 +106,11 @@ public class UserManager {
             }
 
             @Override
-            public void onNext(CommonResp<MoneyInfo> moneyInfoCommonListResp) {
-                moneyInfo = moneyInfoCommonListResp.getData();
-                EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
+            public void onNext(CommonResp<MoneyInfo> moneyInfoCommonResp) {
+                if(moneyInfoCommonResp.getData()!=null){
+                    moneyInfo = moneyInfoCommonResp.getData();
+                    EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
+                }
             }
         });
     }

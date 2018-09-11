@@ -54,7 +54,7 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.aivBack:
-                onBackPressed();
+                finish();
                 break;
             case R.id.tvCheck:
                 content = etAccout.getText().toString().trim();
@@ -73,6 +73,7 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
                     showToast("账号格式存在异常");
                 } else {
                     startActivity(new Intent(this, BindSmallActivity.class));
+                    finish();
                 }
                 break;
         }

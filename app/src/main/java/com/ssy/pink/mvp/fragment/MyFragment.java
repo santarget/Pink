@@ -26,7 +26,7 @@ import com.ssy.pink.mvp.presenter.MyFragmentPresenter;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.CircleImageView;
-import com.ssy.pink.view.dialog.LoginChooseDialog;
+import com.ssy.pink.view.dialog.FansOrgDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,7 +68,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
     Unbinder unbinder;
 
     private MyFragmentPresenter presenter;
-    private LoginChooseDialog chooseDialog;
+    private FansOrgDialog chooseDialog;
     private List<FansOrgInfo> orgsList;
 
     @Override
@@ -161,7 +161,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
 
     private void showLoginChooseDialog() {
         if (chooseDialog == null) {
-            chooseDialog = new LoginChooseDialog(mainActivity);
+            chooseDialog = new FansOrgDialog(mainActivity);
         }
         if (!hasGotOrgs) {
             presenter.listFansOrg();

@@ -400,4 +400,5 @@
     <string name="update_success">修改成功</string>
     <string name="manage">管理</string>
     <string name="tips_add_small">直接将小号贴入文本框内，账号和密码用----分割，保持爱豆充足，建议每次绑号不超过100个。示范如下：\n13900000000----654321\n13900000001----654322\n13900000002----654322</string>
+    <string name="move_success">移动成功</string>
 </resources>

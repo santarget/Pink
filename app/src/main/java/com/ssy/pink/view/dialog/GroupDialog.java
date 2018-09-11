@@ -5,51 +5,43 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.method.KeyListener;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.ssy.pink.R;
+import com.ssy.pink.adapter.ChooseGroupAdapter;
 import com.ssy.pink.adapter.ChooseOrgAdapter;
 import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.FansOrgInfo;
+import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.utils.ListUtils;
-import com.ssy.pink.view.recyclerViewBase.LinerRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author ssy
  * @date 2018/8/14
  */
-public class LoginChooseDialog extends BaseDialog {
+public class GroupDialog extends BaseDialog {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private ChooseOrgAdapter adapter;
-    private List<FansOrgInfo> datas;
-    private FansOrgInfo selectedInfo;
+    private ChooseGroupAdapter adapter;
+    private List<GroupInfo> datas;
+    private GroupInfo selectedInfo;
 
 
-    public LoginChooseDialog(@NonNull Context context) {
+    public GroupDialog(@NonNull Context context) {
         super(context);
     }
 
-    public void setDatas(List<FansOrgInfo> fansOrgInfoList) {
+    public void setDatas(List<GroupInfo> fansOrgInfoList) {
         this.datas = fansOrgInfoList;
-        adapter = new ChooseOrgAdapter(context, datas);
+        adapter = new ChooseGroupAdapter(context, datas);
         adapter.setItemClickListen(new BaseRecycleViewAdapter.OnItemClickListen() {
             @Override
             public void onItemClick(View view, int position) {
@@ -63,7 +55,7 @@ public class LoginChooseDialog extends BaseDialog {
 
     @Override
     public int getLayoutId() {
-        return R.layout.dialog_login_choose;
+        return R.layout.dialog_group;
     }
 
     @Override
@@ -71,7 +63,7 @@ public class LoginChooseDialog extends BaseDialog {
         rootView.findViewById(R.id.tvOK).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new EventWithObj<>(EventCode.LOGIN_CHOOSE_ORG, getOrg()));
+                EventBus.getDefault().post(new EventWithObj<>(EventCode.MOVE_SMALL, getGroup()));
                 dismiss();
             }
         });
@@ -84,7 +76,7 @@ public class LoginChooseDialog extends BaseDialog {
         showProgress(true);
     }
 
-    private FansOrgInfo getOrg() {
+    private GroupInfo getGroup() {
         return selectedInfo;
     }
 
@@ -92,10 +84,10 @@ public class LoginChooseDialog extends BaseDialog {
         if (ListUtils.isEmpty(datas)) {
             return;
         }
-        for (FansOrgInfo fansOrgInfo : datas) {
-            fansOrgInfo.setSelected(false);
+        for (GroupInfo fansOrgInfo : datas) {
+            fansOrgInfo.setChecked(false);
         }
-        selectedInfo.setSelected(true);
+        selectedInfo.setChecked(true);
         adapter.notifyDataSetChanged();
     }
 

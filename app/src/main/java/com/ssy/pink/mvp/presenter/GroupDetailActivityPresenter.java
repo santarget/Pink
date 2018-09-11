@@ -4,12 +4,16 @@ import com.ssy.pink.R;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ResponseCode;
+import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.iview.IGroupDetailActivityView;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.utils.ListUtils;
+import com.ssy.pink.utils.MyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,21 +42,85 @@ public class GroupDetailActivityPresenter extends BasePresenter {
         PinkNet.deleteSmall(UserManager.getInstance().userInfo.getCustomernum(), smallWeiboId, new Subscriber<CommonResp<NoBodyEntity>>() {
             @Override
             public void onCompleted() {
-
+                listSmall();
             }
 
             @Override
             public void onError(Throwable e) {
-
+                MyUtils.handleExcep(e);
             }
 
             @Override
             public void onNext(CommonResp<NoBodyEntity> noBodyEntityCommonResp) {
                 if (noBodyEntityCommonResp.getCode().equals(ResponseCode.CODE_SUCCESS)) {
                     iView.showToast(R.string.delete_success);
-                } else if (noBodyEntityCommonResp.getCode().equals(ResponseCode.CODE_999)) {
-
+                } else {
+                    iView.showToast(noBodyEntityCommonResp.getMsg());
                 }
+            }
+        });
+    }
+
+    public void moveSmall(String smallWeiboId, String targetGroupNum) {
+        PinkNet.moveSmall(UserManager.getInstance().userInfo.getCustomernum(), smallWeiboId, targetGroupNum, new Subscriber<CommonResp<NoBodyEntity>>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                MyUtils.handleExcep(e);
+            }
+
+            @Override
+            public void onNext(CommonResp<NoBodyEntity> noBodyEntityCommonResp) {
+                if (noBodyEntityCommonResp.getCode().equals(ResponseCode.CODE_SUCCESS)) {
+                    iView.showToast(R.string.move_success);
+                } else {
+                    iView.showToast(noBodyEntityCommonResp.getMsg());
+                }
+            }
+        });
+    }
+
+    public void listSmall() {
+        PinkNet.listSmall(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonListResp<SmallInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                iView.finishRefresh();
+                MyUtils.handleExcep(e);
+            }
+
+            @Override
+            public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
+                GroupManager.getInstance().smallInfos.clear();
+                if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
+                    iView.finishRefresh();
+                    return;
+                }
+                GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
+                GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
+                    @Override
+                    public void onCompleted() {
+                        iView.finishRefresh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.finishRefresh();
+                        MyUtils.handleExcep(e);
+                    }
+
+                    @Override
+                    public void onNext(List<GroupInfo> groupInfos) {
+                        iView.updateData();
+                    }
+                });
             }
         });
     }

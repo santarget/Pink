@@ -5,29 +5,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ssy.pink.R;
 import com.ssy.pink.adapter.SmallAdapter;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.common.Constants;
+import com.ssy.pink.common.EventCode;
+import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.iview.IGroupDetailActivityView;
 import com.ssy.pink.mvp.presenter.GroupDetailActivityPresenter;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.dialog.DeletaDialog;
+import com.ssy.pink.view.dialog.GroupDialog;
 import com.ssy.pink.view.recyclerViewBase.LinerRecyclerItemDecoration;
 import com.ssy.pink.view.recyclerViewBase.SwipeRecyclerView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GroupDetailActivity extends BaseActivity implements IGroupDetailActivityView, SmallAdapter.OnSlideMenuListener,
-        CompoundButton.OnCheckedChangeListener {
+        CompoundButton.OnCheckedChangeListener, OnRefreshListener {
 
     @BindView(R.id.tvTitle)
     TextView tvTitle;
@@ -59,11 +67,14 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
     ImageView ivIp;
     @BindView(R.id.llMulti)
     LinearLayout llMulti;
+    @BindView(R.id.tvMove)
+    TextView tvMove;
 
     GroupDetailActivityPresenter presenter;
     GroupInfo groupInfo;
     SmallAdapter adapter;
     DeletaDialog deleteDialog;
+    GroupDialog groupDialog;
     boolean isMulti;
 
     @Override
@@ -82,6 +93,7 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
             groupInfo = new GroupInfo();
             groupInfo.setCustomergroupname("默认分组");
             groupInfo.setAllSmallInfos(GroupManager.getInstance().smallInfos);
+            tvMove.setVisibility(View.GONE);//默认分组不允许移动账号
         }
         tvTitle.setText(groupInfo.getCustomergroupname());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
@@ -92,6 +104,7 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         tvAccoutNumber.setText(ListUtils.isEmpty(groupInfo.getAllSmallInfos()) ? "0" : String.valueOf(groupInfo.getAllSmallInfos().size()));
         cbSelectAll.setOnCheckedChangeListener(this);
         cbAllAbnormal.setOnCheckedChangeListener(this);
+        refreshLayout.setOnRefreshListener(this);
     }
 
     @OnClick({R.id.aivBack, R.id.tvRight, R.id.tvDelete, R.id.tvMove, R.id.llAdd})
@@ -111,6 +124,11 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
                 }
                 break;
             case R.id.tvMove:
+                if (ListUtils.isEmpty(getSelectedList())) {
+                    showToast(R.string.select_one);
+                } else {
+                    showGroupDialog();
+                }
                 break;
             case R.id.llAdd:
                 Intent i = new Intent(this, AddSmallActivity.class);
@@ -139,6 +157,31 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
     @Override
     public SmallAdapter getAdapter() {
         return adapter;
+    }
+
+    @Override
+    public void updateData() {
+        if (TextUtils.isEmpty(groupInfo.getCustomergroupnum())) {
+            //默认分组
+            groupInfo = new GroupInfo();
+            groupInfo.setCustomergroupname("默认分组");
+            groupInfo.setAllSmallInfos(GroupManager.getInstance().smallInfos);
+        } else {
+            for (GroupInfo group : GroupManager.getInstance().groupInfos) {
+                if (group.equals(groupInfo)) {
+                    groupInfo = group;
+                    break;
+                }
+            }
+        }
+        adapter = new SmallAdapter(this, groupInfo.getAllSmallInfos());
+        recyclerView.setAdapter(adapter);
+        presenter.setGroupInfo(groupInfo);
+    }
+
+    @Override
+    public void finishRefresh() {
+        refreshLayout.finishRefresh();
     }
 
     private void showDeleteDialog(final SmallInfo info) {
@@ -176,13 +219,26 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
                         dialog.dismiss();
                         StringBuffer sb = new StringBuffer();
                         for (SmallInfo smallInfo : getSelectedList()) {
-                            sb.append(smallInfo.getWeibosmallNumId().trim()).append(";");
+                            sb.append(smallInfo.getWeibosmallNumId()).append(";");
                         }
                         presenter.deleteSmall(sb.toString());
+                        setMultiMode(false);
                     }
                 })
                 .create();
         deleteDialog.show();
+    }
+
+    private void showGroupDialog() {
+        if (groupDialog == null) {
+            groupDialog = new GroupDialog(this);
+        }
+        List<GroupInfo> groupInfos = new ArrayList<>();
+        groupInfos.addAll(GroupManager.getInstance().groupInfos);
+        groupInfos.remove(groupInfo);
+        groupDialog.setDatas(groupInfos);
+        groupDialog.show();
+
     }
 
     @Override
@@ -212,4 +268,23 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         }
         return selectedList;
     }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshlayout) {
+        presenter.listSmall();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(EventWithObj event) {
+        if (EventCode.MOVE_SMALL == event.eventCode) {
+            GroupInfo targetGroup = (GroupInfo) event.obj;
+            StringBuffer sb = new StringBuffer();
+            for (SmallInfo smallInfo : getSelectedList()) {
+                sb.append(smallInfo.getWeibosmallNumId()).append(";");
+            }
+            presenter.moveSmall(sb.toString(), targetGroup.getCustomergroupnum());
+        }
+    }
+
+
 }

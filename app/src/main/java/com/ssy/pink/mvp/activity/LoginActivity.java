@@ -22,10 +22,9 @@ import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.presenter.LoginActivityPresenter;
-import com.ssy.pink.network.api.WeiboApi;
 import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.view.WaitingDialog;
-import com.ssy.pink.view.dialog.LoginChooseDialog;
+import com.ssy.pink.view.dialog.FansOrgDialog;
 import com.ssy.pink.view.dialog.LoginQuestionDialog;
 import com.ssy.pink.view.dialog.LoginUseDialog;
 
@@ -59,7 +58,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     private WaitingDialog dialog;
     private LoginUseDialog useDialog;
     private LoginQuestionDialog questionDialog;
-    private LoginChooseDialog chooseDialog;
+    private FansOrgDialog chooseDialog;
     private String accout;
     private String password;
     private LoginActivityPresenter presenter;
@@ -194,7 +193,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 
     private void showLoginChooseDialog() {
         if (chooseDialog == null) {
-            chooseDialog = new LoginChooseDialog(this);
+            chooseDialog = new FansOrgDialog(this);
         }
         if (!hasGotOrgs) {
             presenter.listFansOrg();

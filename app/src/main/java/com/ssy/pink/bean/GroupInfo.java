@@ -23,6 +23,15 @@ public class GroupInfo implements Serializable {
 
     private transient boolean isChecked;
 
+    public GroupInfo() {
+    }
+
+    //这个构造函数为了创建本地的默认分组
+    public GroupInfo(String customergroupname) {
+        this.customergroupname = customergroupname;
+        this.allSmallInfos = allSmallInfos;
+    }
+
     public String getCustomergroupname() {
         return customergroupname;
     }

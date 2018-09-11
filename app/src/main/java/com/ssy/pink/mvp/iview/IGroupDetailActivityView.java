@@ -8,4 +8,8 @@ import com.ssy.pink.adapter.SmallAdapter;
  */
 public interface IGroupDetailActivityView extends IView {
     SmallAdapter getAdapter();
+
+    void updateData();
+
+    void finishRefresh();
 }

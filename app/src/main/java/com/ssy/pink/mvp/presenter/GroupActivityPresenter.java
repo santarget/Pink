@@ -136,8 +136,10 @@ public class GroupActivityPresenter extends BasePresenter {
 
             @Override
             public void onNext(CommonResp<MoneyInfo> moneyInfoCommonResp) {
-                UserManager.getInstance().moneyInfo = moneyInfoCommonResp.getData();
-                iView.updateDefaultGroup();
+                if(moneyInfoCommonResp.getData()!=null){
+                    UserManager.getInstance().moneyInfo = moneyInfoCommonResp.getData();
+                    iView.updateDefaultGroup();
+                }
             }
         });
     }

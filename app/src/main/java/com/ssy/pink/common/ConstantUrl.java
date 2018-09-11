@@ -25,4 +25,5 @@ public class ConstantUrl {
 
     public static final String BIND_SMALL = "adminservice/synUserSmallInfo";
     public static final String DELETE_SMALL = "adminservice/deleteOneUserSmallInfo";
+    public static final String MOVE_SMALL = "adminservice//bindOneGroupForSmallNum";//移动小号到另一分组
 }

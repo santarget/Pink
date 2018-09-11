@@ -7,9 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -34,7 +36,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GroupDetailActivity extends BaseActivity implements IGroupDetailActivityView, SmallAdapter.OnSlideMenuListener {
+public class GroupDetailActivity extends BaseActivity implements IGroupDetailActivityView, SmallAdapter.OnSlideMenuListener,
+        CompoundButton.OnCheckedChangeListener {
 
     @BindView(R.id.tvTitle)
     TextView tvTitle;
@@ -69,19 +72,26 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         setContentView(R.layout.activity_group_detail);
         ButterKnife.bind(this);
         init();
-        presenter = new GroupDetailActivityPresenter(this);
+        presenter = new GroupDetailActivityPresenter(this).setGroupInfo(groupInfo);
+        setMultiMode(false);
     }
 
     private void init() {
         groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
+        if (groupInfo == null) {
+            groupInfo = new GroupInfo();
+            groupInfo.setCustomergroupname("默认分组");
+            groupInfo.setAllSmallInfos(GroupManager.getInstance().smallInfos);
+        }
         tvTitle.setText(groupInfo.getCustomergroupname());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
         adapter = new SmallAdapter(this, groupInfo.getAllSmallInfos());
         recyclerView.setAdapter(adapter);
         adapter.setMenuListener(this);
-        setMultiMode(false);
         tvAccoutNumber.setText(ListUtils.isEmpty(groupInfo.getAllSmallInfos()) ? "0" : String.valueOf(groupInfo.getAllSmallInfos().size()));
+        cbSelectAll.setOnCheckedChangeListener(this);
+        cbAllAbnormal.setOnCheckedChangeListener(this);
     }
 
     @OnClick({R.id.aivBack, R.id.tvRight, R.id.tvDelete, R.id.tvMove, R.id.llAdd})
@@ -94,6 +104,11 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
                 setMultiMode(!isMulti);
                 break;
             case R.id.tvDelete:
+                if (ListUtils.isEmpty(getSelectedList())) {
+                    showToast(R.string.select_one);
+                } else {
+                    showMultiDeleteDialog();
+                }
                 break;
             case R.id.tvMove:
                 break;
@@ -105,9 +120,30 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         }
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (buttonView.equals(cbSelectAll)) {
+            if (isChecked) {
+                cbAllAbnormal.setChecked(false);
+            }
+            presenter.selectAll(isChecked);
+        } else if (buttonView.equals(cbAllAbnormal)) {
+            if (isChecked) {
+                cbSelectAll.setChecked(false);
+                presenter.selectAbnormal();
+            }
+
+        }
+    }
+
+    @Override
+    public SmallAdapter getAdapter() {
+        return adapter;
+    }
+
     private void showDeleteDialog(final SmallInfo info) {
         deleteDialog = new DeletaDialog.Builder(this)
-                .setMessage("删除后不可恢复，需要重新添加绑定。确定要删除该账号吗？")
+                .setMessage("删除账号后不可恢复，需要重新添加绑定。确定要删除吗？")
                 .setNegativeButton(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -118,7 +154,31 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        presenter.deleteSmall(info);
+                        presenter.deleteSmall(info.getWeibosmallNumId());
+                    }
+                })
+                .create();
+        deleteDialog.show();
+    }
+
+    private void showMultiDeleteDialog() {
+        deleteDialog = new DeletaDialog.Builder(this)
+                .setMessage("删除账号后不可恢复，需要重新添加绑定。确定要删除吗？")
+                .setNegativeButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        StringBuffer sb = new StringBuffer();
+                        for (SmallInfo smallInfo : getSelectedList()) {
+                            sb.append(smallInfo.getWeibosmallNumId().trim()).append(";");
+                        }
+                        presenter.deleteSmall(sb.toString());
                     }
                 })
                 .create();
@@ -139,6 +199,17 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         } else {
             tvRight.setText(R.string.manage);
             llMulti.setVisibility(View.GONE);
+            presenter.selectAll(false);
         }
+    }
+
+    private List<SmallInfo> getSelectedList() {
+        List<SmallInfo> selectedList = new ArrayList<>();
+        for (SmallInfo smallInfo : groupInfo.getAllSmallInfos()) {
+            if (smallInfo.isChecked()) {
+                selectedList.add(smallInfo);
+            }
+        }
+        return selectedList;
     }
 }

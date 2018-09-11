@@ -19,6 +19,8 @@ public class SmallInfo implements Serializable {
     private String smallNumFansOrgInfoNum;
     private String smallNumStatus;//0无效  1有效
 
+    transient boolean checked;
+
     public SmallInfo(String smallWeiboNum, String smallWeiboName) {
         this.smallWeiboNum = smallWeiboNum;
         this.smallWeiboName = smallWeiboName;
@@ -120,6 +122,14 @@ public class SmallInfo implements Serializable {
 
     public void setSmallNumStatus(String smallNumStatus) {
         this.smallNumStatus = smallNumStatus;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     @Override

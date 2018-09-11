@@ -12,6 +12,7 @@ import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.request.AddGroupReq;
 import com.ssy.pink.bean.request.BindSmallReq;
 import com.ssy.pink.bean.request.DeleteGroupReq;
+import com.ssy.pink.bean.request.DeleteSmallReq;
 import com.ssy.pink.bean.request.OnlyCustomernumReq;
 import com.ssy.pink.bean.request.OrderProductReq;
 import com.ssy.pink.bean.request.SyncRechargeRecordReq;
@@ -276,6 +277,24 @@ public class PinkNet {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
 //        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    /**
+     * 删除微博小号
+     * @param customerNum
+     * @param smallWeiboId 可以是多个小号的id,多个之间采用“;”进行拼接
+     * @param observer
+     * @return
+     */
+    public static Subscription deleteSmall(final String customerNum, final String smallWeiboId, Subscriber<CommonResp<NoBodyEntity>> observer) {
+        DeleteSmallReq req = new DeleteSmallReq(customerNum, smallWeiboId);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().bindSmall(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+        mSubscriptions.add(subscription);
         return subscription;
     }
 

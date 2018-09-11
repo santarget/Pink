@@ -46,6 +46,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/llDefault"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_group_height"
         android:background="@android:color/white"

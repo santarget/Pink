@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -39,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GroupActivity extends BaseActivity implements IGroupActivityView {
-
+    public final int REQUEST_CODE_GROUP_DETAIL = 100;
     @BindView(R.id.recyclerView)
     SwipeRecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
@@ -48,6 +49,8 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     TextView tvTotalCount;
     @BindView(R.id.tvNormalCount)
     TextView tvNormalCount;
+    @BindView(R.id.llDefault)
+    LinearLayout llDefault;
 
     private GroupActivityPresenter presenter;
     private GroupAdapter adapter;
@@ -89,7 +92,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(GroupActivity.this, GroupDetailActivity.class);
                 intent.putExtra(Constants.INTENT_KEY_DATA, adapter.getData(position));
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_GROUP_DETAIL);
             }
         });
         adapter.setMenuListener(new GroupAdapter.OnSlideMenuListener() {
@@ -108,7 +111,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     }
 
 
-    @OnClick({R.id.aivBack, R.id.aivAdd})
+    @OnClick({R.id.aivBack, R.id.aivAdd,R.id.llDefault})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.aivBack:
@@ -116,6 +119,10 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
                 break;
             case R.id.aivAdd:
                 startActivity(new Intent(GroupActivity.this, GroupAddActivity.class));
+                break;
+            case R.id.llDefault:
+                Intent intent = new Intent(GroupActivity.this, GroupDetailActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_GROUP_DETAIL);
                 break;
         }
     }
@@ -136,6 +143,12 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         refreshLayout.finishRefresh();
     }
 
+    @Override
+    public void updateDefaultGroup() {
+        tvTotalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
+        tvNormalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
+    }
+
     private void showDeleteDialog(final GroupInfo info) {
         deleteDialog = new DeletaDialog.Builder(this)
                 .setMessage("所删除的分组包含账号，删除后账号将回归默认分组，确定继续吗？")
@@ -154,6 +167,15 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
                 })
                 .create();
         deleteDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_GROUP_DETAIL) {
+            presenter.updateMoneyInfo();
+            presenter.listSmall();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

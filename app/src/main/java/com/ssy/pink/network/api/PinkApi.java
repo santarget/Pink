@@ -95,4 +95,7 @@ public interface PinkApi {
 
     @POST(ConstantUrl.BIND_SMALL)
     Observable<CommonResp<NoBodyEntity>> bindSmall(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.DELETE_SMALL)
+    Observable<CommonResp<NoBodyEntity>> deleteSmall(@Body RequestBody requestBody);
 }

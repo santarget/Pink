@@ -24,4 +24,5 @@ public class ConstantUrl {
     public static final String UPDATE_GROUP = "adminservice/updateSelfOneGroup";
 
     public static final String BIND_SMALL = "adminservice/synUserSmallInfo";
+    public static final String DELETE_SMALL = "adminservice/deleteOneUserSmallInfo";
 }

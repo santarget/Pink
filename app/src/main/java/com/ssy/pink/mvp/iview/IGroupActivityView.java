@@ -8,4 +8,6 @@ public interface IGroupActivityView extends IView {
     void loadGroups();
 
     void finishRefresh();
+
+    void updateDefaultGroup();
 }

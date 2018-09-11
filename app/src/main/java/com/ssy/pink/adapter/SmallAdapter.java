@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
         myHolder.tvWeiboAccout.setText(info.getSmallWeiboNum());
         if (isMulti) {
             myHolder.checkbox.setVisibility(View.VISIBLE);
+            myHolder.checkbox.setChecked(info.isChecked());
         } else {
             myHolder.checkbox.setVisibility(View.GONE);
         }
@@ -75,6 +77,12 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+            checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    data.get(getAdapterPosition()).setChecked(isChecked);
+                }
+            });
         }
 
         @OnClick({R.id.menuDelete})

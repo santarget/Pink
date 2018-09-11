@@ -11,6 +11,9 @@ public class DeleteGroupReq implements Serializable {
     private String customernum;
     private String customergroupnum;
 
+    public DeleteGroupReq() {
+    }
+
     public DeleteGroupReq(String customernum, String customergroupnum) {
         this.customernum = customernum;
         this.customergroupnum = customergroupnum;

@@ -3,6 +3,7 @@ package com.ssy.pink.mvp.presenter;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
+import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
@@ -57,7 +58,7 @@ public class GroupActivityPresenter extends BasePresenter {
         PinkNet.listGroup(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonListResp<GroupInfo>>() {
             @Override
             public void onCompleted() {
-                iView.finishRefresh();
+
             }
 
             @Override
@@ -88,6 +89,7 @@ public class GroupActivityPresenter extends BasePresenter {
 
             @Override
             public void onError(Throwable e) {
+                iView.finishRefresh();
                 MyUtils.handleExcep(e);
             }
 
@@ -95,6 +97,7 @@ public class GroupActivityPresenter extends BasePresenter {
             public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
                 GroupManager.getInstance().smallInfos.clear();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
+                    iView.finishRefresh();
                     return;
                 }
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
@@ -115,6 +118,26 @@ public class GroupActivityPresenter extends BasePresenter {
                         iView.loadGroups();
                     }
                 });
+            }
+        });
+    }
+
+    public void updateMoneyInfo() {
+        PinkNet.getUserMoney(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonResp<MoneyInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(CommonResp<MoneyInfo> moneyInfoCommonResp) {
+                UserManager.getInstance().moneyInfo = moneyInfoCommonResp.getData();
+                iView.updateDefaultGroup();
             }
         });
     }

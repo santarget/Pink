@@ -129,10 +129,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         rbSpeedSlow.setChecked(true);
         rbCountMax.setChecked(true);
         etCountCustom.setVisibility(View.GONE);
-        String str = String.format("[%d/%d]", UserManager.getInstance().moneyInfo.getAllValidSmallNum(),
-                UserManager.getInstance().moneyInfo.getAllSmallNum());
-        tvDefalutCount.setText(str);
-
+        setDefaultCount();
     }
 
     private void initListener() {
@@ -250,6 +247,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
     @Override
     public void loadGroups() {
+        setDefaultCount();
         llGroupRoot.removeAllViews();
         if (!ListUtils.isEmpty(GroupManager.getInstance().groupInfos)) {
             for (GroupInfo groupInfo : GroupManager.getInstance().groupInfos) {
@@ -272,6 +270,12 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         for (int i = 0; i < llGroupRoot.getChildCount(); i++) {
             ((ChooseGroupView) (llGroupRoot.getChildAt(i))).setCheckboxEnable(!isWorking);
         }
+    }
+
+    private void setDefaultCount() {
+        String str = String.format("[%d/%d]", UserManager.getInstance().moneyInfo.getAllValidSmallNum(),
+                UserManager.getInstance().moneyInfo.getAllSmallNum());
+        tvDefalutCount.setText(str);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

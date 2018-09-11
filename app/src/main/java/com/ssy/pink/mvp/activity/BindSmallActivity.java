@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,8 +15,7 @@ import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IBindSmallActivityView;
 import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter;
-import com.ssy.pink.view.recyclerViewBase.DashgapLineRecyclerItemDecoration;
-import com.ssy.pink.view.recyclerViewBase.SpaceItemDecoration;
+import com.ssy.pink.view.recyclerViewBase.DashlineItemDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +59,7 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
         tvTotal.setText(String.valueOf(BindManager.getInstance().smallInfos.size()));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
-        recyclerView.addItemDecoration(new DashgapLineRecyclerItemDecoration(this, OrientationHelper.HORIZONTAL));
+        recyclerView.addItemDecoration(new DashlineItemDivider());
         adapter = new BindLogAdapter(this, logInfos);
         recyclerView.setAdapter(adapter);
     }

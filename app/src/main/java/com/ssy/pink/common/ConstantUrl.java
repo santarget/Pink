@@ -4,6 +4,9 @@ public class ConstantUrl {
     /* weibo */
     public static final String WEIBO_LOGIN = "oauth2/authorize";
     public static final String WEIBO_USER_INFO = "2/users/show.json";
+    public static final String WEIBO_EMOTIONS = "2/emotions.json";
+    public static final String WEIBO_LATEST_STATUS = "2/statuses/user_timeline";//此接口最多只返回最新的5条微博
+    public static final String WEIBO_REPOST = "2/statuses/repost ";//此接口最多只返回最新的5条微博//http://api.t.sina.com.cn/statuses/repost.(json%7Cxml)
 
     /* pink */
     public static final String LIST_FANS_Org = "adminservice/queryFansOrgInfoList";

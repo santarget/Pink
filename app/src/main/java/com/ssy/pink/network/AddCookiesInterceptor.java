@@ -34,7 +34,7 @@ public class AddCookiesInterceptor implements Interceptor {
         if (chain == null)
             Log.d("http", "Addchain == null");
         final Request.Builder builder = chain.request().newBuilder();
-        builder.addHeader("cookie", UserManager.getInstance().userInfo.getSessionid());
+        builder.addHeader("sessionId", UserManager.getInstance().userInfo.getSessionid());
         Log.d("============", "AddCookiesInterceptor:" + UserManager.getInstance().userInfo.getSessionid());
         return chain.proceed(builder.build());
     }

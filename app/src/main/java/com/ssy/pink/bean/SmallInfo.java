@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author ssy
  * @date 2018/9/3
  */
-@Entity
+//@Entity
 public class SmallInfo implements Serializable {
     private static final long serialVersionUID = 6711175802828272175L;
     private String customerNum;//所属的大号的会员id
@@ -22,8 +22,8 @@ public class SmallInfo implements Serializable {
     private String usepwd;
     private String smallWeiboName;
 
-    @Unique
-    @Id
+//    @Unique
+//    @Id
     private String weibosmallNumId;
     private String smallNumFansOrgInfoName;//所属粉丝组织
     private String smallNumFansOrgInfoNum;
@@ -31,9 +31,9 @@ public class SmallInfo implements Serializable {
 
     private transient String mAccessToken = "";
     private transient String mRefreshToken = "";
-    private transient long mExpiresTime = 0L;
+    private transient long mExpiresTime = 0L;//access_token的生命周期，单位是秒数 expires_in
 
-    @Transient
+//    @Transient
     transient boolean checked;
 
     public SmallInfo(String smallWeiboNum, String smallWeiboName) {

@@ -1,11 +1,18 @@
 package com.ssy.pink.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Transient;
+import org.greenrobot.greendao.annotation.Unique;
+
 import java.io.Serializable;
 
 /**
  * @author ssy
  * @date 2018/9/3
  */
+@Entity
 public class SmallInfo implements Serializable {
     private static final long serialVersionUID = 6711175802828272175L;
     private String customerNum;//所属的大号的会员id
@@ -14,11 +21,19 @@ public class SmallInfo implements Serializable {
     private String smallWeiboNum;
     private String usepwd;
     private String smallWeiboName;
+
+    @Unique
+    @Id
     private String weibosmallNumId;
     private String smallNumFansOrgInfoName;//所属粉丝组织
     private String smallNumFansOrgInfoNum;
     private String smallNumStatus;//0无效  1有效
 
+    private transient String mAccessToken = "";
+    private transient String mRefreshToken = "";
+    private transient long mExpiresTime = 0L;
+
+    @Transient
     transient boolean checked;
 
     public SmallInfo(String smallWeiboNum, String smallWeiboName) {

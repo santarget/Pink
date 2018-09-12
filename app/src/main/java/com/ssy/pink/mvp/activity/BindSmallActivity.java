@@ -49,7 +49,7 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
         setContentView(R.layout.activity_bind_small);
         ButterKnife.bind(this);
         init();
-        presenter = new BindSmallActivityPresenter(this);
+        presenter = new BindSmallActivityPresenter(this,this);
         presenter.bindSmall();
     }
 

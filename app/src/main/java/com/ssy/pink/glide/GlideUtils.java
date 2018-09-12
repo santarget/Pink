@@ -42,6 +42,19 @@ public class GlideUtils {
                 .into(iv);
     }
 
+    public static void loadImage(Context context, ImageView iv, String url, int errorPicRes) {
+        if (context == null) {
+            return;
+        }
+        if (context instanceof Activity && ((Activity) context).isDestroyed()) {
+            return;
+        }
+        Glide.with(context).load(url)
+                .dontAnimate().placeholder(errorPicRes)
+                .error(errorPicRes)
+                .into(iv);
+    }
+
     public static void loadImage(Context context, ImageView iv, File file) {
         if (context == null) {
             return;
@@ -271,6 +284,7 @@ public class GlideUtils {
         return currentFile;
     }
 */
+
     /**
      * 保存图片
      *

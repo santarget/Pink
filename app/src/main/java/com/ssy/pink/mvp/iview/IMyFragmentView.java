@@ -11,4 +11,8 @@ public interface IMyFragmentView extends IView {
     void hasGotOrgs(boolean hasGot);
 
     void loadSmallCount(List<SmallStatusInfo> smallStatusInfos);
+
+    void finishRefresh();
+
+    void loadWeiboUserInfo();
 }

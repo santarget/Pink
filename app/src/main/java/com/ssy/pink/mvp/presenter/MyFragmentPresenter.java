@@ -3,10 +3,13 @@ package com.ssy.pink.mvp.presenter;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
+import com.ssy.pink.bean.WeiboUserInfo;
 import com.ssy.pink.bean.response.CommonListResp;
+import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.iview.IMyFragmentView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.MyUtils;
 
 import rx.Subscriber;
@@ -55,6 +58,26 @@ public class MyFragmentPresenter extends BasePresenter {
             @Override
             public void onNext(CommonListResp<SmallStatusInfo> smallStatusInfoCommonListResp) {
                 iView.loadSmallCount(smallStatusInfoCommonListResp.getData());
+            }
+        });
+    }
+
+    public void getWeiboUserInfo() {
+        WeiboNet.getUserInfo(new Subscriber<WeiboUserInfo>() {
+            @Override
+            public void onCompleted() {
+                iView.finishRefresh();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                iView.finishRefresh();
+                MyUtils.handleExcep(e);
+            }
+
+            @Override
+            public void onNext(WeiboUserInfo weiboUserInfo) {
+                WeiboManager.getInstance().userInfo = weiboUserInfo;
             }
         });
     }

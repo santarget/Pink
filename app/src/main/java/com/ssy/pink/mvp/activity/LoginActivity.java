@@ -116,13 +116,13 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         } else if (UserManager.getInstance().fansOrgInfo == null) {
             showToast(R.string.please_choose_org);
         } else {
-            showProgress(true);
+//            showProgress(true);
 //            WeiboManager.getInstance().login(accout, password);
 //            mSsoHandler.authorize(new SelfWbAuthListener());
-//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+//            presenter.syncCustomer("C0912110618837004971",etAccout.getText().toString(),"weibo name",UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 
-            UserManager.getInstance().syncCustomer("weibo id", etAccout.getText().toString(), "weibo name",
-                    UserManager.getInstance().fansOrgInfo == null ? "" : UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+
         }
     }
 
@@ -169,9 +169,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         }
     }
 
+    @Override
     public void toMainActivity() {
-        // TODO: 2018/9/3 获取微博id 获取微博用户的相关信息（头像，关注，粉丝，名称等）
-
         Intent loginActivity = new Intent(this, MainActivity.class);
         startActivity(loginActivity);
         finish();
@@ -240,7 +239,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                     if (WeiboManager.getInstance().mAccessToken.isSessionValid()) {
                         // 保存 Token 到 SharedPreferences
                         AccessTokenKeeper.writeAccessToken(LoginActivity.this, token);
-                        toMainActivity();
+                        presenter.getWeiboUserInfo(etAccout.getText().toString(), UserManager.getInstance().fansOrgInfo.getFansorginfonum());
                     }
                 }
             });

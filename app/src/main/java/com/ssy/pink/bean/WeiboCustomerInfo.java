@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class WeiboCustomerInfo implements Serializable {
     private static final long serialVersionUID = -5217524867985702580L;
-    private String customernum;
+    private String customernum ;
 
     private String fansorginfonum;
 
@@ -28,6 +28,8 @@ public class WeiboCustomerInfo implements Serializable {
     private String createtime;
 
     private String createuser;
+
+    private String sessionid;
 
     public void setCustomernum(String customernum) {
         this.customernum = customernum;
@@ -115,6 +117,14 @@ public class WeiboCustomerInfo implements Serializable {
 
     public String getCreateuser() {
         return this.createuser;
+    }
+
+    public String getSessionid() {
+        return sessionid;
+    }
+
+    public void setSessionid(String sessionid) {
+        this.sessionid = sessionid;
     }
 
     @Override

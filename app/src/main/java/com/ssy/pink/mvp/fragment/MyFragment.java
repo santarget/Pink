@@ -6,8 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ssy.pink.R;
 import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.glide.GlideUtils;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.mvp.activity.MonthVipActivity;
@@ -44,15 +48,15 @@ import rx.Subscriber;
  * @author ssy
  * @date 2018/8/10
  */
-public class MyFragment extends BaseFragment implements IMyFragmentView {
+public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefreshListener {
     @BindView(R.id.tvFans)
     TextView tvFans;
     @BindView(R.id.tvFollow)
     TextView tvFollow;
     @BindView(R.id.tvName)
     TextView tvName;
-    @BindView(R.id.idGender)
-    ImageView idGender;
+    @BindView(R.id.ivGender)
+    ImageView ivGender;
     @BindView(R.id.tvOrg)
     TextView tvOrg;
     @BindView(R.id.tvAltCurrent)
@@ -65,6 +69,8 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
     TextView tvMyIdolNumber;
     @BindView(R.id.civIcon)
     CircleImageView civIcon;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     Unbinder unbinder;
 
     private MyFragmentPresenter presenter;
@@ -81,25 +87,6 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         presenter = new MyFragmentPresenter(this);
-        if (WeiboManager.getInstance().mAccessToken!=null){
-            WeiboNet.getUserInfo(new Subscriber<WeiboUserInfo>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(WeiboUserInfo weiboUserInfo) {
-                    Log.i("aaaa", weiboUserInfo.toString());
-                }
-            });
-        }
-
     }
 
     @Override
@@ -110,6 +97,8 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
 
     @Override
     protected void onFirstUserVisible() {
+        loadWeiboUserInfo();
+
         WeiboCustomerInfo userInfo = UserManager.getInstance().userInfo;
         if (userInfo != null) {
             tvName.setText(userInfo.getWeiboname());
@@ -124,6 +113,8 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
         } else {
             presenter.getSmallStutas();
         }
+
+        refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -172,15 +163,6 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(EventWithObj event) {
-        if (EventCode.LOGIN_CHOOSE_ORG == event.eventCode) {
-            FansOrgInfo fansOrgInfo = (FansOrgInfo) event.obj;
-            if (fansOrgInfo != null) {
-                tvOrg.setText(fansOrgInfo.getFansorginfoname());
-            }
-        }
-    }
 
     @Override
     public void setFansOrgList(List<FansOrgInfo> list) {
@@ -218,6 +200,36 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
         }
     }
 
+    @Override
+    public void finishRefresh() {
+        refreshLayout.finishRefresh();
+    }
+
+    @Override
+    public void loadWeiboUserInfo() {
+        WeiboUserInfo weiboUserInfo = WeiboManager.getInstance().userInfo;
+        if (weiboUserInfo != null) {
+            GlideUtils.loadImage(mainActivity, civIcon, weiboUserInfo.getProfile_image_url(), R.drawable.default_avatar);
+            tvFans.setText(String.valueOf(weiboUserInfo.getFollowers_count()));
+            tvFollow.setText(String.valueOf(weiboUserInfo.getFriends_count()));
+            tvName.setText(String.valueOf(weiboUserInfo.getName()));
+            if (weiboUserInfo.getGender().equalsIgnoreCase("m")) {
+                ivGender.setVisibility(View.VISIBLE);
+                ivGender.setImageResource(R.drawable.ic_male);
+            } else if (weiboUserInfo.getGender().equalsIgnoreCase("f")) {
+                ivGender.setVisibility(View.VISIBLE);
+                ivGender.setImageResource(R.drawable.ic_female);
+            } else {
+                ivGender.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshlayout) {
+        presenter.getWeiboUserInfo();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(Integer eventCode) {
         switch (eventCode) {
@@ -228,4 +240,15 @@ public class MyFragment extends BaseFragment implements IMyFragmentView {
                 break;
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(EventWithObj event) {
+        if (EventCode.LOGIN_CHOOSE_ORG == event.eventCode) {
+            FansOrgInfo fansOrgInfo = (FansOrgInfo) event.obj;
+            if (fansOrgInfo != null) {
+                tvOrg.setText(fansOrgInfo.getFansorginfoname());
+            }
+        }
+    }
+
 }

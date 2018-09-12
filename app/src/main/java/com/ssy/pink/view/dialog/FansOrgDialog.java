@@ -22,6 +22,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 /**
+ * 选择粉丝组织弹窗
+ *
  * @author ssy
  * @date 2018/8/14
  */

@@ -29,7 +29,7 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  */
 public class OkHttpClientProvider {
     private static OkHttpClient client, noTokenClient;
-    private static Retrofit weiboRetrofit, pinkRetrofit;
+    private static Retrofit weiboRetrofit, pinkRetrofit, noSessionRetrofit;
 
     public static OkHttpClient getClient() {
         if (client == null) {
@@ -103,11 +103,15 @@ public class OkHttpClientProvider {
                 .readTimeout(8000, TimeUnit.MILLISECONDS)
                 .writeTimeout(8000, TimeUnit.MILLISECONDS);
         if (hasToken) {
-            addTokenHeader(builder);
+//            addTokenHeader(builder);
+            addSessionHeader(builder);
         }
         return builder;
     }
 
+    private static void addSessionHeader(OkHttpClient.Builder builder) {
+        builder.addInterceptor(new AddCookiesInterceptor());
+    }
 
     /**
      * 添加带token的请求头
@@ -120,7 +124,9 @@ public class OkHttpClientProvider {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request()
                         .newBuilder()
-                        .addHeader("Authorization", MyApplication.token)
+//                        .addHeader("Authorization", MyApplication.token)
+                        .addHeader("sessionid", MyApplication.token)
+                        .addHeader("cookie", MyApplication.token)
                         .addHeader("Content-Type", "application/json; charset=UTF-8")
 //                    .addHeader("Accept-Encoding", "*")
 //                    .addHeader("Connection", "keep-alive")
@@ -166,5 +172,22 @@ public class OkHttpClientProvider {
             }
         }
         return pinkRetrofit;
+    }
+
+    public static Retrofit getNoSessionPinkRetrofit() {
+        if (noSessionRetrofit == null) {
+            synchronized (OkHttpClientProvider.class) {
+                if (noSessionRetrofit == null) {
+                    noSessionRetrofit = new Retrofit.Builder()
+                            .baseUrl(ConfigProp.serverUrl)
+                            .addConverterFactory(NobodyConverterFactory.create())//无响应体时
+                            .addConverterFactory(FastJsonConverterFactory.create())
+                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
+                            .client(OkHttpClientProvider.getNoTokenClient())
+                            .build();
+                }
+            }
+        }
+        return noSessionRetrofit;
     }
 }

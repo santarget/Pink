@@ -4,6 +4,7 @@ import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.ssy.pink.MyApplication;
+import com.ssy.pink.bean.WeiboUserInfo;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.network.NobodyConverterFactory;
@@ -32,6 +33,7 @@ public class WeiboManager {
      * 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能
      */
     public Oauth2AccessToken mAccessToken;
+    public WeiboUserInfo userInfo;
 
 
     public static WeiboManager getInstance() {

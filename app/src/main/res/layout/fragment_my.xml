@@ -113,7 +113,7 @@
                         android:text="猫咪爱吃鱼" />
 
                     <ImageView
-                        android:id="@+id/idGender"
+                        android:id="@+id/ivGender"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginLeft="8dp"

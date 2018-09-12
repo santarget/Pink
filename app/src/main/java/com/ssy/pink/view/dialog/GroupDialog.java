@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 /**
+ * 移动分组时，选择分组弹窗
  * @author ssy
  * @date 2018/8/14
  */

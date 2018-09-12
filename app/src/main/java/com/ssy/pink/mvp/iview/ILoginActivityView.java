@@ -9,4 +9,6 @@ public interface ILoginActivityView extends IView {
     void setOrgsList(List<FansOrgInfo> orgsList);
 
     void hasGotOrgs(boolean hasGot);
+
+    void toMainActivity();
 }

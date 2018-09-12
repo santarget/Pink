@@ -41,7 +41,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class PinkNet {
     private static CompositeSubscription mSubscriptions = new CompositeSubscription();
-    private static PinkApi pinkApi;
+    private static PinkApi pinkApi, noSessionPinkApi;
 
     private static PinkApi getPinkApi() {
         if (pinkApi == null) {
@@ -54,8 +54,19 @@ public class PinkNet {
         return pinkApi;
     }
 
+    private static PinkApi getNoSessionPinkApi() {
+        if (noSessionPinkApi == null) {
+            synchronized (PinkNet.class) {
+                if (noSessionPinkApi == null) {
+                    noSessionPinkApi = OkHttpClientProvider.getNoSessionPinkRetrofit().create(PinkApi.class);
+                }
+            }
+        }
+        return noSessionPinkApi;
+    }
+
     public static Subscription listFansOrg(Subscriber<CommonListResp<FansOrgInfo>> subscriber) {
-        Subscription subscription = getPinkApi().listFansOrg()
+        Subscription subscription = getNoSessionPinkApi().listFansOrg()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -64,7 +75,7 @@ public class PinkNet {
     }
 
     public static Subscription listProduct(Subscriber<CommonListResp<ProductInfo>> subscriber) {
-        Subscription subscription = getPinkApi().listProduct()
+        Subscription subscription = getNoSessionPinkApi().listProduct()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -88,7 +99,7 @@ public class PinkNet {
         req.setWeiboname(weiboName);
         req.setFansorginfonum(fansOrgNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
-        Subscription subscription = getPinkApi().syncCustomer(requestBody)
+        Subscription subscription = getNoSessionPinkApi().syncCustomer(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -96,12 +107,13 @@ public class PinkNet {
         return subscription;
     }
 
-    public static Subscription syncRechargeRecord(Subscriber<CommonResp<RechargeRecordInfo>> subscriber) {
+    public static Subscription syncRechargeRecord(String customerNum, String transactionid, long addmountval,
+                                                  long beannum, Subscriber<CommonResp<RechargeRecordInfo>> subscriber) {
         SyncRechargeRecordReq req = new SyncRechargeRecordReq();
-        req.setCustomernum("weiboid97979");
-        req.setTransactionid("1234567777");
-        req.setAddmountval(11111);
-        req.setBeannum(520);
+        req.setCustomernum(customerNum);
+        req.setTransactionid(transactionid);
+        req.setAddmountval(addmountval);
+        req.setBeannum(beannum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().syncRechargeRecord(requestBody)
                 .subscribeOn(Schedulers.io())
@@ -111,12 +123,13 @@ public class PinkNet {
         return subscription;
     }
 
-    public static Subscription syncSpendRecord(Subscriber<NoBodyEntity> subscriber) {
+    public static Subscription syncSpendRecord(String customerNum, String transactionid, long spendbeannum,
+                                               String spenddesc, Subscriber<NoBodyEntity> subscriber) {
         SyncSpendRecordReq req = new SyncSpendRecordReq();
-        req.setCustomernum("C0827002054681009578");
-        req.setTransactionid("12312312223231");
-        req.setSpendbeannum(123321);
-        req.setSpenddesc("消费说明，买了个啥");
+        req.setCustomernum(customerNum);
+        req.setTransactionid(transactionid);
+        req.setSpendbeannum(spendbeannum);
+        req.setSpenddesc(spenddesc);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().syncSpendRecord(requestBody)
                 .subscribeOn(Schedulers.io())
@@ -132,11 +145,11 @@ public class PinkNet {
      * @param subscriber
      * @return
      */
-    public static Subscription orderProduct(Subscriber<NoBodyEntity> subscriber) {
+    public static Subscription orderProduct(String customerNum, String transactionid, String productnum, Subscriber<NoBodyEntity> subscriber) {
         OrderProductReq req = new OrderProductReq();
-        req.setCustomernum("C0825231708734008524");
-        req.setTransactionid("1231231222323231");
-        req.setProductnum("2");
+        req.setCustomernum(customerNum);
+        req.setTransactionid(transactionid);
+        req.setProductnum(productnum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().orderProduct(requestBody)
                 .subscribeOn(Schedulers.io())

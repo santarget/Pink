@@ -1,6 +1,6 @@
 package com.ssy.pink.network.api;
 
-import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.WeiboInfo;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.network.OkHttpClientProvider;
 
@@ -10,23 +10,23 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-public class WeiboNet {
+public class WeiboNet2 {
     private static CompositeSubscription mSubscriptions = new CompositeSubscription();
-    private static WeiboApi weiboApi;
+    private static WeiboApi2 weiboApi2;
 
-    private static WeiboApi getWeiboApi() {
-        if (weiboApi == null) {
-            synchronized (WeiboNet.class) {
-                if (weiboApi == null) {
-                    weiboApi = OkHttpClientProvider.getWeiboRetrofit().create(WeiboApi.class);
+    private static WeiboApi2 getWeiboApi2() {
+        if (weiboApi2 == null) {
+            synchronized (WeiboNet2.class) {
+                if (weiboApi2 == null) {
+                    weiboApi2 = OkHttpClientProvider.getWeiboRetrofit().create(WeiboApi2.class);
                 }
             }
         }
-        return weiboApi;
+        return weiboApi2;
     }
 
-    public static Subscription getUserInfo(Subscriber<WeiboUserInfo> subscriber) {
-        Subscription subscription = getWeiboApi().getWeiboUserInfo(WeiboManager.getInstance().mAccessToken.getToken(),
+    public static Subscription repostWeibo(Subscriber<WeiboInfo> subscriber) {
+        Subscription subscription = getWeiboApi2().repostWeibo(WeiboManager.getInstance().mAccessToken.getToken(),
                 WeiboManager.getInstance().mAccessToken.getUid())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -34,6 +34,4 @@ public class WeiboNet {
         mSubscriptions.add(subscription);
         return subscription;
     }
-
-
 }

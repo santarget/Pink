@@ -10,6 +10,7 @@ import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.network.NobodyConverterFactory;
 import com.ssy.pink.network.UnsafeOkHttpClient;
 import com.ssy.pink.network.api.WeiboApi;
+import com.ssy.pink.network.api.WeiboApi2;
 import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.MyUtils;
 
@@ -69,7 +70,7 @@ public class WeiboManager {
         heads.put("oauth_timestamp", timeStamp);
         heads.put("oauth_nonce", "s");
         heads.put("oauth_version", "1.0");
-        getRetrofit(getClient()).create(WeiboApi.class).login(heads)
+        getRetrofit(getClient()).create(WeiboApi2.class).login(heads)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoBodyEntity>() {

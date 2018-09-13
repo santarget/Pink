@@ -29,7 +29,7 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  */
 public class OkHttpClientProvider {
     private static OkHttpClient client, noTokenClient;
-    private static Retrofit weiboRetrofit, pinkRetrofit, noSessionRetrofit;
+    private static Retrofit weiboRetrofit, weiboRetrofit2, pinkRetrofit, noSessionRetrofit;
 
     public static OkHttpClient getClient() {
         if (client == null) {
@@ -126,7 +126,6 @@ public class OkHttpClientProvider {
                         .newBuilder()
 //                        .addHeader("Authorization", MyApplication.token)
                         .addHeader("sessionid", MyApplication.token)
-                        .addHeader("cookie", MyApplication.token)
                         .addHeader("Content-Type", "application/json; charset=UTF-8")
 //                    .addHeader("Accept-Encoding", "*")
 //                    .addHeader("Connection", "keep-alive")
@@ -157,6 +156,23 @@ public class OkHttpClientProvider {
         return weiboRetrofit;
     }
 
+    public static Retrofit getWeiboRetrofit2() {
+        if (weiboRetrofit2 == null) {
+            synchronized (OkHttpClientProvider.class) {
+                if (weiboRetrofit2 == null) {
+                    weiboRetrofit2 = new Retrofit.Builder()
+                            .baseUrl("http://api.t.sina.com.cn/")
+                            .addConverterFactory(NobodyConverterFactory.create())
+                            .addConverterFactory(FastJsonConverterFactory.create())
+                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                            .client(OkHttpClientProvider.getClient())
+                            .build();
+                }
+            }
+        }
+        return weiboRetrofit2;
+    }
+
     public static Retrofit getPinkRetrofit() {
         if (pinkRetrofit == null) {
             synchronized (OkHttpClientProvider.class) {
@@ -180,9 +196,9 @@ public class OkHttpClientProvider {
                 if (noSessionRetrofit == null) {
                     noSessionRetrofit = new Retrofit.Builder()
                             .baseUrl(ConfigProp.serverUrl)
-                            .addConverterFactory(NobodyConverterFactory.create())//无响应体时
+                            .addConverterFactory(NobodyConverterFactory.create())
                             .addConverterFactory(FastJsonConverterFactory.create())
-                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
+                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                             .client(OkHttpClientProvider.getNoTokenClient())
                             .build();
                 }

@@ -15,10 +15,10 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
+/**
+ * 这个类里的接口base url都为 https://api.weibo.com/
+ */
 public interface WeiboApi {
-    //    @POST("oauth/access_token")
-    @POST("oauth/request_token")
-    Observable<NoBodyEntity> login(@HeaderMap Map<String, String> headers);
 
     /**
      * 获取用户信息
@@ -48,9 +48,5 @@ public interface WeiboApi {
      */
     @GET(ConstantUrl.WEIBO_LATEST_STATUS)
     Observable<List<WeiboInfo>> getLatestWeibo(@Query("access_token") String access_token, @Query("uid") String uid);
-
-    @POST(ConstantUrl.WEIBO_REPOST)
-    Observable<List<WeiboInfo>> repostWeibo(@Query("access_token") String access_token, @Query("uid") String uid);
-
 
 }

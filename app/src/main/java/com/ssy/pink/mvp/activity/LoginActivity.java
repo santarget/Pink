@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             showToast(R.string.please_choose_org);
         } else {
 //            showProgress(true);
-//            WeiboManager.getInstance().login(accout, password);
+//            WeiboManager.getInstance().login2(accout, password);
 //            mSsoHandler.authorize(new SelfWbAuthListener());
             mSsoHandler.authorizeWeb(new SelfWbAuthListener());
 //            presenter.syncCustomer("C0912110618837004971",etAccout.getText().toString(),"weibo name",UserManager.getInstance().fansOrgInfo.getFansorginfonum());
@@ -136,13 +136,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             }
             if (!dialog.isShowing()) {
                 dialog.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.dismiss();
-                        toMainActivity();
-                    }
-                }, 1000l);
             }
         } else {
             if (dialog != null && dialog.isShowing()) {
@@ -171,6 +164,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 
     @Override
     public void toMainActivity() {
+        showProgress(false);
         Intent loginActivity = new Intent(this, MainActivity.class);
         startActivity(loginActivity);
         finish();
@@ -248,11 +242,13 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         @Override
         public void cancel() {
             showToast("取消登录");
+            showProgress(false);
         }
 
         @Override
         public void onFailure(WbConnectErrorMessage errorMessage) {
             showToast("登录失败");
+            showProgress(false);
         }
     }
 

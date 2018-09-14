@@ -94,7 +94,8 @@ public class OkHttpClientProvider {
                 .readTimeout(15000, TimeUnit.MILLISECONDS)
                 .writeTimeout(15000, TimeUnit.MILLISECONDS);
         if (hasToken) {
-            addTokenHeader(builder);
+//            addTokenHeader(builder);
+            addSessionHeader(builder);
         }
         return builder;
     }

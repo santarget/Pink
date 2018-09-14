@@ -1,5 +1,7 @@
 package com.ssy.pink.manager;
 
+import android.util.Log;
+
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -11,6 +13,7 @@ import com.ssy.pink.network.NobodyConverterFactory;
 import com.ssy.pink.network.UnsafeOkHttpClient;
 import com.ssy.pink.network.api.WeiboApi;
 import com.ssy.pink.network.api.WeiboApi2;
+import com.ssy.pink.network.api.WeiboNet2;
 import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.MyUtils;
 
@@ -70,6 +73,7 @@ public class WeiboManager {
         heads.put("oauth_timestamp", timeStamp);
         heads.put("oauth_nonce", "s");
         heads.put("oauth_version", "1.0");
+
         getRetrofit(getClient()).create(WeiboApi2.class).login(heads)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -82,6 +86,30 @@ public class WeiboManager {
                     @Override
                     public void onError(Throwable e) {
 
+                    }
+
+                    @Override
+                    public void onNext(NoBodyEntity o) {
+                    }
+                });
+    }
+
+    public void login2(String userName, String pwd) {
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        getRetrofit(getClient()).create(WeiboApi2.class).login2(ConstantWeibo.APP_SECRET, ConstantWeibo.APP_KEY,
+                "HMAC-SHA1", MyUtils.getOauthSignature(userName, pwd, timeStamp),
+                timeStamp, "s", "1.0")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoBodyEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        MyUtils.handleExcep(e);
                     }
 
                     @Override

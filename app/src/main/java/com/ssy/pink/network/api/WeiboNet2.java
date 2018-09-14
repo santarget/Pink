@@ -1,9 +1,13 @@
 package com.ssy.pink.network.api;
 
 import com.ssy.pink.bean.WeiboInfo;
+import com.ssy.pink.bean.request.RepostWeiboReq;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.network.OkHttpClientProvider;
+import com.ssy.pink.utils.JsonUtils;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,8 +30,11 @@ public class WeiboNet2 {
     }
 
     public static Subscription repostWeibo(Subscriber<WeiboInfo> subscriber) {
+        RepostWeiboReq req = new RepostWeiboReq();
+        req.setId(4282854814589720L);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getWeiboApi2().repostWeibo(WeiboManager.getInstance().mAccessToken.getToken(),
-                WeiboManager.getInstance().mAccessToken.getUid())
+                WeiboManager.getInstance().mAccessToken.getUid(), requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

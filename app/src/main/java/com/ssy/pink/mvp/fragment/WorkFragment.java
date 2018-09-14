@@ -184,6 +184,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                 break;
             case R.id.tvWork://开始抡博
                 setWorkStatus(!isWorking);
+//                presenter.test();
                 break;
             case R.id.ivHelpMonitor://抡博监控的帮助信息
                 showHelpDialog(R.string.dialog_config_introduce);

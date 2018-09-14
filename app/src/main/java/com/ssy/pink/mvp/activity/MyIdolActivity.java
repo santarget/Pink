@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
+import com.ssy.pink.manager.UserManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +29,11 @@ public class MyIdolActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_idol);
         ButterKnife.bind(this);
+        init();
+    }
+
+    private void init() {
+        tvIdolNumber.setText(String.valueOf(UserManager.getInstance().moneyInfo.getRestBeanNum()));
     }
 
     @OnClick({R.id.ivBack, R.id.tvRecord, R.id.tvRecharge})

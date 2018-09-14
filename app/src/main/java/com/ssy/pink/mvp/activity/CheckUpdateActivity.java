@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
+import com.ssy.pink.mvp.presenter.CheckUpdateActivityPresenter;
+import com.ssy.pink.utils.CommonUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,16 +25,20 @@ public class CheckUpdateActivity extends BaseActivity {
     @BindView(R.id.tvIntroduce)
     TextView tvIntroduce;
 
+    CheckUpdateActivityPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_update);
         ButterKnife.bind(this);
         init();
+        presenter = new CheckUpdateActivityPresenter();
     }
 
     private void init() {
         tvTitle.setText("检查更新");
+        tvVersion.setText(CommonUtils.getVersionName());
     }
 
     @OnClick({R.id.aivBack, R.id.tvVersion})

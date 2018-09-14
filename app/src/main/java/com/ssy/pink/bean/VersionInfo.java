@@ -6,74 +6,62 @@ import java.io.Serializable;
  * Created by tys on 2017/4/28.
  */
 
-public class VersionInfo implements Serializable{
+public class VersionInfo implements Serializable {
     private static final long serialVersionUID = 3254978773364425886L;
-    private int versionNum;
-    private String versionName;
-    private long totalSize;
-    private String explainCn;
-    private String explainUs;
-    private String downloadUrl;
+    String appDesc;
+    String appName;
+    int appVersion;//用于比较版本号
+    String appVersionName;//用于给用户展示
+    String downloadAddress;
 
-    public int getVersionNum() {
-        return versionNum;
+    public String getAppDesc() {
+        return appDesc;
     }
 
-    public void setVersionNum(int versionNum) {
-        this.versionNum = versionNum;
+    public void setAppDesc(String appDesc) {
+        this.appDesc = appDesc;
     }
 
-    public String getVersionName() {
-        return versionName;
+    public String getAppName() {
+        return appName;
     }
 
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
-    public long getTotalSize() {
-        return totalSize;
+    public int getAppVersion() {
+        return appVersion;
     }
 
-    public void setTotalSize(long totalSize) {
-        this.totalSize = totalSize;
+    public void setAppVersion(int appVersion) {
+        this.appVersion = appVersion;
     }
 
-    public String getExplainCn() {
-        return explainCn;
+    public String getAppVersionName() {
+        return appVersionName;
     }
 
-    public void setExplainCn(String explainCn) {
-        this.explainCn = explainCn;
+    public void setAppVersionName(String appVersionName) {
+        this.appVersionName = appVersionName;
     }
 
-    public String getExplainUs() {
-        return explainUs;
+    public String getDownloadAddress() {
+        return downloadAddress;
     }
 
-    public void setExplainUs(String explainUs) {
-        this.explainUs = explainUs;
-    }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
+    public void setDownloadAddress(String downloadAddress) {
+        this.downloadAddress = downloadAddress;
     }
 
     @Override
     public String toString() {
         return "VersionInfo{" +
-                "versionNum=" + versionNum +
-                ", versionName='" + versionName + '\'' +
-                ", totalSize=" + totalSize +
-                ", explainCn='" + explainCn + '\'' +
-                ", explainUs='" + explainUs + '\'' +
-                ", downloadUrl='" + downloadUrl + '\'' +
+                "appDesc='" + appDesc + '\'' +
+                ", appName='" + appName + '\'' +
+                ", appVersion=" + appVersion +
+                ", appVersionName='" + appVersionName + '\'' +
+                ", downloadAddress='" + downloadAddress + '\'' +
                 '}';
     }
-
-
 }

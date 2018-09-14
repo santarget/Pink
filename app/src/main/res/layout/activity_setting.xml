@@ -101,7 +101,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
-            android:text="1.2.2"
             android:textColor="@color/item_text_tips"
             android:textSize="12sp" />
 

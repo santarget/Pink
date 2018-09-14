@@ -23,6 +23,7 @@ import com.ssy.pink.bean.request.UpdateGroupReq;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
+import com.ssy.pink.bean.response.VersionResp;
 import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
@@ -325,6 +326,21 @@ public class PinkNet {
         MoveSmallReq req = new MoveSmallReq(customerNum, smallWeiboId, groupNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().moveSmall(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    /**
+     * 移动微博小号
+     *
+     * @param observer
+     * @return
+     */
+    public static Subscription getVerison(Subscriber<CommonResp<VersionResp>> observer) {
+        Subscription subscription = getNoSessionPinkApi().getVersion()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

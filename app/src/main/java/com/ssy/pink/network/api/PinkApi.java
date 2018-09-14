@@ -12,6 +12,7 @@ import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
+import com.ssy.pink.bean.response.VersionResp;
 import com.ssy.pink.common.ConstantUrl;
 
 import okhttp3.RequestBody;
@@ -101,4 +102,7 @@ public interface PinkApi {
 
     @POST(ConstantUrl.MOVE_SMALL)
     Observable<CommonResp<NoBodyEntity>> moveSmall(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.GET_VERSION)
+    Observable<CommonResp<VersionResp>> getVersion();
 }

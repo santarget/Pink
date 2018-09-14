@@ -456,7 +456,7 @@ public class CommonUtils {
      * @return
      */
     public static String getUpgradeApkName(VersionInfo version) {
-        return "CsiEcs_" + version.getVersionName() + "_" + version.getVersionNum() + ".apk";
+        return "CsiEcs_" + version.getAppName() + "_" + version.getAppVersionName() + ".apk";
     }
 
     /**

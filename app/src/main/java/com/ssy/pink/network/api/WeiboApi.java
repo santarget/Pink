@@ -4,6 +4,7 @@ import com.ssy.pink.bean.EmotionInfo;
 import com.ssy.pink.bean.WeiboInfo;
 import com.ssy.pink.bean.WeiboUserInfo;
 import com.ssy.pink.bean.response.NoBodyEntity;
+import com.ssy.pink.bean.response.WeiboListResp;
 import com.ssy.pink.common.ConstantUrl;
 
 import java.util.List;
@@ -31,6 +32,16 @@ public interface WeiboApi {
     Observable<WeiboUserInfo> getWeiboUserInfo(@Query("access_token") String access_token, @Query("uid") String uid);
 
     /**
+     * 获取某个用户最新发表的微博列表,最多5条
+     *
+     * @param access_token
+     * @param uid
+     * @return
+     */
+    @GET(ConstantUrl.WEIBO_LATEST_STATUS)
+    Observable<WeiboListResp> getLatestWeibo(@Query("access_token") String access_token, @Query("uid") String uid);
+
+    /**
      * 获取官方表情
      *
      * @param access_token
@@ -39,14 +50,5 @@ public interface WeiboApi {
     @GET(ConstantUrl.WEIBO_EMOTIONS)
     Observable<List<EmotionInfo>> getEmotions(@Query("access_token") String access_token);
 
-    /**
-     * 获取某个用户最新发表的微博列表,最多5条
-     *
-     * @param access_token
-     * @param uid
-     * @return
-     */
-    @GET(ConstantUrl.WEIBO_LATEST_STATUS)
-    Observable<List<WeiboInfo>> getLatestWeibo(@Query("access_token") String access_token, @Query("uid") String uid);
 
 }

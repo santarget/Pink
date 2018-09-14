@@ -31,7 +31,7 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
             if (internalClient == null) {
                 synchronized (Factory.class) {
                     if (internalClient == null) {
-                        internalClient = OkHttpClientProvider.getClient();
+                        internalClient = OkHttpClientProvider.getWeiboClient();
                     }
                 }
             }

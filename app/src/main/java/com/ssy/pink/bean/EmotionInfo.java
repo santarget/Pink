@@ -10,7 +10,7 @@ public class EmotionInfo implements Serializable {
     String icon;//图片地址
     String phrase;//"[呵呵]",
     //    String picid;
-    String type;//"face",
+    String type;//表情类别，face：普通表情、ani：魔法表情、cartoon：动漫表情，默认为face。
     String url;//"http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/eb/smile.gif",
     String value;//"[呵呵]",
 

@@ -119,8 +119,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 //            showProgress(true);
 //            WeiboManager.getInstance().login(accout, password);
 //            mSsoHandler.authorize(new SelfWbAuthListener());
-//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            presenter.syncCustomer("C0912110618837004971",etAccout.getText().toString(),"weibo name",UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+//            presenter.syncCustomer("C0912110618837004971",etAccout.getText().toString(),"weibo name",UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 
 
         }

@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ssy.pink.R;
+import com.ssy.pink.manager.LoopManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.activity.BrowserActivity;
 import com.ssy.pink.mvp.activity.GroupActivity;

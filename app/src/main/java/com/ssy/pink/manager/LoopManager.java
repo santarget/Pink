@@ -35,4 +35,5 @@ public class LoopManager {
         }
         return instance;
     }
+
 }

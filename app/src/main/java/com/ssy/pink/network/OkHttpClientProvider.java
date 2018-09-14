@@ -1,7 +1,6 @@
 package com.ssy.pink.network;
 
 import android.content.res.AssetManager;
-import android.text.TextUtils;
 
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.common.ConfigProp;
@@ -28,22 +27,18 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  * @date 2018/7/2
  */
 public class OkHttpClientProvider {
-    private static OkHttpClient client, noTokenClient;
+    private static OkHttpClient weiboClient, pinkClient, noTokenClient;
     private static Retrofit weiboRetrofit, weiboRetrofit2, pinkRetrofit, noSessionRetrofit;
 
-    public static OkHttpClient getClient() {
-        if (client == null) {
+    public static OkHttpClient getWeiboClient() {
+        if (weiboClient == null) {
             synchronized (OkHttpClientProvider.class) {
-                if (client == null) {
-                    if (ConfigProp.verifyCert) {
-                        client = getSafeBuilder(true).build();
-                    } else {
-                        client = getUnsafeBuilder(true).build();
-                    }
+                if (weiboClient == null) {
+                    weiboClient = getUnsafeBuilder(false).build();
                 }
             }
         }
-        return client;
+        return weiboClient;
     }
 
     public static OkHttpClient getNoTokenClient() {
@@ -61,6 +56,20 @@ public class OkHttpClientProvider {
         return noTokenClient;
     }
 
+    public static OkHttpClient getPinkClient() {
+        if (pinkClient == null) {
+            synchronized (OkHttpClientProvider.class) {
+                if (pinkClient == null) {
+                    if (ConfigProp.verifyCert) {
+                        pinkClient = getSafeBuilder(true).build();
+                    } else {
+                        pinkClient = getUnsafeBuilder(true).build();
+                    }
+                }
+            }
+        }
+        return pinkClient;
+    }
 
     private static OkHttpClient.Builder getSafeBuilder(boolean hasToken) {
         HttpsUtils.SSLParams sslParams = null;
@@ -148,7 +157,7 @@ public class OkHttpClientProvider {
                             .addConverterFactory(NobodyConverterFactory.create())
                             .addConverterFactory(FastJsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .client(OkHttpClientProvider.getClient())
+                            .client(OkHttpClientProvider.getWeiboClient())
                             .build();
                 }
             }
@@ -165,7 +174,7 @@ public class OkHttpClientProvider {
                             .addConverterFactory(NobodyConverterFactory.create())
                             .addConverterFactory(FastJsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .client(OkHttpClientProvider.getClient())
+                            .client(OkHttpClientProvider.getWeiboClient())
                             .build();
                 }
             }
@@ -182,7 +191,7 @@ public class OkHttpClientProvider {
                             .addConverterFactory(NobodyConverterFactory.create())//无响应体时
                             .addConverterFactory(FastJsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
-                            .client(OkHttpClientProvider.getClient())
+                            .client(OkHttpClientProvider.getPinkClient())
                             .build();
                 }
             }

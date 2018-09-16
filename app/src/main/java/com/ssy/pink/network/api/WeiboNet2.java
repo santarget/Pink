@@ -41,4 +41,17 @@ public class WeiboNet2 {
         mSubscriptions.add(subscription);
         return subscription;
     }
+
+    public static Subscription uploadWeibo(Subscriber<WeiboInfo> subscriber) {
+        RepostWeiboReq req = new RepostWeiboReq();
+        req.setId(4282854814589720L);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getWeiboApi2().repostWeibo(WeiboManager.getInstance().mAccessToken.getToken(),
+                WeiboManager.getInstance().mAccessToken.getUid(), requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
 }

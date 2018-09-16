@@ -2,6 +2,7 @@ package com.ssy.pink.mvp.presenter;
 
 import android.util.Log;
 
+import com.sina.weibo.sdk.share.WbShareHandler;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
@@ -11,6 +12,7 @@ import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.network.api.WeiboNet2;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.MyUtils;
@@ -91,20 +93,6 @@ public class WorkFragmentPresenter extends BasePresenter {
     }
 
     public void test() {
-        WeiboNet2.repostWeibo(new Subscriber<WeiboInfo>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                MyUtils.handleExcep(e);
-            }
-
-            @Override
-            public void onNext(WeiboInfo weiboInfo) {
-            }
-        });
+        WeiboNet.share();
     }
 }

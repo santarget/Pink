@@ -1,12 +1,16 @@
 package com.ssy.pink.common;
 
 public class ConstantUrl {
-    /* weibo */
+    /* weibo1 https://api.weibo.com*/
     public static final String WEIBO_LOGIN = "oauth2/authorize";
     public static final String WEIBO_USER_INFO = "2/users/show.json";
     public static final String WEIBO_EMOTIONS = "2/emotions.json";
     public static final String WEIBO_LATEST_STATUS = "2/statuses/user_timeline.json";//此接口最多只返回最新的5条微博
-    public static final String WEIBO_REPOST = "2/statuses/repost.json ";//此接口最多只返回最新的5条微博//http://api.t.sina.com.cn/statuses/repost.(json%7Cxml)
+    public static final String WEIBO_SHARE = "2/statuses/share.json ";//此接口最多只返回最新的5条微博//http://api.t.sina.com.cn/statuses/repost.(json%7Cxml)
+    /* weibo2 http://api.t.sina.com.cn/ */
+    public static final String WEIBO_REPOST = "2/statuses/repost.json";//此接口最多只返回最新的5条微博//http://api.t.sina.com.cn/statuses/repost.(json%7Cxml)
+    public static final String WEIBO_UPLOAD = "statuses/upload.json";//此接口最多只返回最新的5条微博//http://api.t.sina.com.cn/statuses/repost.(json%7Cxml)
+
 
     /* pink */
     public static final String LIST_FANS_Org = "adminservice/queryFansOrgInfoList";

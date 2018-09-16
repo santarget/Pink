@@ -7,7 +7,10 @@ import com.ssy.pink.common.ConstantUrl;
 import java.util.Map;
 
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
@@ -30,7 +33,12 @@ public interface WeiboApi2 {
 
 
     @POST(ConstantUrl.WEIBO_REPOST)
-    Observable<WeiboInfo> repostWeibo(@Query("access_token") String access_token, @Query("uid") String uid,@Body RequestBody requestBody);
+    Observable<WeiboInfo> repostWeibo(@Query("access_token") String access_token, @Query("uid") String uid, @Body RequestBody requestBody);
+
+
+
+    @POST(ConstantUrl.WEIBO_UPLOAD)
+    Observable<WeiboInfo> uploadWeibo(@Query("access_token") String access_token, @Body RequestBody requestBody);
 
 
 }

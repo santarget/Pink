@@ -95,33 +95,9 @@ public class WeiboNet {
         return subscription;
     }
 
-    public static void share() {
-        Call call = getWeiboApi().share(WeiboManager.getInstance().mAccessToken.getToken(), "测试微博 https://weibo.com/u/6630787119?refer_flag=1005055010_");
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                Log.i("aaaa", "onResponse");
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.i("aaaa", "onFailure");
-            }
-        });
+    public static void shareWeibo(String status, Callback callback) {
+        Call call = getWeiboApi().share(WeiboManager.getInstance().mAccessToken.getToken(), status);
+        call.enqueue(callback);
     }
 
-    public static void repost() {
-        Call call = getWeiboApi().repost(WeiboManager.getInstance().mAccessToken.getToken(), 4282854814589720L);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                Log.i("aaaa", "onResponse");
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.i("aaaa", "onFailure");
-            }
-        });
-    }
 }

@@ -86,6 +86,10 @@
         <activity
             android:name=".mvp.activity.BindSmallActivity"
             android:screenOrientation="portrait"></activity>
+
+        <service
+            android:name=".service.WorkService"
+            android:exported="false" />
     </application>
 
 </manifest>

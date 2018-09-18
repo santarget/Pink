@@ -3,16 +3,12 @@ package com.ssy.pink.mvp.presenter;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IAddSmallActivityView;
 import com.ssy.pink.view.dialog.CheckDialog;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author ssy

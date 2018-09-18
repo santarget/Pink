@@ -2,6 +2,7 @@ package com.ssy.pink.manager;
 
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.WeiboInfo;
+import com.ssy.pink.network.api.WeiboNet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,4 +37,10 @@ public class LoopManager {
         return instance;
     }
 
+    public void startWork() {
+    }
+
+    public void stopWork() {
+
+    }
 }

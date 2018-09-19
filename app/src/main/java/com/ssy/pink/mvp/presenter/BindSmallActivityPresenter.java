@@ -95,6 +95,10 @@ public class BindSmallActivityPresenter extends BasePresenter {
         return successList.size() + failList.size();
     }
 
+    public List<SmallInfo> getFailList() {
+        return failList;
+    }
+
 
     private class SelfWbAuthListener implements com.sina.weibo.sdk.auth.WbAuthListener {
         @Override

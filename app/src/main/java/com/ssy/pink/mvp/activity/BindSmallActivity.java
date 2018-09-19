@@ -1,5 +1,6 @@
 package com.ssy.pink.mvp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -15,6 +16,8 @@ import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IBindSmallActivityView;
 import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter;
+import com.ssy.pink.view.dialog.BindAbnormalDialog;
+import com.ssy.pink.view.dialog.BindFinishDialog;
 import com.ssy.pink.view.recyclerViewBase.DashlineItemDivider;
 
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
     BindSmallActivityPresenter presenter;
     BindLogAdapter adapter;
     List<BindLogInfo> logInfos = new ArrayList<>();
+    BindFinishDialog bindFinishDialog;
+    BindAbnormalDialog bindAbnormalDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,7 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
         setContentView(R.layout.activity_bind_small);
         ButterKnife.bind(this);
         init();
-        presenter = new BindSmallActivityPresenter(this,this);
+        presenter = new BindSmallActivityPresenter(this, this);
         presenter.bindSmall();
     }
 
@@ -71,6 +76,7 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
                 onBackPressed();
                 break;
             case R.id.tvRight:
+                onBackPressed();
                 break;
         }
     }
@@ -79,11 +85,52 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
     public void setCurrentProgress(int finished) {
         tvFinish.setText(String.valueOf(finished));
         progressBar.setProgress(finished / BindManager.getInstance().smallInfos.size() * 100);
+        if (finished == BindManager.getInstance().smallInfos.size()) {
+            //绑定结束
+            if (presenter.getFailList().size() == 0) {
+                showBindFinishDialog();
+            } else {
+                showBindAbnormalDialog();
+            }
+        }
     }
 
     @Override
     public BindLogAdapter getAdapter() {
         return adapter;
+    }
+
+    private void showBindFinishDialog() {
+        if (bindFinishDialog == null) {
+            bindFinishDialog = new BindFinishDialog(this, new BindFinishDialog.BindFinishListener() {
+                @Override
+                public void onOK(BindFinishDialog dialog) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+        }
+        bindFinishDialog.show();
+    }
+
+    private void showBindAbnormalDialog() {
+        if (bindAbnormalDialog == null) {
+            bindAbnormalDialog = new BindAbnormalDialog(this, new BindAbnormalDialog.BindAbnormalListener() {
+                @Override
+                public void onEnd(BindAbnormalDialog dialog) {
+                    dialog.dismiss();
+                    finish();
+                }
+
+                @Override
+                public void onHandle(BindAbnormalDialog dialog) {
+                    dialog.dismiss();
+                    startActivity(new Intent(BindSmallActivity.this, HandleAbnormalActivity.class));
+                    finish();
+                }
+            });
+        }
+        bindAbnormalDialog.setTips(presenter.getFailList().size()).show();
     }
 
     @Override

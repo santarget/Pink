@@ -85,11 +85,16 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".mvp.activity.BindSmallActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.activity.HandleAbnormalActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.WorkService"
             android:exported="false" />
+
+
     </application>
 
 </manifest>

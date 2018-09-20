@@ -13,6 +13,8 @@ import com.ssy.pink.R;
 import com.ssy.pink.adapter.BindLogAdapter;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.BindLogInfo;
+import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.common.Constants;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IBindSmallActivityView;
 import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter;
@@ -20,6 +22,7 @@ import com.ssy.pink.view.dialog.BindAbnormalDialog;
 import com.ssy.pink.view.dialog.BindFinishDialog;
 import com.ssy.pink.view.recyclerViewBase.DashlineItemDivider;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,7 +128,16 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
                 @Override
                 public void onHandle(BindAbnormalDialog dialog) {
                     dialog.dismiss();
-                    startActivity(new Intent(BindSmallActivity.this, HandleAbnormalActivity.class));
+                    Intent i = new Intent(BindSmallActivity.this, HandleAbnormalActivity.class);
+                    List<SmallInfo> failList = new ArrayList<>();
+                    failList.add(new SmallInfo("283738", "zhanghao"));
+                    failList.add(new SmallInfo("2837ss", "zhanghao"));
+                    failList.add(new SmallInfo("343434", "zhanghao"));
+                    failList.add(new SmallInfo("5467667687576867856867867867867867867856757", "zhanghao"));
+                    failList.add(new SmallInfo("2", "zhanghao"));
+//                    i.putExtra(Constants.INTENT_KEY_DATA, (Serializable) presenter.getFailList());
+                    i.putExtra(Constants.INTENT_KEY_DATA, (Serializable) failList);
+                    startActivity(i);
                     finish();
                 }
             });

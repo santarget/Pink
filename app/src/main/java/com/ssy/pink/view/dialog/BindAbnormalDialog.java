@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,6 +65,7 @@ public class BindAbnormalDialog extends BaseDialog {
     }
 
     public BindAbnormalDialog setTips(int count) {
+        Log.i("aaaa", "BindAbnormalDialog 失败数：" + count);
         SpannableString spannableString = new SpannableString("有" + String.valueOf(count) + "个账号绑定失败");
         spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF919191")), 0, 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        tv2.text = spannableString

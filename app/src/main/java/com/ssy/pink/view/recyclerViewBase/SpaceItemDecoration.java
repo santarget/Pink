@@ -11,6 +11,7 @@ import android.view.View;
 public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
     private int space = 25;
+    private boolean haveTopSpace;
 
     public SpaceItemDecoration() {
     }
@@ -19,10 +20,19 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         this.space = space;
     }
 
+    public SpaceItemDecoration(boolean haveTopSpace) {
+        this.haveTopSpace = haveTopSpace;
+    }
+
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        if (parent.getChildPosition(view) != 0) {
+        if (haveTopSpace) {
             outRect.top = space;
+        } else {
+            if (parent.getChildPosition(view) != 0) {
+                outRect.top = space;
+            }
         }
+
     }
 }

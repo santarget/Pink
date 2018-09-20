@@ -1,5 +1,6 @@
 package com.ssy.pink.mvp.presenter;
 
+import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
@@ -98,8 +99,10 @@ public class GroupActivityPresenter extends BasePresenter {
                 GroupManager.getInstance().smallInfos.clear();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
                     iView.finishRefresh();
+                    HelperFactory.getSmallInfoDbHelper().deleteAll();
                     return;
                 }
+//                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override

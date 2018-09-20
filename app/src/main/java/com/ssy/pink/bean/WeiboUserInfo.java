@@ -1,12 +1,22 @@
 package com.ssy.pink.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Unique;
+
 import java.io.Serializable;
+import java.util.Objects;
+
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * 微博用户对象
  */
+@Entity
 public class WeiboUserInfo implements Serializable {
     private static final long serialVersionUID = 7673264398640396954L;
+    @Unique
+    @Id
     private long id;//用户UID
 
     private String screen_name;//用户昵称
@@ -38,6 +48,35 @@ public class WeiboUserInfo implements Serializable {
     private String avatar_large;//用户头像地址（大图），180×180像素
 
     private String avatar_hd;// 用户头像地址（高清），高清头像原图
+
+
+    @Generated(hash = 424666052)
+    public WeiboUserInfo(long id, String screen_name, String name,
+            String description, String url, String profile_image_url, String domain,
+            String gender, int followers_count, int friends_count,
+            int statuses_count, int favourites_count, String created_at,
+            boolean verified, String avatar_large, String avatar_hd) {
+        this.id = id;
+        this.screen_name = screen_name;
+        this.name = name;
+        this.description = description;
+        this.url = url;
+        this.profile_image_url = profile_image_url;
+        this.domain = domain;
+        this.gender = gender;
+        this.followers_count = followers_count;
+        this.friends_count = friends_count;
+        this.statuses_count = statuses_count;
+        this.favourites_count = favourites_count;
+        this.created_at = created_at;
+        this.verified = verified;
+        this.avatar_large = avatar_large;
+        this.avatar_hd = avatar_hd;
+    }
+
+    @Generated(hash = 547930477)
+    public WeiboUserInfo() {
+    }
 
 
     public void setId(long id) {
@@ -171,6 +210,20 @@ public class WeiboUserInfo implements Serializable {
 
     public void setAvatar_hd(String avatar_hd) {
         this.avatar_hd = avatar_hd;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WeiboUserInfo)) return false;
+        WeiboUserInfo that = (WeiboUserInfo) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 
     @Override

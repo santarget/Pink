@@ -1,5 +1,7 @@
 package com.ssy.pink.mvp.presenter;
 
+import com.ssy.greendao.helper.HelperFactory;
+import com.ssy.greendao.helper.SmallInfoDbHelper;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
@@ -28,9 +30,11 @@ public class GroupDetailActivityPresenter extends BasePresenter {
     private IGroupDetailActivityView iView;
     GroupInfo groupInfo;
     List<SmallInfo> selectList = new ArrayList<>();
+    SmallInfoDbHelper helper;
 
     public GroupDetailActivityPresenter(IGroupDetailActivityView iView) {
         this.iView = iView;
+        helper = HelperFactory.getSmallInfoDbHelper();
     }
 
     public GroupDetailActivityPresenter setGroupInfo(GroupInfo groupInfo) {
@@ -38,7 +42,7 @@ public class GroupDetailActivityPresenter extends BasePresenter {
         return this;
     }
 
-    public void deleteSmall(String smallWeiboId) {
+    public void deleteSmall(final String smallWeiboId) {
         PinkNet.deleteSmall(UserManager.getInstance().userInfo.getCustomernum(), smallWeiboId, new Subscriber<CommonResp<NoBodyEntity>>() {
             @Override
             public void onCompleted() {
@@ -54,6 +58,7 @@ public class GroupDetailActivityPresenter extends BasePresenter {
             public void onNext(CommonResp<NoBodyEntity> noBodyEntityCommonResp) {
                 if (noBodyEntityCommonResp.getCode().equals(ResponseCode.CODE_SUCCESS)) {
                     iView.showToast(R.string.delete_success);
+                    helper.deleteByIdsStr(smallWeiboId);
                 } else {
                     iView.showToast(noBodyEntityCommonResp.getMsg());
                 }
@@ -101,8 +106,10 @@ public class GroupDetailActivityPresenter extends BasePresenter {
                 GroupManager.getInstance().smallInfos.clear();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
                     iView.finishRefresh();
+                    HelperFactory.getSmallInfoDbHelper().deleteAll();
                     return;
                 }
+//                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override

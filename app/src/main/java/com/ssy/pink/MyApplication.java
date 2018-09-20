@@ -2,6 +2,7 @@ package com.ssy.pink;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -12,6 +13,8 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.ssy.greendao.gen.DaoMaster;
+import com.ssy.greendao.gen.DaoSession;
 import com.ssy.pink.common.ConfigProp;
 import com.ssy.pink.glide.OkHttpUrlLoader;
 import com.ssy.pink.manager.WeiboManager;
@@ -31,7 +34,7 @@ public class MyApplication extends Application {
     public static String token = "";
     public static long tokenTimeStamp = 0;//获取token的时间戳，30min有效
     //Database相关
-    private final String dbName = "PINK_DATABASE";
+    private DaoSession daoSession;
 
     @Override
     public void onCreate() {
@@ -42,6 +45,7 @@ public class MyApplication extends Application {
         initSmartRefreshLayout();
         //初始化配置文件
         initConfigProp();
+        initDatabase();
         //让Glide能获取https图片
         Glide.get(this).register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(OkHttpClientProvider.getNoTokenClient()));
         doUpgrade();
@@ -51,6 +55,7 @@ public class MyApplication extends Application {
     private void initCrashReport() {
 //        ReportManager.getInstance().init();
     }
+
     private void initSmartRefreshLayout() {
         SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
             @Override
@@ -69,6 +74,7 @@ public class MyApplication extends Application {
             }
         });
     }
+
     /**
      * 版本更新操作，只在升级时执行一次
      */
@@ -94,5 +100,27 @@ public class MyApplication extends Application {
         return instance;
     }
 
+    /**
+     * 初始化greenDao
+     */
+    private void initDatabase() {
+        final String dbName = "PINK_DATABASE";
+        // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
+        // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
+        // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
+        // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, dbName, null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
 
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
+    public void setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+    }
 }

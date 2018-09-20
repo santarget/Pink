@@ -1,12 +1,21 @@
 package com.ssy.pink.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Keep;
+import org.greenrobot.greendao.annotation.Transient;
+import org.greenrobot.greendao.annotation.Unique;
+
 import java.io.Serializable;
+import java.util.Objects;
+
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * @author ssy
  * @date 2018/9/3
  */
-//@Entity
+@Entity
 public class SmallInfo implements Serializable {
     private static final long serialVersionUID = 6711175802828272175L;
     private String customerNum;//所属的大号的会员id
@@ -16,18 +25,14 @@ public class SmallInfo implements Serializable {
     private String usepwd;
     private String smallWeiboName;
 
-    //    @Unique
-//    @Id
+    @Unique
+    @Id
     private String weibosmallNumId;
     private String smallNumFansOrgInfoName;//所属粉丝组织
     private String smallNumFansOrgInfoNum;
     private String smallNumStatus;//0无效  1有效
 
-    private transient String mAccessToken = "";
-    private transient String mRefreshToken = "";
-    private transient long mExpiresTime = 0L;//access_token的生命周期，单位是秒数 expires_in
-
-    //    @Transient
+    @Transient
     transient boolean checked;
 
     public SmallInfo(String smallWeiboNum, String smallWeiboName) {
@@ -38,9 +43,10 @@ public class SmallInfo implements Serializable {
     public SmallInfo() {
     }
 
+    @Generated(hash = 375693950)
     public SmallInfo(String customerNum, String customerGroupNum, String customerGroupName, String smallWeiboNum,
-                     String usepwd, String smallWeiboName, String weibosmallNumId, String smallNumFansOrgInfoName,
-                     String smallNumFansOrgInfoNum, String smallNumStatus) {
+            String usepwd, String smallWeiboName, String weibosmallNumId, String smallNumFansOrgInfoName,
+            String smallNumFansOrgInfoNum, String smallNumStatus) {
         this.customerNum = customerNum;
         this.customerGroupNum = customerGroupNum;
         this.customerGroupName = customerGroupName;
@@ -133,36 +139,26 @@ public class SmallInfo implements Serializable {
         this.smallNumStatus = smallNumStatus;
     }
 
-    public String getmAccessToken() {
-        return mAccessToken;
-    }
-
-    public void setmAccessToken(String mAccessToken) {
-        this.mAccessToken = mAccessToken;
-    }
-
-    public String getmRefreshToken() {
-        return mRefreshToken;
-    }
-
-    public void setmRefreshToken(String mRefreshToken) {
-        this.mRefreshToken = mRefreshToken;
-    }
-
-    public long getmExpiresTime() {
-        return mExpiresTime;
-    }
-
-    public void setmExpiresTime(long mExpiresTime) {
-        this.mExpiresTime = mExpiresTime;
-    }
-
     public boolean isChecked() {
         return checked;
     }
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SmallInfo)) return false;
+        SmallInfo smallInfo = (SmallInfo) o;
+        return Objects.equals(weibosmallNumId, smallInfo.weibosmallNumId);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(weibosmallNumId);
     }
 
     @Override

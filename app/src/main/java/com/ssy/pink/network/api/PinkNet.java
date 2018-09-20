@@ -286,7 +286,7 @@ public class PinkNet {
     public static Subscription bindSmall(final String customerNum, final String smallWeiboId, final String smallWeiboNum,
                                          final String smallWeiboPwd, final String smallWeiboName, final String customerGroupNum,
                                          Observer<CommonResp<NoBodyEntity>> observer) {
-        BindSmallReq req = new BindSmallReq(customerNum, smallWeiboId, smallWeiboNum, AesUtils.encrypt(smallWeiboPwd), smallWeiboName, customerGroupNum);
+        BindSmallReq req = new BindSmallReq(customerNum, smallWeiboId, smallWeiboNum, smallWeiboPwd, smallWeiboName, customerGroupNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().bindSmall(requestBody)
                 .subscribeOn(Schedulers.io())
@@ -307,7 +307,7 @@ public class PinkNet {
     public static Subscription deleteSmall(final String customerNum, final String smallWeiboId, Subscriber<CommonResp<NoBodyEntity>> observer) {
         DeleteSmallReq req = new DeleteSmallReq(customerNum, smallWeiboId);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
-        Subscription subscription = getPinkApi().bindSmall(requestBody)
+        Subscription subscription = getPinkApi().deleteSmall(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

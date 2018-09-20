@@ -1,5 +1,6 @@
 package com.ssy.pink.mvp.presenter;
 
+import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
@@ -64,8 +65,10 @@ public class WorkFragmentPresenter extends BasePresenter {
             public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
                 GroupManager.getInstance().smallInfos.clear();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
+                    HelperFactory.getSmallInfoDbHelper().deleteAll();
                     return;
                 }
+//                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override

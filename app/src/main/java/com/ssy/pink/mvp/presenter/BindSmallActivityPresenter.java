@@ -9,9 +9,12 @@ import android.view.View;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.ssy.greendao.helper.HelperFactory;
+import com.ssy.greendao.helper.SmallInfoDbHelper;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.WeiboTokenInfo;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ResponseCode;
@@ -38,6 +41,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
     private List<SmallInfo> totalList = new ArrayList<>();//待绑定的小号集合，用于计数
     private SsoHandler mSsoHandler;
     private BindLogInfo bindingLogInfo;//正在绑定的对象
+    private SmallInfoDbHelper dbHelper;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -58,6 +62,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
         this.iView = iView;
         this.activity = activity;
         mSsoHandler = new SsoHandler(activity);
+        dbHelper = HelperFactory.getSmallInfoDbHelper();
     }
 
     public void bindSmall() {
@@ -117,9 +122,11 @@ public class BindSmallActivityPresenter extends BasePresenter {
                                     info.getSmallWeiboNum(), info.getUsepwd(), info.getSmallWeiboName(),
                                     info.getWeibosmallNumId(), UserManager.getInstance().userInfo.getFansorginfoname(),
                                     UserManager.getInstance().userInfo.getFansorginfonum(), info.getSmallNumStatus());
+                            dbHelper.insertOrReplace(smallInfo);
                             successList.add(smallInfo);
                             bindLogInfo.setSmallInfo(smallInfo);
                             bindLogInfo.setStatus(1);
+
                         } else {
                             failList.add(info);
                             bindLogInfo.setStatus(0);
@@ -146,11 +153,9 @@ public class BindSmallActivityPresenter extends BasePresenter {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.i("aaaa", "绑定成功：" + token.getUid());
-                    bindingLogInfo.getSmallInfo().setWeibosmallNumId(token.getUid());
-                    bindingLogInfo.getSmallInfo().setmAccessToken(token.getToken());
-                    bindingLogInfo.getSmallInfo().setmRefreshToken(token.getRefreshToken());
-                    bindingLogInfo.getSmallInfo().setmExpiresTime(token.getExpiresTime());
+                    WeiboTokenInfo tokenInfo = new WeiboTokenInfo(token.getUid(), token.getToken(), token.getRefreshToken(),
+                            token.getExpiresTime(), 0);
+                    HelperFactory.getTokenDbHelper().insertOrReplace(tokenInfo);
                     bindingLogInfo.getSmallInfo().setWeibosmallNumId(token.getUid());
                     bindSmallSingle(bindingLogInfo);
                 }

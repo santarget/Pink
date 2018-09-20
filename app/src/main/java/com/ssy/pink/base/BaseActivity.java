@@ -839,7 +839,7 @@ public class BaseActivity extends PermissionActivity implements IView {
                     } else if (message.toLowerCase().contains(ConstantErrorCode.UsernameOrPasswordIncorrect)) {
                         ToastUtils.showToast(this, R.string.a_or_p_not_right);
                     } else {
-                        ToastUtils.showToast(MyApplication.getInstance(), R.string.error_occurred);
+                        ToastUtils.showToast(MyApplication.getInstance(), errorMessage);
                     }
                     break;
             }

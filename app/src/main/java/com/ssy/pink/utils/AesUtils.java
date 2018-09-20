@@ -1,8 +1,20 @@
 package com.ssy.pink.utils;
 
+import android.os.Build;
 import android.util.Base64;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
+
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -14,72 +26,72 @@ public class AesUtils {
     //    private static final String CipherMode = "AES/ECB/PKCS5Padding";使用ECB加密，不需要设置IV，但是不安全
 //    private static final String CipherMode = "AES/CFB/NoPadding";//使用CFB加密，需要设置IV
     private static final String CipherMode = "AES/CBC/PKCS5Padding";
-    private static final String KEY = "pinkpunch";
+    private final static String HEX = "0123456789abcdef";
+    private static byte[] SEED = new byte[]{10, 2, 3, 4, 2, 5, 2, 3, 4, 1};
 
-    public static String encrypt(String data) {
+    public static String encrypt(String context) {
         try {
-            return encrypt(KEY, data);
-        } catch (Exception e) {
+            byte[] enCodeFormat = getRawkey();
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] result = cipher.doFinal(context.getBytes());
+            return byte2Hex(result);
+        } catch (NoSuchAlgorithmException | IllegalBlockSizeException | UnsupportedEncodingException | BadPaddingException | InvalidKeyException | NoSuchPaddingException | NoSuchProviderException e) {
             e.printStackTrace();
-            return data;
         }
+        return null;
     }
 
-    public static String decrypt(String data) {
+    public static String decrypt(String content) {
         try {
-            return decrypt(KEY, data);
-        } catch (Exception e) {
+            byte[] enCodeFormat = getRawkey();
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] result = cipher.doFinal(hex2Byte(content));
+            String aa = new String(result);
+            return aa;
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchProviderException e) {
             e.printStackTrace();
-            return data;
         }
+        return null;
     }
 
-    /**
-     * 对字符串加密
-     *
-     * @param key  密钥
-     * @param data 源字符串
-     * @return 加密后的字符串
-     */
-    public static String encrypt(String key, String data) throws Exception {
-        try {
-            Cipher cipher = Cipher.getInstance(CipherMode);
-            SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), "AES");
-
-            StringBuilder builder = new StringBuilder().append(key);
-            String ivParameter = builder.reverse().toString();
-            IvParameterSpec iv = new IvParameterSpec(ivParameter.getBytes());
-
-            cipher.init(Cipher.ENCRYPT_MODE, keyspec, iv);
-//            cipher.init(Cipher.ENCRYPT_MODE, keyspec, new IvParameterSpec(
-//                    new byte[cipher.getBlockSize()]));
-            byte[] encrypted = cipher.doFinal(data.getBytes("UTF-8"));
-            return Base64.encodeToString(encrypted, Base64.DEFAULT);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    private static byte[] getRawkey() throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException {
+        KeyGenerator keygen = KeyGenerator.getInstance("AES");
+        SecureRandom sr;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            sr = SecureRandom.getInstance("SHA1PRNG", "Crypto");
+        } else {
+            sr = SecureRandom.getInstance("SHA1PRNG");
         }
+        sr.setSeed(SEED);
+        keygen.init(256, sr);
+        SecretKey secretKey = keygen.generateKey();
+        byte[] enCodeFormat = secretKey.getEncoded();
+        return enCodeFormat;
     }
 
-    /**
-     * 对字符串解密
-     *
-     * @param key  密钥
-     * @param data 已被加密的字符串
-     * @return 解密得到的字符串
-     */
-    public static String decrypt(String key, String data) throws Exception {
-        try {
-            byte[] encrypted1 = Base64.decode(data.getBytes(), Base64.DEFAULT);
-            Cipher cipher = Cipher.getInstance(CipherMode);
-            SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), "AES");
-            cipher.init(Cipher.DECRYPT_MODE, keyspec, new IvParameterSpec(
-                    new byte[cipher.getBlockSize()]));
-            byte[] original = cipher.doFinal(encrypted1);
-            return new String(original, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    public static String byte2Hex(byte[] buf) {
+        if (buf == null)
+            return "";
+        StringBuffer result = new StringBuffer(2 * buf.length);
+        for (int i = 0; i < buf.length; i++) {
+            appendHex(result, buf[i]);
         }
+        return result.toString();
+    }
+
+    private static byte[] hex2Byte(String hexString) {
+        int len = hexString.length() / 2;
+        byte[] result = new byte[len];
+        for (int i = 0; i < len; i++)
+            result[i] = Integer.valueOf(hexString.substring(2 * i, 2 * i + 2), 16).byteValue();
+        return result;
+    }
+
+    private static void appendHex(StringBuffer sb, byte b) {
+        sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
 }

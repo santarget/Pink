@@ -109,7 +109,7 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
                 @Override
                 public void onOK(BindFinishDialog dialog) {
                     dialog.dismiss();
-                    finish();
+//                    finish();
                 }
             });
         }
@@ -122,21 +122,14 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
                 @Override
                 public void onEnd(BindAbnormalDialog dialog) {
                     dialog.dismiss();
-                    finish();
+//                    finish();
                 }
 
                 @Override
                 public void onHandle(BindAbnormalDialog dialog) {
                     dialog.dismiss();
                     Intent i = new Intent(BindSmallActivity.this, HandleAbnormalActivity.class);
-                    List<SmallInfo> failList = new ArrayList<>();
-                    failList.add(new SmallInfo("283738", "zhanghao"));
-                    failList.add(new SmallInfo("2837ss", "zhanghao"));
-                    failList.add(new SmallInfo("343434", "zhanghao"));
-                    failList.add(new SmallInfo("5467667687576867856867867867867867867856757", "zhanghao"));
-                    failList.add(new SmallInfo("2", "zhanghao"));
-//                    i.putExtra(Constants.INTENT_KEY_DATA, (Serializable) presenter.getFailList());
-                    i.putExtra(Constants.INTENT_KEY_DATA, (Serializable) failList);
+                    i.putExtra(Constants.INTENT_KEY_DATA, (Serializable) presenter.getFailList());
                     startActivity(i);
                     finish();
                 }

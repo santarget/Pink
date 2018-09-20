@@ -8,6 +8,7 @@ import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IAddSmallActivityView;
+import com.ssy.pink.utils.AesUtils;
 import com.ssy.pink.view.dialog.CheckDialog;
 
 /**
@@ -61,7 +62,7 @@ public class AddSmallActivityPresenter extends BasePresenter {
                     } else {
                         SmallInfo info = new SmallInfo();
                         info.setSmallWeiboNum(temp[0]);
-                        info.setUsepwd(temp[1]);
+                        info.setUsepwd(AesUtils.encrypt(temp[1]));
                         BindManager.getInstance().smallInfos.add(info);
                     }
                 }

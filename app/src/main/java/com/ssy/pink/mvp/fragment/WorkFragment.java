@@ -22,6 +22,7 @@ import com.ssy.pink.common.EventCode;
 import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.presenter.WorkFragmentPresenter;
+import com.ssy.pink.service.WorkService;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.ChooseGroupView;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
@@ -264,9 +265,11 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         if (isWorking) {
             tvWork.setText("停止抡博");
             tvWorkBg.setEnabled(true);
+            WorkService.startService(mainActivity);
         } else {
             tvWork.setText("开始抡博");
             tvWorkBg.setEnabled(false);
+            WorkService.stopService(mainActivity);
         }
         //工作状态，小号分组的checkbox不可选
         for (int i = 0; i < llGroupRoot.getChildCount(); i++) {

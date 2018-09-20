@@ -1,8 +1,10 @@
 package com.ssy.pink.manager;
 
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.WeiboInfo;
 import com.ssy.pink.network.api.WeiboNet;
+import com.ssy.pink.service.WorkService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +40,10 @@ public class LoopManager {
     }
 
     public void startWork() {
+        WorkService.startService(MyApplication.getInstance());
     }
 
     public void stopWork() {
-
+        WorkService.stopService(MyApplication.getInstance());
     }
 }

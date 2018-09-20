@@ -11,4 +11,6 @@ public interface ILoginActivityView extends IView {
     void hasGotOrgs(boolean hasGot);
 
     void toMainActivity();
+
+    void showProgress(boolean show);
 }

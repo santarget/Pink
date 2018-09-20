@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.BindLogInfo;
-import com.ssy.pink.bean.FansOrgInfo;
 
 import java.util.List;
 
@@ -45,12 +44,6 @@ public class BindLogAdapter extends BaseRecycleViewAdapter<BindLogInfo> {
             String str = String.format("%s 账号绑定中...", info.getSmallInfo().getSmallWeiboNum());
             myHolder.tvLog.setText(str);
             myHolder.tvLog.setTextColor(context.getResources().getColor(R.color.txt_dialog_title));
-        }
-
-        if (position == 2) {
-            String str = String.format("%s 账号绑定失败，原因：%s", info.getSmallInfo().getSmallWeiboNum(), info.getMsg());
-            myHolder.tvLog.setText(str + "用户被锁定");
-            myHolder.tvLog.setTextColor(context.getResources().getColor(R.color.txt_small_log_red));
         }
     }
 

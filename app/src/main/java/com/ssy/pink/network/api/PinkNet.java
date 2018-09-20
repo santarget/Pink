@@ -28,6 +28,7 @@ import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.OkHttpClientProvider;
+import com.ssy.pink.utils.AesUtils;
 import com.ssy.pink.utils.JsonUtils;
 
 import okhttp3.MediaType;
@@ -285,7 +286,7 @@ public class PinkNet {
     public static Subscription bindSmall(final String customerNum, final String smallWeiboId, final String smallWeiboNum,
                                          final String smallWeiboPwd, final String smallWeiboName, final String customerGroupNum,
                                          Observer<CommonResp<NoBodyEntity>> observer) {
-        BindSmallReq req = new BindSmallReq(customerNum, smallWeiboId, smallWeiboNum, smallWeiboPwd, smallWeiboName, customerGroupNum);
+        BindSmallReq req = new BindSmallReq(customerNum, smallWeiboId, smallWeiboNum, AesUtils.encrypt(smallWeiboPwd), smallWeiboName, customerGroupNum);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().bindSmall(requestBody)
                 .subscribeOn(Schedulers.io())

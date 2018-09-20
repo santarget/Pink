@@ -1,7 +1,5 @@
 package com.ssy.pink.manager;
 
-import android.util.Log;
-
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -11,9 +9,7 @@ import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.network.NobodyConverterFactory;
 import com.ssy.pink.network.UnsafeOkHttpClient;
-import com.ssy.pink.network.api.WeiboApi;
 import com.ssy.pink.network.api.WeiboApi2;
-import com.ssy.pink.network.api.WeiboNet2;
 import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.MyUtils;
 

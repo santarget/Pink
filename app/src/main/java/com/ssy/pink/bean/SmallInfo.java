@@ -16,7 +16,7 @@ public class SmallInfo implements Serializable {
     private String usepwd;
     private String smallWeiboName;
 
-//    @Unique
+    //    @Unique
 //    @Id
     private String weibosmallNumId;
     private String smallNumFansOrgInfoName;//所属粉丝组织
@@ -27,7 +27,7 @@ public class SmallInfo implements Serializable {
     private transient String mRefreshToken = "";
     private transient long mExpiresTime = 0L;//access_token的生命周期，单位是秒数 expires_in
 
-//    @Transient
+    //    @Transient
     transient boolean checked;
 
     public SmallInfo(String smallWeiboNum, String smallWeiboName) {
@@ -131,6 +131,30 @@ public class SmallInfo implements Serializable {
 
     public void setSmallNumStatus(String smallNumStatus) {
         this.smallNumStatus = smallNumStatus;
+    }
+
+    public String getmAccessToken() {
+        return mAccessToken;
+    }
+
+    public void setmAccessToken(String mAccessToken) {
+        this.mAccessToken = mAccessToken;
+    }
+
+    public String getmRefreshToken() {
+        return mRefreshToken;
+    }
+
+    public void setmRefreshToken(String mRefreshToken) {
+        this.mRefreshToken = mRefreshToken;
+    }
+
+    public long getmExpiresTime() {
+        return mExpiresTime;
+    }
+
+    public void setmExpiresTime(long mExpiresTime) {
+        this.mExpiresTime = mExpiresTime;
     }
 
     public boolean isChecked() {

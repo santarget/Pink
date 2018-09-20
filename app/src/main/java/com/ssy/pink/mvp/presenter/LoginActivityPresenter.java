@@ -91,6 +91,7 @@ public class LoginActivityPresenter extends BasePresenter {
                     iView.toMainActivity();
                 } else {
                     iView.showToast(resp.getMsg());
+                    iView.showProgress(false);
                 }
 
             }

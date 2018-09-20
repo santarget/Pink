@@ -129,7 +129,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     /**
      * Shows the progress UI and hides the login form.
      */
-    private void showProgress(final boolean show) {
+    @Override
+    public void showProgress(final boolean show) {
         if (show) {
             if (dialog == null) {
                 dialog = new WaitingDialog(this);

@@ -14,6 +14,25 @@ public class AesUtils {
     //    private static final String CipherMode = "AES/ECB/PKCS5Padding";使用ECB加密，不需要设置IV，但是不安全
 //    private static final String CipherMode = "AES/CFB/NoPadding";//使用CFB加密，需要设置IV
     private static final String CipherMode = "AES/CBC/PKCS5Padding";
+    private static final String KEY = "pinkpunch";
+
+    public static String encrypt(String data) {
+        try {
+            return encrypt(KEY, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return data;
+        }
+    }
+
+    public static String decrypt(String data) {
+        try {
+            return decrypt(KEY, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return data;
+        }
+    }
 
     /**
      * 对字符串加密

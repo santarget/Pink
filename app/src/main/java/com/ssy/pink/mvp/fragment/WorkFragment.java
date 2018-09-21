@@ -22,6 +22,7 @@ import com.ssy.pink.common.EventCode;
 import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.presenter.WorkFragmentPresenter;
+import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.service.WorkService;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.ChooseGroupView;
@@ -37,6 +38,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.Interceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author ssy
@@ -201,7 +206,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                 if (isChecked) {
                     etCustom.setVisibility(View.GONE);
                 }
-
                 break;
             case R.id.rbCustom:
                 if (isChecked) {
@@ -261,20 +265,81 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     }
 
     private void setWorkStatus(boolean isWorking) {
-        this.isWorking = isWorking;
         if (isWorking) {
-            tvWork.setText("停止抡博");
-            tvWorkBg.setEnabled(true);
-            WorkService.startService(mainActivity);
+            if (setWorkConfig()) {
+                this.isWorking = isWorking;
+                tvWork.setText("停止抡博");
+                tvWorkBg.setEnabled(true);
+                LoopManager.getInstance().startWork();
+            }
         } else {
+            this.isWorking = isWorking;
             tvWork.setText("开始抡博");
             tvWorkBg.setEnabled(false);
-            WorkService.stopService(mainActivity);
+            LoopManager.getInstance().stopWork();
         }
         //工作状态，小号分组的checkbox不可选
         for (int i = 0; i < llGroupRoot.getChildCount(); i++) {
-            ((ChooseGroupView) (llGroupRoot.getChildAt(i))).setCheckboxEnable(!isWorking);
+            ((ChooseGroupView) (llGroupRoot.getChildAt(i))).setCheckboxEnable(!this.isWorking);
         }
+
+    }
+
+    /**
+     * 设置抡博参数
+     *
+     * @return
+     */
+    private boolean setWorkConfig() {
+        if (TextUtils.isEmpty(etWeiboUrl.getText().toString())) {
+            showToast("请设置微博链接");
+            return false;
+        }
+        LoopManager.getInstance().url = etWeiboUrl.getText().toString();
+        if (rbRandomEmoticon.isChecked()) {
+            LoopManager.getInstance().customOn = false;
+            LoopManager.getInstance().randomOn = true;
+        } else if (rbCustom.isChecked()) {
+            LoopManager.getInstance().customOn = true;
+            LoopManager.getInstance().randomOn = false;
+        } else {
+            LoopManager.getInstance().customOn = true;
+            LoopManager.getInstance().randomOn = true;
+        }
+        LoopManager.getInstance().customContent = TextUtils.isEmpty(etCustom.getText().toString()) ?
+                "" : etCustom.getText().toString().trim();
+
+        LoopManager.getInstance().keepOthers = rbContentKeep.isChecked();
+        if (rbSpeedFast.isChecked()) {
+            LoopManager.getInstance().speed = 2;
+        } else if (rbSpeedStable.isChecked()) {
+            LoopManager.getInstance().speed = 1;
+        } else {
+            LoopManager.getInstance().speed = 0;
+        }
+        if (rbCountMax.isChecked()) {
+            LoopManager.getInstance().count = LoopManager.MAX_COUNT;
+        } else {
+            String countStr = etCountCustom.getText().toString();
+            if (TextUtils.isEmpty(countStr)) {
+                showToast("请设置微博转发数量");
+                return false;
+            }
+            try {
+                int count = Integer.valueOf(countStr);
+                if (count <= 0) {
+                    showToast("数量设置异常");
+                    return false;
+                } else {
+                    LoopManager.getInstance().count = count > LoopManager.MAX_COUNT ? LoopManager.MAX_COUNT : count;
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                showToast("数量设置异常");
+                return false;
+            }
+        }
+        return true;
     }
 
     private void setDefaultCount() {

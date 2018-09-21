@@ -2,6 +2,8 @@ package com.ssy.pink.network.api;
 
 import android.util.Log;
 
+import com.sina.weibo.sdk.auth.AccessTokenKeeper;
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.EmotionInfo;
 import com.ssy.pink.bean.WeiboInfo;
 import com.ssy.pink.bean.WeiboUserInfo;
@@ -97,6 +99,7 @@ public class WeiboNet {
 
     public static void shareWeibo(String status, Callback callback) {
         Call call = getWeiboApi().share(WeiboManager.getInstance().mAccessToken.getToken(), status);
+//        Call call = getWeiboApi().share(AccessTokenKeeper.readAccessToken(MyApplication.getInstance()).getToken(), status);
         call.enqueue(callback);
     }
 

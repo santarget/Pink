@@ -47,7 +47,7 @@ public class WorkService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
         task = new TimerTask() {
             @Override
             public void run() {

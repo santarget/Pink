@@ -5,9 +5,7 @@ import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import rx.Observable;
 import rx.Subscriber;

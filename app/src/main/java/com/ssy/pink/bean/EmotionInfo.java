@@ -1,7 +1,15 @@
 package com.ssy.pink.bean;
 
-import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Unique;
 
+import java.io.Serializable;
+import java.util.Objects;
+
+import org.greenrobot.greendao.annotation.Generated;
+
+@Entity
 public class EmotionInfo implements Serializable {
     private static final long serialVersionUID = -2925199767759765861L;
     String category;
@@ -12,7 +20,26 @@ public class EmotionInfo implements Serializable {
     //    String picid;
     String type;//表情类别，face：普通表情、ani：魔法表情、cartoon：动漫表情，默认为face。
     String url;//"http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/eb/smile.gif",
+    @Unique
+    @Id
     String value;//"[呵呵]",
+
+    @Generated(hash = 724519342)
+    public EmotionInfo(String category, boolean common, boolean hot, String icon, String phrase,
+                       String type, String url, String value) {
+        this.category = category;
+        this.common = common;
+        this.hot = hot;
+        this.icon = icon;
+        this.phrase = phrase;
+        this.type = type;
+        this.url = url;
+        this.value = value;
+    }
+
+    @Generated(hash = 1190716014)
+    public EmotionInfo() {
+    }
 
     public String getCategory() {
         return category;
@@ -78,6 +105,29 @@ public class EmotionInfo implements Serializable {
         this.value = value;
     }
 
+    public boolean getCommon() {
+        return this.common;
+    }
+
+    public boolean getHot() {
+        return this.hot;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EmotionInfo)) return false;
+        EmotionInfo that = (EmotionInfo) o;
+        return Objects.equals(url, that.url) &&
+                Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(url, value);
+    }
+
     @Override
     public String toString() {
         return "EmotionInfo{" +
@@ -91,4 +141,6 @@ public class EmotionInfo implements Serializable {
                 ", value='" + value + '\'' +
                 '}';
     }
+
+
 }

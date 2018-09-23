@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.mvp.iview.ISplashActivityView;
-import com.ssy.pink.manager.LoginManager;
 import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.SharedPreferencesUtil;
 
@@ -58,7 +57,7 @@ public class SplashActivityPresenter extends BasePresenter {
             iView.showToast(R.string.network_not_available);
             iView.toLoginActivity();
         } else {
-            LoginManager.getInstance().autoLogin();
+//            LoginManager.getInstance().autoLogin();
         }
     }
 }

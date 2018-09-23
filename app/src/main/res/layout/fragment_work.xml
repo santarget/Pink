@@ -26,7 +26,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_course" />
+            android:src="@drawable/ic_course"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ScrollView
@@ -321,7 +322,8 @@
                 android:layout_marginRight="@dimen/item_horizontal_margin"
                 android:layout_marginTop="@dimen/item_vertical_margin"
                 android:background="@drawable/shape_dashgap"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -379,7 +381,9 @@
 
             </LinearLayout>
 
-            <View style="@style/Line" />
+            <View
+                style="@style/Line"
+                android:layout_marginTop="10dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -597,7 +601,8 @@
                         android:id="@+id/ivHelpMonitor"
                         style="@style/IconHelp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                        android:layout_centerVertical="true"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <ScrollView

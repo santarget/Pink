@@ -1,5 +1,6 @@
 package com.ssy.pink.manager;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSONException;
@@ -107,20 +108,25 @@ public class LoopManager {
     public void setSpeed(int speed) {
         this.speed = speed;
         if (speed == 0) {
-            acountWait = 3 * 1000L;
-            roundWait = 20 * 1000L;
+            acountWait = 7 * 1000L;
+            roundWait = 300 * 1000L;
         } else if (speed == 1) {
             acountWait = 1000L;
-            roundWait = 15 * 1000L;
+            roundWait = 20 * 1000L;
         } else {
             acountWait = 100L;
-            roundWait = 10 * 1000L;
+            roundWait = 20 * 1000L;
         }
     }
 
     private void sendLog(String log) {
         logSb.insert(0, log + divider);
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
+    }
+
+    private void removeSmall(SmallInfo smallInfo) {
+        smallList.remove(smallInfo);
+        sendLog("已将账号" + smallInfo.getSmallWeiboNum() + "移出抡博队列");
     }
 
     private String getEmotion() {
@@ -154,6 +160,11 @@ public class LoopManager {
                 EventBus.getDefault().post(EventCode.WORK_FINISH);
                 return null;
             }
+            if (ListUtils.isEmpty(smallList)) {
+                sendLog("无有效抡博账号");
+                EventBus.getDefault().post(EventCode.WORK_FINISH);
+                return null;
+            }
             smallQueue.addAll(smallList);
         }
         SmallInfo smallInfo = smallQueue.poll();// 移除并返问队列头部的元素    如果队列为空，则返回null
@@ -166,6 +177,11 @@ public class LoopManager {
             return;
         }
         WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentSmall.getWeibosmallNumId());
+        if (tokenInfo == null || TextUtils.isEmpty(tokenInfo.getMAccessToken())) {
+            sendLog(currentSmall.getSmallWeiboNum() + "无微博授权或微博授权已过期，请移除该小号后重新绑定");
+            removeSmall(currentSmall);
+            return;
+        }
         String weibo = getWeibo();
         WeiboNet.shareWeibo(tokenInfo.getMAccessToken(), weibo, new Callback() {
             @Override
@@ -176,12 +192,15 @@ public class LoopManager {
                         errorMsg = response.errorBody().string();
                         WeiboErrorResp errorResp = JsonUtils.toObject(errorMsg, WeiboErrorResp.class);
                         sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败:" + errorResp.getError());
+                        removeSmall(currentSmall);
                     } catch (IOException e) {
                         e.printStackTrace();
                         sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败");
+                        removeSmall(currentSmall);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败：" + errorMsg);
+                        removeSmall(currentSmall);
                     }
                 } else {
                     sendLog(currentSmall.getSmallWeiboNum() + "微博发布成功");
@@ -191,6 +210,7 @@ public class LoopManager {
             @Override
             public void onFailure(Call call, Throwable t) {
                 sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败：" + t.toString());
+                removeSmall(currentSmall);
                 Log.i("aaaa", t.toString());
             }
         });

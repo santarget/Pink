@@ -1,6 +1,8 @@
 package com.ssy.pink.mvp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -67,7 +69,11 @@ public class MonthVipActivity extends BaseActivity {
                 tvPay.setText(tvPriceHalfYear.getText().toString());
                 break;
             case R.id.tvOK:
-
+                if (TextUtils.isEmpty(tvPay.getText().toString())) {
+                    showToast("请选择产品");
+                } else {
+                    startActivity(new Intent(MonthVipActivity.this, WeixinPayActivity.class));
+                }
                 break;
         }
     }

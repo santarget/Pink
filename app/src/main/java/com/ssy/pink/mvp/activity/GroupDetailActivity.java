@@ -93,6 +93,7 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
             groupInfo = new GroupInfo();
             groupInfo.setCustomergroupname("默认分组");
             groupInfo.setAllSmallInfos(GroupManager.getInstance().smallInfos);
+            groupInfo.setValidSmallInfos(GroupManager.getInstance().validSmallInfos);
             tvMove.setVisibility(View.GONE);//默认分组不允许移动账号
         }
         tvTitle.setText(groupInfo.getCustomergroupname());

@@ -17,7 +17,8 @@
         android:layout_height="@dimen/item_setting_height"
         android:background="@android:color/white"
         android:paddingLeft="@dimen/item_setting_horizontal_margin"
-        android:paddingRight="@dimen/item_setting_horizontal_margin">
+        android:paddingRight="@dimen/item_setting_horizontal_margin"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +39,8 @@
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="14dp" />
+        android:layout_height="14dp"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rlShare"
@@ -117,7 +119,8 @@
         android:layout_height="@dimen/item_setting_height"
         android:background="@android:color/white"
         android:paddingLeft="@dimen/item_setting_horizontal_margin"
-        android:paddingRight="@dimen/item_setting_horizontal_margin">
+        android:paddingRight="@dimen/item_setting_horizontal_margin"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,7 +149,8 @@
         android:layout_height="@dimen/item_setting_height"
         android:background="@android:color/white"
         android:paddingLeft="@dimen/item_setting_horizontal_margin"
-        android:paddingRight="@dimen/item_setting_horizontal_margin">
+        android:paddingRight="@dimen/item_setting_horizontal_margin"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

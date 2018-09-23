@@ -98,7 +98,6 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
     @Override
     protected void onFirstUserVisible() {
         loadWeiboUserInfo();
-
         WeiboCustomerInfo userInfo = UserManager.getInstance().userInfo;
         if (userInfo != null) {
             tvName.setText(userInfo.getWeiboname());
@@ -247,6 +246,9 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
             FansOrgInfo fansOrgInfo = (FansOrgInfo) event.obj;
             if (fansOrgInfo != null) {
                 tvOrg.setText(fansOrgInfo.getFansorginfoname());
+                if (!fansOrgInfo.getFansorginfonum().equals(UserManager.getInstance().userInfo.getFansorginfonum())) {
+                    presenter.syncCustomer(fansOrgInfo.getFansorginfonum());
+                }
             }
         }
     }

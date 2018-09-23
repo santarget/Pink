@@ -89,6 +89,9 @@
         <activity
             android:name=".mvp.activity.HandleAbnormalActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.activity.WeixinPayActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.WorkService"

@@ -1,10 +1,14 @@
 package com.ssy.pink.mvp.presenter;
 
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
+import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.WeiboUserInfo;
 import com.ssy.pink.bean.response.CommonListResp;
+import com.ssy.pink.bean.response.CommonResp;
+import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.iview.IMyFragmentView;
 import com.ssy.pink.manager.UserManager;
@@ -78,6 +82,34 @@ public class MyFragmentPresenter extends BasePresenter {
             @Override
             public void onNext(WeiboUserInfo weiboUserInfo) {
                 WeiboManager.getInstance().userInfo = weiboUserInfo;
+            }
+        });
+    }
+
+    /**
+     * 同步主账号信息
+     */
+    public void syncCustomer(String fansOrgNum) {
+        WeiboCustomerInfo userInfo = UserManager.getInstance().userInfo;
+        PinkNet.syncCustomer(userInfo.getWeiboid(), userInfo.getWeibonum(), userInfo.getWeiboname(), fansOrgNum, new Subscriber<CommonResp<WeiboCustomerInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                MyUtils.handleExcep(e);
+            }
+
+            @Override
+            public void onNext(CommonResp<WeiboCustomerInfo> resp) {
+                if (resp.getCode().equalsIgnoreCase(ResponseCode.CODE_SUCCESS)) {
+                    UserManager.getInstance().userInfo = resp.getData();
+                } else {
+                    iView.showToast(resp.getMsg());
+                }
+
             }
         });
     }

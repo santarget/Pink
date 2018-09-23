@@ -66,7 +66,7 @@
                         android:id="@+id/tvFans"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="94"
+                        android:text="0"
                         android:textSize="17sp" />
 
                     <TextView
@@ -87,7 +87,7 @@
                         android:id="@+id/tvFollow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="104"
+                        android:text="0"
                         android:textSize="17sp" />
 
                     <TextView

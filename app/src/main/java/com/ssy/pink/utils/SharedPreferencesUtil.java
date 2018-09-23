@@ -16,6 +16,7 @@ public class SharedPreferencesUtil {
     private static final String SYSTEM_LANGUAGE = "system_language";
     private static final String NEED_CHANGE_PASSWORD = "need_change_password";
     private static final String LAST_VERSION = "last_version";
+    private static final String FIRST_USE_TIME = "first_use_time";//第一次使用app时间
 
 
     private static SharedPreferences getSharedPreferences() {
@@ -158,4 +159,24 @@ public class SharedPreferencesUtil {
     public static int getLastVersion() {
         return getSharedPreferences().getInt(LAST_VERSION, 0);
     }
+
+    /**
+     * 设置第一次使用时间
+     *
+     * @param timeStamp
+     */
+    public static void setFirstTime(long timeStamp) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putLong(FIRST_USE_TIME, timeStamp);
+        editor.apply();
+    }
+
+    /**
+     * 获取第一次使用时间
+     */
+    public static long getFirstUseTime() {
+        return getSharedPreferences().getLong(FIRST_USE_TIME, 0l);
+    }
+
+
 }

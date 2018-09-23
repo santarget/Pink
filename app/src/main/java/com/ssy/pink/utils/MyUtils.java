@@ -1,7 +1,5 @@
 package com.ssy.pink.utils;
 
-import android.util.Log;
-
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.exception.ExceptionResponse;
 import com.ssy.pink.common.ConstantWeibo;
@@ -11,7 +9,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.net.SocketTimeoutException;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLException;
 
@@ -66,7 +63,7 @@ public class MyUtils {
 //                "x_auth_username%3D" + userName +
 //                "%26x_auth_password%3D" + pwd +
 //                "%26x_auth_mode%3Dclient_auth" +
-                "%26consumer secret%3D" +ConstantWeibo.APP_SECRET+
+                "%26consumer secret%3D" + ConstantWeibo.APP_SECRET +
                 "%26oauth_consumer_key%3D" + ConstantWeibo.APP_KEY +
                 "%26oauth_signature_method%3DHMAC-SHA1" +
                 "%26oauth_timestamp%3D" + timeStamp +
@@ -83,6 +80,7 @@ public class MyUtils {
     }
 
     private static final String HMAC_SHA1 = "HmacSHA1";
+
     /**
      * 生成签名数据
      *
@@ -112,5 +110,21 @@ public class MyUtils {
         ob[1] = Digit[ib & 0X0F];
         String s = new String(ob);
         return s;
+    }
+
+    /**
+     * 检查app是否可用，过期则不可用
+     * 30天有效期
+     *
+     * @return true可用 false不可用
+     */
+    public static boolean isAppValid() {
+        if (SharedPreferencesUtil.getFirstUseTime() == 0) {
+            //第一次使用
+            SharedPreferencesUtil.setFirstTime(System.currentTimeMillis());
+            return true;
+        } else {
+            return System.currentTimeMillis() - SharedPreferencesUtil.getFirstUseTime() < 30 * 24 * 3600 * 1000l;
+        }
     }
 }

@@ -15,7 +15,9 @@ import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.common.Constants;
 import com.ssy.pink.mvp.iview.ISplashActivityView;
 import com.ssy.pink.mvp.presenter.SplashActivityPresenter;
-import com.ssy.pink.view.CommonDialog;
+import com.ssy.pink.utils.MyUtils;
+import com.ssy.pink.view.dialog.CommonDialog;
+import com.ssy.pink.view.dialog.InvalidDialog;
 
 import java.util.ArrayList;
 
@@ -36,16 +38,21 @@ public class SplashActivity extends BaseActivity implements ISplashActivityView 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
         presenter = new SplashActivityPresenter(this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    checkNeedPermission(Constants.PERMISSION_NEED);
-                } else {
-                    presenter.permissionOk();
+        if (MyUtils.isAppValid()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        checkNeedPermission(Constants.PERMISSION_NEED);
+                    } else {
+                        presenter.permissionOk();
+                    }
                 }
-            }
-        }, 2000l);
+            }, 2000l);
+        } else {
+            new InvalidDialog(this).show();
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

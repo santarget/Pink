@@ -25,8 +25,10 @@ import com.ssy.pink.mvp.presenter.WorkFragmentPresenter;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.service.WorkService;
 import com.ssy.pink.utils.ListUtils;
+import com.ssy.pink.utils.MyUtils;
 import com.ssy.pink.view.ChooseGroupView;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
+import com.ssy.pink.view.dialog.InvalidDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -178,19 +180,23 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
                 break;
             case R.id.ivHelpSendContent://发送内容
-                showHelpDialog(R.string.dialog_config_introduce);
+                showHelpDialog(R.string.dialog_config_send_content);
                 break;
             case R.id.ivHelpOtherContent://其他人的转发内容
-                showHelpDialog(R.string.dialog_config_introduce);
+                showHelpDialog(R.string.dialog_config_others);
                 break;
             case R.id.ivHelpSetSpeed://设置转发速度
-                showHelpDialog(R.string.dialog_config_introduce);
+                showHelpDialog(R.string.dialog_config_speed);
                 break;
             case R.id.ivHelpSetCount://数量设置
-                showHelpDialog(R.string.dialog_config_introduce);
+                showHelpDialog(R.string.dialog_config_times_limit);
                 break;
             case R.id.tvWork://开始抡博
-                setWorkStatus(!isWorking);
+                if (MyUtils.isAppValid()) {
+                    setWorkStatus(!isWorking);
+                } else {
+                    new InvalidDialog(mainActivity).show();
+                }
                 break;
             case R.id.ivHelpMonitor://抡博监控的帮助信息
                 showHelpDialog(R.string.dialog_config_introduce);

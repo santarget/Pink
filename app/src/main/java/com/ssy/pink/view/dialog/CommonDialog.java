@@ -1,4 +1,4 @@
-package com.ssy.pink.view;
+package com.ssy.pink.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

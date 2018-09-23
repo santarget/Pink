@@ -49,7 +49,6 @@ public class BindSmallActivityPresenter extends BasePresenter {
                 case CODE_BIND_NEXT:
                     totalList.remove(0);
                     if (ListUtils.isEmpty(totalList)) {
-                        Log.i("aaaa", "绑定结束");
                     } else {
                         bindWeiboSingle();
                     }
@@ -170,7 +169,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
             bindingLogInfo.setMsg("登录取消");
             iView.getAdapter().notifyItemChanged(0);
             handler.sendEmptyMessage(CODE_BIND_NEXT);
-            iView.setCurrentProgress(getFinishCount());
+
         }
 
         @Override
@@ -181,6 +180,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
             bindingLogInfo.setStatus(0);
             bindingLogInfo.setMsg(errorMessage.getErrorCode() + "_" + errorMessage.getErrorMessage());
             iView.getAdapter().notifyItemChanged(0);
+            handler.sendEmptyMessage(CODE_BIND_NEXT);
         }
     }
 

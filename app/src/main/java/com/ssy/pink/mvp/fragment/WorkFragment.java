@@ -160,7 +160,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         logScrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
+                if (!TextUtils.isEmpty(tvLog.getText().toString())) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                }
                 return false;
             }
         });

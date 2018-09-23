@@ -135,6 +135,10 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
                 }
             });
         }
+
+        if (bindAbnormalDialog.isShowing()) {
+            bindAbnormalDialog.hide();
+        }
         bindAbnormalDialog.setTips(presenter.getFailList().size()).show();
     }
 

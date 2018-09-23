@@ -19,11 +19,13 @@ public class BindFinishDialog extends BaseDialog {
 
     public BindFinishDialog(@NonNull Context context) {
         super(context);
+        setCancelable(true);
     }
 
     public BindFinishDialog(@NonNull Context context, BindFinishListener listener) {
         super(context);
         this.listener = listener;
+        setCancelable(true);
     }
 
     @Override

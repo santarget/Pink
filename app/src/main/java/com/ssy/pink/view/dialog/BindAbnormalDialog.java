@@ -31,6 +31,7 @@ public class BindAbnormalDialog extends BaseDialog {
     public BindAbnormalDialog(@NonNull Context context, BindAbnormalListener listener) {
         super(context);
         this.listener = listener;
+        setCancelable(true);
     }
 
     @Override

@@ -44,9 +44,9 @@ public class GroupManager {
     /**
      * 给小号归类
      */
-    public void classifySmall(Subscriber<List<GroupInfo>> subscriber) {
+    public boolean classifySmall(Subscriber<List<GroupInfo>> subscriber) {
         if (ListUtils.isEmpty(groupInfos) || ListUtils.isEmpty(smallInfos)) {
-            return;
+            return false;
         }
         validSmallInfos.clear();
         Subscription subscription = Observable.from(groupInfos)
@@ -72,6 +72,7 @@ public class GroupManager {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
+        return true;
     }
 
     /**

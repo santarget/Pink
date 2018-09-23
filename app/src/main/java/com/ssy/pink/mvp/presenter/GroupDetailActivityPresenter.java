@@ -111,7 +111,7 @@ public class GroupDetailActivityPresenter extends BasePresenter {
                 }
 //                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
-                GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
+                boolean b = GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override
                     public void onCompleted() {
                         iView.finishRefresh();
@@ -128,6 +128,10 @@ public class GroupDetailActivityPresenter extends BasePresenter {
                         iView.updateData();
                     }
                 });
+                if (!b) {
+                    //不需要给小号分类
+                    iView.finishRefresh();
+                }
             }
         });
     }

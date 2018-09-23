@@ -2,16 +2,19 @@ package com.ssy.pink.mvp.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.share.WbShareHandler;
 import com.ssy.pink.R;
+import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.manager.LoopManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.activity.BrowserActivity;
@@ -35,6 +38,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.Format;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,8 +91,12 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     TextView tvWork;
     @BindView(R.id.tvWorkBg)
     TextView tvWorkBg;//单纯做开始抡博按钮的背景
-    @BindView(R.id.llMonitor)
-    LinearLayout llMonitor;
+    @BindView(R.id.tvLog)
+    TextView tvLog;
+    @BindView(R.id.parentScrollView)
+    ScrollView parentScrollView;
+    @BindView(R.id.logScrollView)
+    ScrollView logScrollView;
     Unbinder unbinder;
 
     private WorkFragmentPresenter presenter;
@@ -140,6 +149,21 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         rbCountMax.setChecked(true);
         etCountCustom.setVisibility(View.GONE);
         setDefaultCount();
+
+        parentScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                logScrollView.getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+        logScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
     private void initListener() {
@@ -285,9 +309,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
             LoopManager.getInstance().stopWork();
         }
         //工作状态，小号分组的checkbox不可选
-        for (int i = 0; i < llGroupRoot.getChildCount(); i++) {
-            ((ChooseGroupView) (llGroupRoot.getChildAt(i))).setCheckboxEnable(!this.isWorking);
-        }
+//        for (int i = 0; i < llGroupRoot.getChildCount(); i++) {
+//            ((ChooseGroupView) (llGroupRoot.getChildAt(i))).setCheckboxEnable(!this.isWorking);
+//        }
 
     }
 
@@ -297,6 +321,33 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
      * @return
      */
     private boolean setWorkConfig() {
+        if (ListUtils.isEmpty(GroupManager.getInstance().smallInfos)) {
+            showToast("没有抡博的小号");
+            return false;
+        }
+        if (ListUtils.isEmpty(GroupManager.getInstance().validSmallInfos)) {
+            showToast("没有有效的抡博小号");
+            return false;
+        }
+        //设置抡博分组
+        if (cbDefaultGroup.isChecked()) {
+            LoopManager.getInstance().setSmalls(GroupManager.getInstance().validSmallInfos);
+        } else {
+            List<SmallInfo> workSmallList = new ArrayList<>();
+            for (GroupInfo groupInfo : GroupManager.getInstance().groupInfos) {
+                if (groupInfo.isChecked()) {
+                    workSmallList.addAll(groupInfo.getValidSmallInfos());
+                }
+            }
+            if (ListUtils.isEmpty(workSmallList)) {
+                showToast("没有有效的抡博小号");
+                return false;
+            } else {
+                LoopManager.getInstance().setSmalls(workSmallList);
+            }
+        }
+
+
         if (TextUtils.isEmpty(etWeiboUrl.getText().toString())) {
             showToast("请设置微博链接");
             return false;
@@ -317,14 +368,14 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
         LoopManager.getInstance().keepOthers = rbContentKeep.isChecked();
         if (rbSpeedFast.isChecked()) {
-            LoopManager.getInstance().speed = 2;
+            LoopManager.getInstance().setSpeed(2);
         } else if (rbSpeedStable.isChecked()) {
-            LoopManager.getInstance().speed = 1;
+            LoopManager.getInstance().setSpeed(1);
         } else {
-            LoopManager.getInstance().speed = 0;
+            LoopManager.getInstance().setSpeed(0);
         }
         if (rbCountMax.isChecked()) {
-            LoopManager.getInstance().count = LoopManager.MAX_COUNT;
+            LoopManager.getInstance().count = Integer.MAX_VALUE;
         } else {
             String countStr = etCountCustom.getText().toString();
             if (TextUtils.isEmpty(countStr)) {
@@ -337,7 +388,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                     showToast("数量设置异常");
                     return false;
                 } else {
-                    LoopManager.getInstance().count = count > LoopManager.MAX_COUNT ? LoopManager.MAX_COUNT : count;
+                    LoopManager.getInstance().count = count;
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -359,6 +410,12 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         switch (eventCode) {
             case EventCode.UPDATE_GROUPS:
                 loadGroups();
+                break;
+            case EventCode.WORK_FINISH:
+                setWorkStatus(false);
+                break;
+            case EventCode.WORK_UPDATE_LOG:
+                tvLog.setText(LoopManager.getInstance().logSb.toString());
                 break;
         }
     }

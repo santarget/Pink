@@ -17,7 +17,7 @@ public class TokenDbHelper extends BaseDbHelper<WeiboTokenInfoDao, WeiboTokenInf
         super(dao);
     }
 
-    public WeiboTokenInfo uniqueQuery(long weiboId) {
+    public WeiboTokenInfo uniqueQuery(String weiboId) {
         return super.uniqueQuery("and", new WhereCondition[]{WeiboTokenInfoDao.Properties.WeiboUid.eq(weiboId)});
     }
 }

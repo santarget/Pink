@@ -1,6 +1,8 @@
 package com.ssy.pink.manager;
 
+import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.pink.MyApplication;
+import com.ssy.pink.bean.EmotionInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.UserProductInfo;
@@ -16,7 +18,9 @@ import com.ssy.pink.network.TokenInterceptor;
 import com.ssy.pink.network.UnsafeOkHttpClient;
 import com.ssy.pink.network.api.PinkApi;
 import com.ssy.pink.network.api.PinkNet;
+import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.JsonUtils;
+import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.MyUtils;
 
@@ -58,6 +62,7 @@ public class UserManager {
     public void initAfterSync() {
         listOrderedInfo();
         getUserMoney();
+        getWeiboEmotions();
     }
 
     public static UserManager getInstance() {
@@ -136,6 +141,28 @@ public class UserManager {
                 if (moneyInfoCommonResp.getData() != null) {
                     moneyInfo = moneyInfoCommonResp.getData();
                     EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
+                }
+            }
+        });
+    }
+
+    private void getWeiboEmotions() {
+        WeiboNet.getEmotions(new Subscriber<List<EmotionInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<EmotionInfo> emotionInfos) {
+                if (!ListUtils.isEmpty(emotionInfos)) {
+                    HelperFactory.getEmotionDbHelper().deleteAll();
+                    HelperFactory.getEmotionDbHelper().insertOrReplaceList(emotionInfos);
                 }
             }
         });

@@ -7,3 +7,6 @@
 链接地址异常
 
 带话题会自动去除
+
+ 400 Bad Request
+{"error":"repeat content!","error_code":20019,"request":"/2/statuses/share.json"}

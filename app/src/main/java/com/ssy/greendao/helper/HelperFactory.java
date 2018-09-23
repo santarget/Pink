@@ -1,6 +1,5 @@
 package com.ssy.greendao.helper;
 
-import com.ssy.greendao.gen.DaoSession;
 import com.ssy.pink.MyApplication;
 
 /**
@@ -11,6 +10,7 @@ public class HelperFactory {
     private static SmallInfoDbHelper smallInfoDbHelper;
     private static WeiboUserlInfoDbHelper weiboUserlInfoDbHelper;
     private static TokenDbHelper tokenDbHelper;
+    private static EmotionDbHelper emotionDbHelper;
 
     public static SmallInfoDbHelper getSmallInfoDbHelper() {
         if (smallInfoDbHelper == null) {
@@ -31,6 +31,13 @@ public class HelperFactory {
             tokenDbHelper = new TokenDbHelper(MyApplication.getInstance().getDaoSession().getWeiboTokenInfoDao());
         }
         return tokenDbHelper;
+    }
+
+    public static EmotionDbHelper getEmotionDbHelper() {
+        if (emotionDbHelper == null) {
+            emotionDbHelper = new EmotionDbHelper(MyApplication.getInstance().getDaoSession().getEmotionInfoDao());
+        }
+        return emotionDbHelper;
     }
 
 }

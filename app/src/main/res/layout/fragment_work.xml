@@ -30,6 +30,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/parentScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -307,7 +308,7 @@
                 android:layout_marginRight="@dimen/item_horizontal_margin"
                 android:layout_marginTop="@dimen/item_vertical_margin"
                 android:background="@drawable/shape_gray_bg_radius"
-                android:hint="#话题#/@somebody/固定内容"
+                android:hint="/@somebody/固定内容"
                 android:padding="5dp"
                 android:textColor="@color/item_text_content"
                 android:textSize="@dimen/item_text_content_size" />
@@ -599,14 +600,24 @@
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
 
-                <LinearLayout
+                <ScrollView
+                    android:id="@+id/logScrollView"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:background="@drawable/shape_gray_border"
-                    android:orientation="vertical"></LinearLayout>
+                    android:background="@drawable/shape_gray_border">
+
+                    <TextView
+                        android:id="@+id/tvLog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"></TextView>
+                </ScrollView>
 
                 <View
                     android:layout_width="match_parent"

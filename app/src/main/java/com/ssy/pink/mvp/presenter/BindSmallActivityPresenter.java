@@ -86,7 +86,6 @@ public class BindSmallActivityPresenter extends BasePresenter {
         iView.getAdapter().getDatas().add(0, logInfo);
         iView.getAdapter().notifyItemChanged(0);
         bindingLogInfo = logInfo;
-        Log.i("aaaa", "bindWeiboSingle:" + logInfo.getSmallInfo().getSmallWeiboNum());
         mSsoHandler.authorizeWeb(new SelfWbAuthListener());
     }
 

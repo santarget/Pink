@@ -31,7 +31,7 @@ public class WeiboNet {
     private static CompositeSubscription mSubscriptions = new CompositeSubscription();
     private static WeiboApi weiboApi;
 
-    private static WeiboApi getWeiboApi() {
+    public static WeiboApi getWeiboApi() {
         if (weiboApi == null) {
             synchronized (WeiboNet.class) {
                 if (weiboApi == null) {
@@ -69,6 +69,9 @@ public class WeiboNet {
     }
 
     public static Subscription getEmotions(Subscriber<List<EmotionInfo>> subscriber) {
+        if (WeiboManager.getInstance().mAccessToken == null) {
+            return null;
+        }
         Subscription subscription = getWeiboApi().getEmotions(WeiboManager.getInstance().mAccessToken.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,8 +100,8 @@ public class WeiboNet {
         return subscription;
     }
 
-    public static void shareWeibo(String status, Callback callback) {
-        Call call = getWeiboApi().share(WeiboManager.getInstance().mAccessToken.getToken(), status);
+    public static void shareWeibo(String token, String status, Callback callback) {
+        Call call = getWeiboApi().share(token, status);
 //        Call call = getWeiboApi().share(AccessTokenKeeper.readAccessToken(MyApplication.getInstance()).getToken(), status);
         call.enqueue(callback);
     }

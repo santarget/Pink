@@ -19,4 +19,11 @@ public class EventCode {
     public static final int UPDATE_GROUPS = 31;//刷新分组信息
     public static final int EDIT_GROUP = 32;//编辑分组信息
     public static final int MOVE_SMALL = 33;//移动小号
+
+    /* 抡博 */
+    public static final int WORK_FINISH = 40;//抡博完成
+    public static final int WORK_UPDATE_LOG = 41;//更新抡博日志
+    public static final int WORK_WAITING = 43;//每轮之间等待
+
+
 }

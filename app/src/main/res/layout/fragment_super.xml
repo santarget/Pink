@@ -42,8 +42,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="57dp"
-                    android:layout_height="57dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginTop="15dp"
                     android:src="@drawable/ic_like" />
 
@@ -53,7 +53,7 @@
                     android:layout_marginTop="12dp"
                     android:text="点赞"
                     android:textColor="#333333"
-                    android:textSize="21sp" />
+                    android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
                     android:layout_marginTop="18dp"
                     android:text="正在建设中..."
                     android:textColor="#999999"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -75,8 +75,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="57dp"
-                    android:layout_height="57dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginTop="15dp"
                     android:src="@drawable/ic_follow" />
 
@@ -86,7 +86,7 @@
                     android:layout_marginTop="12dp"
                     android:text="关注"
                     android:textColor="#333333"
-                    android:textSize="21sp" />
+                    android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                     android:layout_marginTop="18dp"
                     android:text="正在建设中..."
                     android:textColor="#999999"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

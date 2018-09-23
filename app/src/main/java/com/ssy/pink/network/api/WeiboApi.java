@@ -70,6 +70,4 @@ public interface WeiboApi {
     @FormUrlEncoded
     @POST(ConstantUrl.WEIBO_REPOST)
     Call<WeiboInfo> repost(@Field("access_token") String access_token, @Field("id") long id);
-
-
 }

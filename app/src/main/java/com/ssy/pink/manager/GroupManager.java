@@ -25,6 +25,7 @@ public class GroupManager {
     private static GroupManager instance;
     public List<GroupInfo> groupInfos = new ArrayList<>();
     public List<SmallInfo> smallInfos = new ArrayList<>();//所有小号集合
+    public List<SmallInfo> validSmallInfos = new ArrayList<>();//所有有效小号集合
 
     private GroupManager() {
     }
@@ -47,7 +48,7 @@ public class GroupManager {
         if (ListUtils.isEmpty(groupInfos) || ListUtils.isEmpty(smallInfos)) {
             return;
         }
-
+        validSmallInfos.clear();
         Subscription subscription = Observable.from(groupInfos)
                 .map(new Func1<GroupInfo, List<GroupInfo>>() {
                     @Override
@@ -64,6 +65,7 @@ public class GroupManager {
                         }
                         groupInfo.setAllSmallInfos(allSmalls);
                         groupInfo.setValidSmallInfos(validSmalls);
+                        validSmallInfos.addAll(validSmalls);
                         return groupInfos;
                     }
                 })

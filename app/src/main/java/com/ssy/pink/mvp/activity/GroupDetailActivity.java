@@ -89,13 +89,6 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
 
     private void init() {
         groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
-        if (groupInfo == null) {
-            groupInfo = new GroupInfo();
-            groupInfo.setCustomergroupname("默认分组");
-            groupInfo.setAllSmallInfos(GroupManager.getInstance().smallInfos);
-            groupInfo.setValidSmallInfos(GroupManager.getInstance().validSmallInfos);
-            tvMove.setVisibility(View.GONE);//默认分组不允许移动账号
-        }
         tvTitle.setText(groupInfo.getCustomergroupname());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new LinerRecyclerItemDecoration(this, OrientationHelper.VERTICAL));
@@ -162,19 +155,19 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
 
     @Override
     public void updateData() {
-        if (TextUtils.isEmpty(groupInfo.getCustomergroupnum())) {
-            //默认分组
-            groupInfo = new GroupInfo();
-            groupInfo.setCustomergroupname("默认分组");
-            groupInfo.setAllSmallInfos(GroupManager.getInstance().smallInfos);
-        } else {
-            for (GroupInfo group : GroupManager.getInstance().groupInfos) {
-                if (group.equals(groupInfo)) {
-                    groupInfo = group;
-                    break;
-                }
+//        if (TextUtils.isEmpty(groupInfo.getCustomergroupnum())) {
+//            //默认分组
+//            groupInfo = new GroupInfo();
+//            groupInfo.setCustomergroupname("默认分组");
+//            groupInfo.setAllSmallInfos(GroupManager.getInstance().smallInfos);
+//        } else {
+        for (GroupInfo group : GroupManager.getInstance().groupInfos) {
+            if (group.equals(groupInfo)) {
+                groupInfo = group;
+                break;
             }
         }
+//        }
         adapter = new SmallAdapter(this, groupInfo.getAllSmallInfos());
         recyclerView.setAdapter(adapter);
         presenter.setGroupInfo(groupInfo);

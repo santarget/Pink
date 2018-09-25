@@ -3,6 +3,7 @@ package com.ssy.pink;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -31,7 +32,7 @@ public class MyApplication extends Application {
     /**
      * 用户相关
      */
-    public static String token = "";
+    private String token = "";
     public static long tokenTimeStamp = 0;//获取token的时间戳，30min有效
     //Database相关
     private DaoSession daoSession;
@@ -122,5 +123,17 @@ public class MyApplication extends Application {
 
     public void setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+        SharedPreferencesUtil.setLastToken(token);
+    }
+
+    public String getToken() {
+        if (TextUtils.isEmpty(token)) {
+            token = SharedPreferencesUtil.getLastToken();
+        }
+        return token;
     }
 }

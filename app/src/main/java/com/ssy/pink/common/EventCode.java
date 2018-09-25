@@ -24,6 +24,7 @@ public class EventCode {
     public static final int WORK_FINISH = 40;//抡博完成
     public static final int WORK_UPDATE_LOG = 41;//更新抡博日志
     public static final int WORK_WAITING = 43;//每轮之间等待
+    public static final int WORK_NEXT = 44;//下一个账号
 
 
 }

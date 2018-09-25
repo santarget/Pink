@@ -34,13 +34,10 @@ import retrofit2.Response;
  * @date 2018/9/18
  */
 public class WorkService extends Service {
-
     private static long accoutWait;
     private static long roundWait;
 
-    private final Timer timer = new Timer();
-    private TimerTask task;
-    private int status;//0 工作   1 暂停
+    private Handler handler = new Handler();
 
     @Nullable
     @Override
@@ -52,18 +49,8 @@ public class WorkService extends Service {
     public void onCreate() {
         super.onCreate();
         EventBus.getDefault().register(this);
-        task = new TimerTask() {
-            @Override
-            public void run() {
-                if (status == 1) {//等待
-                } else {
-                    LoopManager.getInstance().work();
-                }
+        LoopManager.getInstance().work();
 
-            }
-        };
-
-        timer.schedule(task, 0l, accoutWait);
     }
 
 
@@ -71,7 +58,6 @@ public class WorkService extends Service {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        timer.cancel();
     }
 
     @Override
@@ -94,14 +80,23 @@ public class WorkService extends Service {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(Integer eventCode) {
-        if (eventCode == EventCode.WORK_WAITING) {
-            status = 1;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    status = 0;
-                }
-            }, roundWait);
+        switch (eventCode) {
+            case EventCode.WORK_NEXT:
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        LoopManager.getInstance().work();
+                    }
+                }, accoutWait);
+                break;
+            case EventCode.WORK_WAITING:
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        LoopManager.getInstance().work();
+                    }
+                }, roundWait);
+                break;
         }
     }
 }

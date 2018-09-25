@@ -42,9 +42,8 @@ public class WeiboNet {
         return weiboApi;
     }
 
-    public static Subscription getUserInfo(Subscriber<WeiboUserInfo> subscriber) {
-        Subscription subscription = getWeiboApi().getWeiboUserInfo(WeiboManager.getInstance().mAccessToken.getToken(),
-                WeiboManager.getInstance().mAccessToken.getUid())
+    public static Subscription getUserInfo(String uid, String token, Subscriber<WeiboUserInfo> subscriber) {
+        Subscription subscription = getWeiboApi().getWeiboUserInfo(uid, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

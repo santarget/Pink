@@ -46,6 +46,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/llDefault"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_group_height"
@@ -117,6 +118,7 @@
     </LinearLayout>
 
     <android.support.v4.widget.Space
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="25px" />
 

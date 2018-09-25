@@ -17,6 +17,7 @@ public class SharedPreferencesUtil {
     private static final String NEED_CHANGE_PASSWORD = "need_change_password";
     private static final String LAST_VERSION = "last_version";
     private static final String FIRST_USE_TIME = "first_use_time";//第一次使用app时间
+    private static final String LAST_TOKEN = "last_token";
 
 
     private static SharedPreferences getSharedPreferences() {
@@ -178,5 +179,22 @@ public class SharedPreferencesUtil {
         return getSharedPreferences().getLong(FIRST_USE_TIME, 0l);
     }
 
+    /**
+     * 保存最近一次登录的token（sessionId ，当发生异常自动重启后sessionId会置空，需要从sp获取）
+     *
+     * @param token
+     */
+    public static void setLastToken(String token) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putString(LAST_TOKEN, token);
+        editor.apply();
+    }
+
+    /**
+     * 获取最近一次登录的token
+     */
+    public static String getLastToken() {
+        return getSharedPreferences().getString(LAST_TOKEN, "");
+    }
 
 }

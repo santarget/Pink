@@ -1,6 +1,5 @@
 package com.ssy.pink.mvp.presenter;
 
-import com.ssy.pink.MyApplication;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
@@ -9,9 +8,9 @@ import com.ssy.pink.bean.WeiboUserInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.common.ResponseCode;
+import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.iview.IMyFragmentView;
-import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.MyUtils;
@@ -67,23 +66,27 @@ public class MyFragmentPresenter extends BasePresenter {
     }
 
     public void getWeiboUserInfo() {
-        WeiboNet.getUserInfo(new Subscriber<WeiboUserInfo>() {
-            @Override
-            public void onCompleted() {
-                iView.finishRefresh();
-            }
+        if (WeiboManager.getInstance().mAccessToken == null) {
+            return;
+        }
+        WeiboNet.getUserInfo(WeiboManager.getInstance().mAccessToken.getUid(), WeiboManager.getInstance().mAccessToken.getToken(),
+                new Subscriber<WeiboUserInfo>() {
+                    @Override
+                    public void onCompleted() {
+                        iView.finishRefresh();
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                iView.finishRefresh();
-                MyUtils.handleExcep(e);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.finishRefresh();
+                        MyUtils.handleExcep(e);
+                    }
 
-            @Override
-            public void onNext(WeiboUserInfo weiboUserInfo) {
-                WeiboManager.getInstance().userInfo = weiboUserInfo;
-            }
-        });
+                    @Override
+                    public void onNext(WeiboUserInfo weiboUserInfo) {
+                        WeiboManager.getInstance().userInfo = weiboUserInfo;
+                    }
+                });
     }
 
     /**

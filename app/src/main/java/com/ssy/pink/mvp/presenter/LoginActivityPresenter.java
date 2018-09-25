@@ -54,36 +54,37 @@ public class LoginActivityPresenter extends BasePresenter {
     }
 
     public void getWeiboUserInfo(final String weiboNum, final String fansOrgNum) {
-        WeiboNet.getUserInfo(new Subscriber<WeiboUserInfo>() {
-            @Override
-            public void onCompleted() {
+        WeiboNet.getUserInfo(WeiboManager.getInstance().mAccessToken.getUid(), WeiboManager.getInstance().mAccessToken.getToken(),
+                new Subscriber<WeiboUserInfo>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                iView.showProgress(false);
-                if (e instanceof HttpException) {
-                    HttpException exception = (HttpException) e;
-                    try {
-                        String errorMsg = exception.response().errorBody().string();
-                        WeiboErrorResp errorResp = JsonUtils.toObject(errorMsg, WeiboErrorResp.class);
-                        iView.showToast(errorResp.getError());
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                        iView.showToast(e.getMessage());
                     }
-                } else {
-                    iView.showToast(e.getMessage());
-                }
-            }
 
-            @Override
-            public void onNext(WeiboUserInfo weiboUserInfo) {
-                WeiboManager.getInstance().userInfo = weiboUserInfo;
-                syncCustomer(WeiboManager.getInstance().mAccessToken.getUid(), weiboNum, weiboUserInfo.getName(), fansOrgNum);
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.showProgress(false);
+                        if (e instanceof HttpException) {
+                            HttpException exception = (HttpException) e;
+                            try {
+                                String errorMsg = exception.response().errorBody().string();
+                                WeiboErrorResp errorResp = JsonUtils.toObject(errorMsg, WeiboErrorResp.class);
+                                iView.showToast(errorResp.getError());
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                                iView.showToast(e.getMessage());
+                            }
+                        } else {
+                            iView.showToast(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(WeiboUserInfo weiboUserInfo) {
+                        WeiboManager.getInstance().userInfo = weiboUserInfo;
+                        syncCustomer(WeiboManager.getInstance().mAccessToken.getUid(), weiboNum, weiboUserInfo.getName(), fansOrgNum);
+                    }
+                });
     }
 
     /**
@@ -105,7 +106,7 @@ public class LoginActivityPresenter extends BasePresenter {
             public void onNext(CommonResp<WeiboCustomerInfo> resp) {
                 if (resp.getCode().equalsIgnoreCase(ResponseCode.CODE_SUCCESS)) {
                     UserManager.getInstance().userInfo = resp.getData();
-                    MyApplication.token = resp.getData().getSessionid();
+                    MyApplication.getInstance().setToken(resp.getData().getSessionid());
                     iView.toMainActivity();
                 } else {
                     iView.showToast(resp.getMsg());

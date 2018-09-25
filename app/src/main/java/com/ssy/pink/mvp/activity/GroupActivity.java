@@ -45,12 +45,12 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     SwipeRecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.tvTotalCount)
-    TextView tvTotalCount;
-    @BindView(R.id.tvNormalCount)
-    TextView tvNormalCount;
-    @BindView(R.id.llDefault)
-    LinearLayout llDefault;
+//    @BindView(R.id.tvTotalCount)
+//    TextView tvTotalCount;
+//    @BindView(R.id.tvNormalCount)
+//    TextView tvNormalCount;
+//    @BindView(R.id.llDefault)
+//    LinearLayout llDefault;
 
     private GroupActivityPresenter presenter;
     private GroupAdapter adapter;
@@ -67,8 +67,8 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     }
 
     private void init() {
-        tvTotalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
-        tvNormalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
+//        tvTotalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
+//        tvNormalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, OrientationHelper.VERTICAL, false));
         recyclerView.addItemDecoration(new SpaceItemDecoration());
         adapter = new GroupAdapter(this, GroupManager.getInstance().groupInfos);
@@ -111,7 +111,7 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     }
 
 
-    @OnClick({R.id.aivBack, R.id.aivAdd,R.id.llDefault})
+    @OnClick({R.id.aivBack, R.id.aivAdd})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.aivBack:
@@ -120,10 +120,10 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
             case R.id.aivAdd:
                 startActivity(new Intent(GroupActivity.this, GroupAddActivity.class));
                 break;
-            case R.id.llDefault:
-                Intent intent = new Intent(GroupActivity.this, GroupDetailActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_GROUP_DETAIL);
-                break;
+//            case R.id.llDefault:
+//                Intent intent = new Intent(GroupActivity.this, GroupDetailActivity.class);
+//                startActivityForResult(intent, REQUEST_CODE_GROUP_DETAIL);
+//                break;
         }
     }
 
@@ -143,15 +143,9 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
         refreshLayout.finishRefresh();
     }
 
-    @Override
-    public void updateDefaultGroup() {
-        tvTotalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
-        tvNormalCount.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
-    }
-
     private void showDeleteDialog(final GroupInfo info) {
         deleteDialog = new DeletaDialog.Builder(this)
-                .setMessage("所删除的分组包含账号，删除后账号将回归默认分组，确定继续吗？")
+                .setMessage("删除分组后，组内的小号也会一并删除，确定继续吗？")
                 .setNegativeButton(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -173,7 +167,6 @@ public class GroupActivity extends BaseActivity implements IGroupActivityView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_GROUP_DETAIL) {
-            presenter.updateMoneyInfo();
             presenter.listSmall();
         }
     }

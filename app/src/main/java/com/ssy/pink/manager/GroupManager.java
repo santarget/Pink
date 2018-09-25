@@ -21,7 +21,6 @@ import rx.schedulers.Schedulers;
  * @date 2018/9/4
  */
 public class GroupManager {
-    public static final String DEFAULT_GROUP = "default";
     private static GroupManager instance;
     public List<GroupInfo> groupInfos = new ArrayList<>();
     public List<SmallInfo> smallInfos = new ArrayList<>();//所有小号集合

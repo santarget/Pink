@@ -124,26 +124,4 @@ public class GroupActivityPresenter extends BasePresenter {
             }
         });
     }
-
-    public void updateMoneyInfo() {
-        PinkNet.getUserMoney(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonResp<MoneyInfo>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(CommonResp<MoneyInfo> moneyInfoCommonResp) {
-                if(moneyInfoCommonResp.getData()!=null){
-                    UserManager.getInstance().moneyInfo = moneyInfoCommonResp.getData();
-                    iView.updateDefaultGroup();
-                }
-            }
-        });
-    }
 }

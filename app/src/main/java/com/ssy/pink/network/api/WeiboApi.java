@@ -34,7 +34,7 @@ public interface WeiboApi {
      * @return
      */
     @GET(ConstantUrl.WEIBO_USER_INFO)
-    Observable<WeiboUserInfo> getWeiboUserInfo(@Query("access_token") String access_token, @Query("uid") String uid);
+    Observable<WeiboUserInfo> getWeiboUserInfo(@Query("uid") String uid, @Query("access_token") String access_token);
 
     /**
      * 获取某个用户最新发表的微博列表,最多5条

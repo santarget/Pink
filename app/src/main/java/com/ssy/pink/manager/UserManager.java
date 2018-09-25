@@ -94,7 +94,7 @@ public class UserManager {
             @Override
             public void onNext(CommonResp<WeiboCustomerInfo> weiboCustomerInfoCommonListResp) {
                 userInfo = weiboCustomerInfoCommonListResp.getData();
-                MyApplication.token = userInfo.getSessionid();
+                MyApplication.getInstance().setToken(userInfo.getSessionid());
             }
         });
     }

@@ -86,8 +86,8 @@ public class GroupAddActivity extends BaseActivity {
                     EventBus.getDefault().post(EventCode.ADD_GROUP);
                     showToast("分组添加成功");
                     onBackPressed();
-                } else if (groupInfoCommonResp.getCode().equalsIgnoreCase(ResponseCode.CODE_0041)) {
-                    showToast("分组添加失败，小组名称存在重名");
+                } else {
+                    showToast(groupInfoCommonResp.getMsg());
                 }
             }
         });

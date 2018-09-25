@@ -12,21 +12,18 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.sina.weibo.sdk.share.WbShareHandler;
 import com.ssy.pink.R;
+import com.ssy.pink.base.BaseFragment;
+import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.common.EventCode;
+import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.LoopManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.activity.BrowserActivity;
 import com.ssy.pink.mvp.activity.GroupActivity;
-import com.ssy.pink.base.BaseFragment;
-import com.ssy.pink.bean.GroupInfo;
-import com.ssy.pink.common.EventCode;
 import com.ssy.pink.mvp.iview.IWorkFragmentView;
-import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.presenter.WorkFragmentPresenter;
-import com.ssy.pink.network.api.WeiboNet;
-import com.ssy.pink.service.WorkService;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.MyUtils;
 import com.ssy.pink.view.ChooseGroupView;
@@ -37,7 +34,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,20 +41,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import okhttp3.Interceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author ssy
  * @date 2018/8/10
  */
 public class WorkFragment extends BaseFragment implements IWorkFragmentView, CompoundButton.OnCheckedChangeListener {
-    @BindView(R.id.cbDefaultGroup)
-    CheckBox cbDefaultGroup;
-    @BindView(R.id.tvDefalutCount)
-    TextView tvDefalutCount;
+    //    @BindView(R.id.cbDefaultGroup)
+//    CheckBox cbDefaultGroup;
+//    @BindView(R.id.tvDefalutCount)
+//    TextView tvDefalutCount;
     @BindView(R.id.llGroupRoot)
     LinearLayout llGroupRoot;
     @BindView(R.id.etWeiboUrl)
@@ -146,9 +138,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         etCustom.setVisibility(View.GONE);
         rbContentKeep.setChecked(true);
         rbSpeedSlow.setChecked(true);
-        rbCountMax.setChecked(true);
-        etCountCustom.setVisibility(View.GONE);
-        setDefaultCount();
+        rbCountCustom.setChecked(true);
 
         parentScrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -256,13 +246,21 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
                 break;
             case R.id.rbSpeedFast:
+                if (isChecked) {
+                    etCountCustom.setText("4");
+                }
 
                 break;
             case R.id.rbSpeedStable:
+                if (isChecked) {
+                    etCountCustom.setText("15");
+                }
 
                 break;
             case R.id.rbSpeedSlow:
-
+                if (isChecked) {
+                    etCountCustom.setText("28");
+                }
                 break;
             case R.id.rbCountMax:
                 if (isChecked) {
@@ -286,7 +284,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
     @Override
     public void loadGroups() {
-        setDefaultCount();
         llGroupRoot.removeAllViews();
         if (!ListUtils.isEmpty(GroupManager.getInstance().groupInfos)) {
             for (GroupInfo groupInfo : GroupManager.getInstance().groupInfos) {
@@ -332,22 +329,22 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
             return false;
         }
         //设置抡博分组
-        if (cbDefaultGroup.isChecked()) {
-            LoopManager.getInstance().setSmalls(GroupManager.getInstance().validSmallInfos);
-        } else {
-            List<SmallInfo> workSmallList = new ArrayList<>();
-            for (GroupInfo groupInfo : GroupManager.getInstance().groupInfos) {
-                if (groupInfo.isChecked()) {
-                    workSmallList.addAll(groupInfo.getValidSmallInfos());
-                }
-            }
-            if (ListUtils.isEmpty(workSmallList)) {
-                showToast("没有有效的抡博小号");
-                return false;
-            } else {
-                LoopManager.getInstance().setSmalls(workSmallList);
+//        if (cbDefaultGroup.isChecked()) {
+//            LoopManager.getInstance().setSmalls(GroupManager.getInstance().validSmallInfos);
+//        } else {
+        List<SmallInfo> workSmallList = new ArrayList<>();
+        for (GroupInfo groupInfo : GroupManager.getInstance().groupInfos) {
+            if (groupInfo.isChecked()) {
+                workSmallList.addAll(groupInfo.getValidSmallInfos());
             }
         }
+        if (ListUtils.isEmpty(workSmallList)) {
+            showToast("没有有效的抡博小号");
+            return false;
+        } else {
+            LoopManager.getInstance().setSmalls(workSmallList);
+        }
+//        }
 
 
         if (TextUtils.isEmpty(etWeiboUrl.getText().toString())) {
@@ -399,12 +396,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
             }
         }
         return true;
-    }
-
-    private void setDefaultCount() {
-        String str = String.format("[%d/%d]", UserManager.getInstance().moneyInfo.getAllValidSmallNum(),
-                UserManager.getInstance().moneyInfo.getAllSmallNum());
-        tvDefalutCount.setText(str);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

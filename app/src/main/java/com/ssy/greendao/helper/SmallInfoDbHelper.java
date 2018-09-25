@@ -20,6 +20,7 @@ public class SmallInfoDbHelper extends BaseDbHelper<SmallInfoDao, SmallInfo> {
         return super.uniqueQuery("and", new WhereCondition[]{SmallInfoDao.Properties.WeibosmallNumId.eq(smallWeiboId)});
     }
 
+
     public void deleteById(long smallWeiboId) {
         delete(uniqueQuery(smallWeiboId));
     }

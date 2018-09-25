@@ -17,6 +17,7 @@ import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
+import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;

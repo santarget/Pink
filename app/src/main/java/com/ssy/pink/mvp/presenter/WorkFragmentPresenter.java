@@ -64,11 +64,11 @@ public class WorkFragmentPresenter extends BasePresenter {
             @Override
             public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
                 GroupManager.getInstance().smallInfos.clear();
+                HelperFactory.getSmallInfoDbHelper().deleteAll();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
-                    HelperFactory.getSmallInfoDbHelper().deleteAll();
                     return;
                 }
-//                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());
+//                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());//暂时屏蔽
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override

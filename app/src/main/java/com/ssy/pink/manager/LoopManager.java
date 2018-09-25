@@ -19,6 +19,7 @@ import com.ssy.pink.network.OkHttpClientProvider;
 import com.ssy.pink.network.api.WeiboApi;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.service.WorkService;
+import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.MyUtils;
@@ -120,7 +121,7 @@ public class LoopManager {
     }
 
     private void sendLog(String log) {
-        logSb.insert(0, log + divider);
+        logSb.insert(0, log + "\n" + CommonUtils.formatData(null, System.currentTimeMillis()) + divider);
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
     }
 
@@ -159,6 +160,13 @@ public class LoopManager {
 //                stopWork();
                 EventBus.getDefault().post(EventCode.WORK_FINISH);
                 return null;
+            } else {
+                if (ListUtils.isEmpty(smallList)) {
+                    sendLog("无有效抡博账号");
+                    EventBus.getDefault().post(EventCode.WORK_FINISH);
+                    return null;
+                }
+                EventBus.getDefault().post(EventCode.WORK_WAITING);
             }
             if (ListUtils.isEmpty(smallList)) {
                 sendLog("无有效抡博账号");
@@ -178,8 +186,9 @@ public class LoopManager {
         }
         WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentSmall.getWeibosmallNumId());
         if (tokenInfo == null || TextUtils.isEmpty(tokenInfo.getMAccessToken())) {
-            sendLog(currentSmall.getSmallWeiboNum() + "无微博授权或微博授权已过期，请移除该小号后重新绑定");
+            sendLog(currentSmall.getSmallWeiboNum() + "无微博授权或微博授权已过期");
             removeSmall(currentSmall);
+            EventBus.getDefault().post(EventCode.WORK_NEXT);
             return;
         }
         String weibo = getWeibo();
@@ -193,17 +202,21 @@ public class LoopManager {
                         WeiboErrorResp errorResp = JsonUtils.toObject(errorMsg, WeiboErrorResp.class);
                         sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败:" + errorResp.getError());
                         removeSmall(currentSmall);
+                        EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (IOException e) {
                         e.printStackTrace();
                         sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败");
                         removeSmall(currentSmall);
+                        EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败：" + errorMsg);
                         removeSmall(currentSmall);
+                        EventBus.getDefault().post(EventCode.WORK_NEXT);
                     }
                 } else {
                     sendLog(currentSmall.getSmallWeiboNum() + "微博发布成功");
+                    EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }
             }
 
@@ -211,7 +224,7 @@ public class LoopManager {
             public void onFailure(Call call, Throwable t) {
                 sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败：" + t.toString());
                 removeSmall(currentSmall);
-                Log.i("aaaa", t.toString());
+                EventBus.getDefault().post(EventCode.WORK_NEXT);
             }
         });
     }

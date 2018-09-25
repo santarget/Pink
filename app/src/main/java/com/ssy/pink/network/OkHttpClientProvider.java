@@ -135,7 +135,7 @@ public class OkHttpClientProvider {
                 Request request = chain.request()
                         .newBuilder()
 //                        .addHeader("Authorization", MyApplication.token)
-                        .addHeader("sessionid", MyApplication.token)
+                        .addHeader("sessionid", MyApplication.getInstance().getToken())
                         .addHeader("Content-Type", "application/json; charset=UTF-8")
 //                    .addHeader("Accept-Encoding", "*")
 //                    .addHeader("Connection", "keep-alive")

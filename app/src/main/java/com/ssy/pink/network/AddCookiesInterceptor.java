@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.manager.UserManager;
 
 import java.io.IOException;
@@ -34,8 +35,7 @@ public class AddCookiesInterceptor implements Interceptor {
         if (chain == null)
             Log.d("http", "Addchain == null");
         final Request.Builder builder = chain.request().newBuilder();
-        builder.addHeader("sessionId", UserManager.getInstance().userInfo.getSessionid());
-        Log.d("============", "AddCookiesInterceptor:" + UserManager.getInstance().userInfo.getSessionid());
+        builder.addHeader("sessionId", MyApplication.getInstance().getToken());
         return chain.proceed(builder.build());
     }
 }

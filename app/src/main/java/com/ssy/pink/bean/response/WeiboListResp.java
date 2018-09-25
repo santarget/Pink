@@ -1,6 +1,6 @@
 package com.ssy.pink.bean.response;
 
-import com.ssy.pink.bean.WeiboInfo;
+import com.ssy.pink.bean.weibo.WeiboInfo;
 
 import java.io.Serializable;
 import java.util.List;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 小粉拳会员对象
  */
-public class WeiboCustomerInfo implements Serializable {
+public class CustomerInfo implements Serializable {
     private static final long serialVersionUID = -5217524867985702580L;
     private String customernum ;
 
@@ -129,7 +129,7 @@ public class WeiboCustomerInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "WeiboCustomerInfo{" +
+        return "CustomerInfo{" +
                 "customernum='" + customernum + '\'' +
                 ", fansorginfonum='" + fansorginfonum + '\'' +
                 ", fansorginfoname='" + fansorginfoname + '\'' +

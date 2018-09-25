@@ -1,5 +1,6 @@
 package com.ssy.pink.network.api;
 
+import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.RechargeRecordInfo;
@@ -8,7 +9,6 @@ import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.UserProductInfo;
-import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
@@ -29,7 +29,7 @@ public interface PinkApi {
     Observable<CommonListResp<ProductInfo>> listProduct();
 
     @POST(ConstantUrl.SYNC_CUSTOMER)
-    Observable<CommonResp<WeiboCustomerInfo>> syncCustomer(@Body RequestBody requestBody);
+    Observable<CommonResp<CustomerInfo>> syncCustomer(@Body RequestBody requestBody);
 
     @POST(ConstantUrl.SYNC_RECHARGE_RECORD)
     Observable<CommonResp<RechargeRecordInfo>> syncRechargeRecord(@Body RequestBody requestBody);

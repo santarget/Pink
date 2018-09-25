@@ -5,29 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 
-import com.ssy.pink.bean.WeiboTokenInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.manager.LoopManager;
-import com.ssy.pink.network.api.WeiboNet;
-import com.ssy.pink.network.api.WeiboNet2;
-import com.ssy.pink.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author ssy

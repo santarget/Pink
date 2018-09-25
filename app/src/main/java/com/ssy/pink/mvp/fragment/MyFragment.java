@@ -1,7 +1,6 @@
 package com.ssy.pink.mvp.fragment;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,7 +9,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ssy.pink.R;
-import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.CustomerInfo;
+import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.glide.GlideUtils;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.activity.GroupActivity;
@@ -21,13 +21,11 @@ import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
-import com.ssy.pink.bean.WeiboCustomerInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.mvp.iview.IMyFragmentView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.presenter.MyFragmentPresenter;
-import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.view.CircleImageView;
 import com.ssy.pink.view.dialog.FansOrgDialog;
@@ -42,7 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import rx.Subscriber;
 
 /**
  * @author ssy
@@ -98,7 +95,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
     @Override
     protected void onFirstUserVisible() {
         loadWeiboUserInfo();
-        WeiboCustomerInfo userInfo = UserManager.getInstance().userInfo;
+        CustomerInfo userInfo = UserManager.getInstance().userInfo;
         if (userInfo != null) {
             tvName.setText(userInfo.getWeiboname());
             tvOrg.setText(userInfo.getFansorginfoname());

@@ -1,28 +1,23 @@
 package com.ssy.pink.manager;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSONException;
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.net.HttpManager;
 import com.sina.weibo.sdk.net.WeiboParameters;
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.pink.MyApplication;
-import com.ssy.pink.bean.EmotionInfo;
+import com.ssy.pink.bean.weibo.EmotionInfo;
 import com.ssy.pink.bean.SmallInfo;
-import com.ssy.pink.bean.WeiboTokenInfo;
+import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.bean.response.WeiboErrorResp;
 import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.common.EventCode;
-import com.ssy.pink.network.OkHttpClientProvider;
-import com.ssy.pink.network.api.WeiboApi;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.service.WorkService;
 import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.ListUtils;
-import com.ssy.pink.utils.MyUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,11 +27,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Subscriber;
 
 /**
  * 抡博管理器

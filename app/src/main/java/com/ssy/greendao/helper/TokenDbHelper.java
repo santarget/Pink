@@ -3,9 +3,7 @@ package com.ssy.greendao.helper;
 import android.text.TextUtils;
 
 import com.ssy.greendao.gen.WeiboTokenInfoDao;
-import com.ssy.greendao.gen.WeiboUserInfoDao;
-import com.ssy.pink.bean.WeiboTokenInfo;
-import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 
 import org.greenrobot.greendao.query.WhereCondition;
 

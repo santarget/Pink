@@ -1,7 +1,7 @@
 package com.ssy.greendao.helper;
 
 import com.ssy.greendao.gen.WeiboUserInfoDao;
-import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.weibo.WeiboUserInfo;
 
 import org.greenrobot.greendao.query.WhereCondition;
 

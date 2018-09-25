@@ -1,4 +1,4 @@
-package com.ssy.pink.bean;
+package com.ssy.pink.bean.weibo;
 
 import java.io.Serializable;
 

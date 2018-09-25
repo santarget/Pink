@@ -4,7 +4,7 @@ import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.ssy.pink.MyApplication;
-import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.network.NobodyConverterFactory;

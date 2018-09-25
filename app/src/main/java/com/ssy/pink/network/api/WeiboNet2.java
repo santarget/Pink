@@ -1,6 +1,6 @@
 package com.ssy.pink.network.api;
 
-import com.ssy.pink.bean.WeiboInfo;
+import com.ssy.pink.bean.weibo.WeiboInfo;
 import com.ssy.pink.bean.request.RepostWeiboReq;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.network.OkHttpClientProvider;

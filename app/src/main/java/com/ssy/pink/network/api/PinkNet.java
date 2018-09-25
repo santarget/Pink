@@ -8,7 +8,7 @@ import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.UserProductInfo;
-import com.ssy.pink.bean.WeiboCustomerInfo;
+import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.request.AddGroupReq;
 import com.ssy.pink.bean.request.BindSmallReq;
 import com.ssy.pink.bean.request.DeleteGroupReq;
@@ -24,11 +24,7 @@ import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.bean.response.VersionResp;
-import com.ssy.pink.common.ResponseCode;
-import com.ssy.pink.manager.GroupManager;
-import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.OkHttpClientProvider;
-import com.ssy.pink.utils.AesUtils;
 import com.ssy.pink.utils.JsonUtils;
 
 import okhttp3.MediaType;
@@ -37,7 +33,6 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -94,7 +89,7 @@ public class PinkNet {
      * @return
      */
     public static Subscription syncCustomer(String weiboId, String weiboNum, String weiboName, String fansOrgNum,
-                                            Subscriber<CommonResp<WeiboCustomerInfo>> subscriber) {
+                                            Subscriber<CommonResp<CustomerInfo>> subscriber) {
         SyncCustomerReq req = new SyncCustomerReq();
         req.setWeiboid(weiboId);
         req.setWeibonum(weiboNum);

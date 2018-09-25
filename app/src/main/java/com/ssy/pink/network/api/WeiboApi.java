@@ -1,14 +1,13 @@
 package com.ssy.pink.network.api;
 
-import com.ssy.pink.bean.EmotionInfo;
-import com.ssy.pink.bean.WeiboInfo;
-import com.ssy.pink.bean.WeiboUserInfo;
-import com.ssy.pink.bean.response.NoBodyEntity;
+import com.ssy.pink.bean.weibo.EmotionInfo;
+import com.ssy.pink.bean.weibo.RankInfo;
+import com.ssy.pink.bean.weibo.WeiboInfo;
+import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.response.WeiboListResp;
 import com.ssy.pink.common.ConstantUrl;
 
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -16,7 +15,6 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -35,6 +33,9 @@ public interface WeiboApi {
      */
     @GET(ConstantUrl.WEIBO_USER_INFO)
     Observable<WeiboUserInfo> getWeiboUserInfo(@Query("uid") String uid, @Query("access_token") String access_token);
+
+    @GET(ConstantUrl.WEIBO_RANK)
+    Observable<RankInfo> getWeiboRank(@Query("uid") long uid, @Query("access_token") String access_token);
 
     /**
      * 获取某个用户最新发表的微博列表,最多5条

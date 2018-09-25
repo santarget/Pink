@@ -2,9 +2,9 @@ package com.ssy.pink.mvp.presenter;
 
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.base.BasePresenter;
+import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.FansOrgInfo;
-import com.ssy.pink.bean.WeiboCustomerInfo;
-import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.WeiboErrorResp;
@@ -16,8 +16,6 @@ import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.MyUtils;
-
-import java.io.IOException;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -91,7 +89,7 @@ public class LoginActivityPresenter extends BasePresenter {
      * 同步主账号信息
      */
     public void syncCustomer(String weiboId, String weiboNum, String weiboName, String fansOrgNum) {
-        PinkNet.syncCustomer(weiboId, weiboNum, weiboName, fansOrgNum, new Subscriber<CommonResp<WeiboCustomerInfo>>() {
+        PinkNet.syncCustomer(weiboId, weiboNum, weiboName, fansOrgNum, new Subscriber<CommonResp<CustomerInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -103,7 +101,7 @@ public class LoginActivityPresenter extends BasePresenter {
             }
 
             @Override
-            public void onNext(CommonResp<WeiboCustomerInfo> resp) {
+            public void onNext(CommonResp<CustomerInfo> resp) {
                 if (resp.getCode().equalsIgnoreCase(ResponseCode.CODE_SUCCESS)) {
                     UserManager.getInstance().userInfo = resp.getData();
                     MyApplication.getInstance().setToken(resp.getData().getSessionid());

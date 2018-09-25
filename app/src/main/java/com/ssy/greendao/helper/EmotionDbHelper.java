@@ -1,7 +1,7 @@
 package com.ssy.greendao.helper;
 
 import com.ssy.greendao.gen.EmotionInfoDao;
-import com.ssy.pink.bean.EmotionInfo;
+import com.ssy.pink.bean.weibo.EmotionInfo;
 
 import java.util.List;
 

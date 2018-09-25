@@ -1,10 +1,10 @@
 package com.ssy.pink.mvp.presenter;
 
 import com.ssy.pink.base.BasePresenter;
+import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
-import com.ssy.pink.bean.WeiboCustomerInfo;
-import com.ssy.pink.bean.WeiboUserInfo;
+import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.common.ResponseCode;
@@ -93,8 +93,8 @@ public class MyFragmentPresenter extends BasePresenter {
      * 同步主账号信息
      */
     public void syncCustomer(String fansOrgNum) {
-        WeiboCustomerInfo userInfo = UserManager.getInstance().userInfo;
-        PinkNet.syncCustomer(userInfo.getWeiboid(), userInfo.getWeibonum(), userInfo.getWeiboname(), fansOrgNum, new Subscriber<CommonResp<WeiboCustomerInfo>>() {
+        CustomerInfo userInfo = UserManager.getInstance().userInfo;
+        PinkNet.syncCustomer(userInfo.getWeiboid(), userInfo.getWeibonum(), userInfo.getWeiboname(), fansOrgNum, new Subscriber<CommonResp<CustomerInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -106,7 +106,7 @@ public class MyFragmentPresenter extends BasePresenter {
             }
 
             @Override
-            public void onNext(CommonResp<WeiboCustomerInfo> resp) {
+            public void onNext(CommonResp<CustomerInfo> resp) {
                 if (resp.getCode().equalsIgnoreCase(ResponseCode.CODE_SUCCESS)) {
                     UserManager.getInstance().userInfo = resp.getData();
                 } else {

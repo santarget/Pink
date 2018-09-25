@@ -1,13 +1,9 @@
 package com.ssy.pink.network.api;
 
-import android.util.Log;
-
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
-import com.ssy.pink.MyApplication;
-import com.ssy.pink.bean.EmotionInfo;
-import com.ssy.pink.bean.WeiboInfo;
-import com.ssy.pink.bean.WeiboUserInfo;
-import com.ssy.pink.bean.request.DeleteSmallReq;
+import com.ssy.pink.bean.weibo.EmotionInfo;
+import com.ssy.pink.bean.weibo.RankInfo;
+import com.ssy.pink.bean.weibo.WeiboInfo;
+import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.request.ShareWeiboReq;
 import com.ssy.pink.bean.response.WeiboListResp;
 import com.ssy.pink.manager.WeiboManager;
@@ -20,7 +16,6 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,6 +39,15 @@ public class WeiboNet {
 
     public static Subscription getUserInfo(String uid, String token, Subscriber<WeiboUserInfo> subscriber) {
         Subscription subscription = getWeiboApi().getWeiboUserInfo(uid, token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
+
+    public static Subscription getWeiboRank(long uid, String token, Subscriber<RankInfo> subscriber) {
+        Subscription subscription = getWeiboApi().getWeiboRank(uid, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

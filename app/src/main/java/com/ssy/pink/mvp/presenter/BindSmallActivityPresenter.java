@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
@@ -14,7 +13,7 @@ import com.ssy.greendao.helper.SmallInfoDbHelper;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.bean.SmallInfo;
-import com.ssy.pink.bean.WeiboTokenInfo;
+import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.common.ResponseCode;

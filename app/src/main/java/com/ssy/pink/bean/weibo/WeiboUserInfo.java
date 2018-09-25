@@ -1,4 +1,4 @@
-package com.ssy.pink.bean;
+package com.ssy.pink.bean.weibo;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;

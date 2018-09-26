@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -116,10 +117,10 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         } else if (UserManager.getInstance().fansOrgInfo == null) {
             showToast(R.string.please_choose_org);
         } else {
-//            showProgress(true);
+            showProgress(true);
 //            mSsoHandler.authorize(new SelfWbAuthListener());
-//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            presenter.syncCustomer("C0912110618837004971",etAccout.getText().toString(),"weibo name",UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+//            presenter.syncCustomer("C0912110618837004971", etAccout.getText().toString(), "weibo name", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 
 
         }
@@ -148,6 +149,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvLogin:
+                long str = CommonUtils.getWeiboCreateTime("Sat Aug 11 07:22:06 +0800 2018");
                 attemptLogin();
                 break;
             case R.id.tvTips:

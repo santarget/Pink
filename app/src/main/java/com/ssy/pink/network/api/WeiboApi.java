@@ -34,8 +34,8 @@ public interface WeiboApi {
     @GET(ConstantUrl.WEIBO_USER_INFO)
     Observable<WeiboUserInfo> getWeiboUserInfo(@Query("uid") String uid, @Query("access_token") String access_token);
 
-    @GET(ConstantUrl.WEIBO_RANK)
-    Observable<RankInfo> getWeiboRank(@Query("uid") long uid, @Query("access_token") String access_token);
+//    @GET(ConstantUrl.WEIBO_RANK)
+//    Observable<RankInfo> getWeiboRank(@Query("uid") long uid, @Query("access_token") String access_token);
 
     /**
      * 获取某个用户最新发表的微博列表,最多5条

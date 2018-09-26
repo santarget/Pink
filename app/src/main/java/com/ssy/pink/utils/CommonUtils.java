@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * Created by Tys on 2017/1/27.
@@ -211,6 +212,18 @@ public class CommonUtils {
             return DateFormat.format(TextUtils.isEmpty(inFormat) ? "yyyy.MM.dd  HH:mm" : inFormat, longTime);
         }
     }
+
+    //    "Sat Aug 11 07:22:06 +0800 2018"
+    public static long getWeiboCreateTime(String dateString) {
+        try {
+            SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+            Date date = sf1.parse(dateString);
+            return date.getTime();
+        } catch (Exception e) {
+            return 0L;
+        }
+    }
+
 
     /**
      * 获取距离链接失效的天数

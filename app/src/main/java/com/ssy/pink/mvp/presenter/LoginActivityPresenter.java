@@ -4,6 +4,7 @@ import com.ssy.pink.MyApplication;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.FansOrgInfo;
+import com.ssy.pink.bean.weibo.RankInfo;
 import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
@@ -14,6 +15,7 @@ import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.WeiboNet;
+import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.MyUtils;
 
@@ -79,8 +81,15 @@ public class LoginActivityPresenter extends BasePresenter {
 
                     @Override
                     public void onNext(WeiboUserInfo weiboUserInfo) {
-                        WeiboManager.getInstance().userInfo = weiboUserInfo;
-                        syncCustomer(WeiboManager.getInstance().mAccessToken.getUid(), weiboNum, weiboUserInfo.getName(), fansOrgNum);
+                        if (System.currentTimeMillis() - CommonUtils.getWeiboCreateTime(weiboUserInfo.getCreated_at())
+                                > 30 * 24 * 3600 * 1000L) {
+                            //大于一个月
+                            WeiboManager.getInstance().userInfo = weiboUserInfo;
+                            syncCustomer(WeiboManager.getInstance().mAccessToken.getUid(), weiboNum, weiboUserInfo.getName(), fansOrgNum);
+                        } else {
+                            iView.showProgress(false);
+                            iView.showToast("作为大号的微博账号必须注册满30天");
+                        }
                     }
                 });
     }

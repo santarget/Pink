@@ -46,14 +46,14 @@ public class WeiboNet {
         return subscription;
     }
 
-    public static Subscription getWeiboRank(long uid, String token, Subscriber<RankInfo> subscriber) {
-        Subscription subscription = getWeiboApi().getWeiboRank(uid, token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
-        mSubscriptions.add(subscription);
-        return subscription;
-    }
+//    public static Subscription getWeiboRank(long uid, String token, Subscriber<RankInfo> subscriber) {
+//        Subscription subscription = getWeiboApi().getWeiboRank(uid, token)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(subscriber);
+//        mSubscriptions.add(subscription);
+//        return subscription;
+//    }
 
     /**
      * 获取当前用户最新微博 最多5条

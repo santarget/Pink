@@ -86,6 +86,8 @@ dependencies {
     compile 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
     //下拉刷新框架
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
+    //微信支付
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.6'
 
 }
 

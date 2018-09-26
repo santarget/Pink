@@ -2,6 +2,7 @@ package com.ssy.pink.mvp.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;

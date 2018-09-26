@@ -3,7 +3,6 @@ package com.ssy.pink.mvp.presenter;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
@@ -161,7 +160,6 @@ public class BindSmallActivityPresenter extends BasePresenter {
 
         @Override
         public void cancel() {
-            Log.i("aaaa", "绑定取消：" + bindingLogInfo.getSmallInfo().getSmallWeiboNum());
             failList.add(bindingLogInfo.getSmallInfo());
             iView.setCurrentProgress(getFinishCount());
             bindingLogInfo.setStatus(0);
@@ -173,7 +171,6 @@ public class BindSmallActivityPresenter extends BasePresenter {
 
         @Override
         public void onFailure(WbConnectErrorMessage errorMessage) {
-            Log.i("aaaa", "绑定失败：" + bindingLogInfo.getSmallInfo().getSmallWeiboNum());
             failList.add(bindingLogInfo.getSmallInfo());
             iView.setCurrentProgress(getFinishCount());
             bindingLogInfo.setStatus(0);

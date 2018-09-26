@@ -1,6 +1,7 @@
 package com.ssy.pink.manager;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSONException;
 import com.sina.weibo.sdk.net.HttpManager;
@@ -22,7 +23,9 @@ import com.ssy.pink.utils.ListUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -55,7 +58,6 @@ public class LoopManager {
     public String url;//要抡博的链接
 
     private LoopManager() {
-        emotionInfoList = HelperFactory.getEmotionDbHelper().queryAll();
     }
 
     public static LoopManager getInstance() {
@@ -114,7 +116,10 @@ public class LoopManager {
     }
 
     private void sendLog(String log) {
-        logSb.insert(0, log + "\n" + CommonUtils.formatData(null, System.currentTimeMillis()) + divider);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        String formatStr = formatter.format(new Date());
+        logSb.insert(0, log + "\n" + formatStr + divider);
+//        logSb.insert(0, log + "\n" + CommonUtils.formatData("yyyy-MM-dd HH:mm:ss.SSS", System.currentTimeMillis()) + divider);
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
     }
 
@@ -124,6 +129,7 @@ public class LoopManager {
     }
 
     private String getEmotion() {
+        emotionInfoList = HelperFactory.getEmotionDbHelper().queryAll();
         if (ListUtils.isEmpty(emotionInfoList)) {
             return "[吃瓜]";
         } else {
@@ -160,11 +166,6 @@ public class LoopManager {
                     return null;
                 }
                 EventBus.getDefault().post(EventCode.WORK_WAITING);
-            }
-            if (ListUtils.isEmpty(smallList)) {
-                sendLog("无有效抡博账号");
-                EventBus.getDefault().post(EventCode.WORK_FINISH);
-                return null;
             }
             smallQueue.addAll(smallList);
         }

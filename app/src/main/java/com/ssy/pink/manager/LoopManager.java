@@ -125,7 +125,7 @@ public class LoopManager {
 
     private void removeSmall(SmallInfo smallInfo) {
         smallList.remove(smallInfo);
-        sendLog("已将账号" + smallInfo.getSmallWeiboNum() + "移出抡博队列");
+        sendLog("已将账号" + smallInfo.getSmallWeiboName() + "移出抡博队列");
     }
 
     private String getEmotion() {
@@ -180,7 +180,7 @@ public class LoopManager {
         }
         WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentSmall.getWeibosmallNumId());
         if (tokenInfo == null || TextUtils.isEmpty(tokenInfo.getMAccessToken())) {
-            sendLog(currentSmall.getSmallWeiboNum() + "无微博授权或微博授权已过期");
+            sendLog(currentSmall.getSmallWeiboName() + "无微博授权或微博授权已过期");
             removeSmall(currentSmall);
             EventBus.getDefault().post(EventCode.WORK_NEXT);
             return;
@@ -194,29 +194,29 @@ public class LoopManager {
                     try {
                         errorMsg = response.errorBody().string();
                         WeiboErrorResp errorResp = JsonUtils.toObject(errorMsg, WeiboErrorResp.class);
-                        sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败:" + errorResp.getError());
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorResp.getError());
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败");
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败");
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败：" + errorMsg);
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + errorMsg);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     }
                 } else {
-                    sendLog(currentSmall.getSmallWeiboNum() + "微博发布成功");
+                    sendLog(currentSmall.getSmallWeiboName() + "微博发布成功");
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                sendLog(currentSmall.getSmallWeiboNum() + "微博发布失败：" + t.toString());
+                sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + t.toString());
                 removeSmall(currentSmall);
                 EventBus.getDefault().post(EventCode.WORK_NEXT);
             }

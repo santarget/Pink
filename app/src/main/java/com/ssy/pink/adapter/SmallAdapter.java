@@ -2,6 +2,7 @@ package com.ssy.pink.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,13 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
         SmallInfo info = data.get(position);
         GroupRecycleViewHolder myHolder = (GroupRecycleViewHolder) holder;
         myHolder.tvName.setText(info.getSmallWeiboName());
-        myHolder.tvWeiboAccout.setText(info.getSmallWeiboNum());
+        if (TextUtils.isEmpty(info.getSmallWeiboNum())) {
+            myHolder.tvWeiboAccout.setVisibility(View.GONE);
+        } else {
+            myHolder.tvWeiboAccout.setText(info.getSmallWeiboNum());
+            myHolder.tvWeiboAccout.setVisibility(View.VISIBLE);
+        }
+        myHolder.tvStatus.setText(info.getSmallNumStatus().equalsIgnoreCase("1") ? "有效" : "无效");
         if (isMulti) {
             myHolder.checkbox.setVisibility(View.VISIBLE);
             myHolder.checkbox.setChecked(info.isChecked());
@@ -66,8 +73,8 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
         TextView menuDelete;
         @BindView(R.id.tvWeiboAccout)
         TextView tvWeiboAccout;
-        @BindView(R.id.tvLog)
-        TextView tvLog;
+        @BindView(R.id.tvStatus)
+        TextView tvStatus;
         @BindView(R.id.tvTime)
         TextView tvTime;
         @BindView(R.id.checkbox)

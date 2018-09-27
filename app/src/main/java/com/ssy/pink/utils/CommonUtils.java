@@ -209,7 +209,7 @@ public class CommonUtils {
         if (longTime <= 0) {
             return "";
         } else {
-            return DateFormat.format(TextUtils.isEmpty(inFormat) ? "yyyy.MM.dd  HH:mm" : inFormat, longTime);
+            return DateFormat.format(TextUtils.isEmpty(inFormat) ? "yyyy.MM.dd HH:mm" : inFormat, longTime);
         }
     }
 

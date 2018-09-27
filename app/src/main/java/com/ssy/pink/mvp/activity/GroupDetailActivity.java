@@ -25,6 +25,7 @@ import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.common.Constants;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
+import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.mvp.iview.IGroupDetailActivityView;
 import com.ssy.pink.mvp.presenter.GroupDetailActivityPresenter;
@@ -125,8 +126,10 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
                 }
                 break;
             case R.id.llAdd:
-                Intent i = new Intent(this, AddSmallActivity.class);
-                i.putExtra(Constants.INTENT_KEY_DATA, groupInfo);
+//                Intent i = new Intent(this, AddSmallActivity.class);
+                BindManager.getInstance().groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
+                Intent i = new Intent(this, BindSmallActivity2.class);
+//                i.putExtra(Constants.INTENT_KEY_DATA, groupInfo);
                 startActivity(i);
                 break;
         }

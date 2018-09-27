@@ -85,11 +85,10 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvLog"
+                android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="2016:更新太快了"
                 android:textColor="@color/txt_small_log_gray"
                 android:textSize="@dimen/txt_small_log_size" />
 
@@ -104,6 +103,7 @@
             android:layout_marginRight="15dp"
             android:text="30天"
             android:textColor="@color/txt_small_name"
-            android:textSize="@dimen/txt_small_name_size" />
+            android:textSize="@dimen/txt_small_name_size"
+            android:visibility="gone" />
     </RelativeLayout>
 </com.ssy.pink.view.recyclerViewBase.SwipeItemLayout>

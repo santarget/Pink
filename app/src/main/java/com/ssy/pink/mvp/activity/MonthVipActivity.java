@@ -1,5 +1,6 @@
 package com.ssy.pink.mvp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -100,16 +101,16 @@ public class MonthVipActivity extends BaseActivity implements IMonthVipActivityV
                 break;
             case R.id.tvOK:
                 // TODO: 2018/9/27 测试
-                int quantity = 1;
-                if (rlMonth.isSelected()) {
-                    quantity = 1;
-                } else if (rlSeason.isSelected()) {
-                    quantity = 3;
-                } else {
-                    quantity = 6;
-                }
-                presenter.order(monthProduct, quantity);
-//                startActivity(new Intent(MonthVipActivity.this, WeixinPayActivity.class));
+//                int quantity = 1;
+//                if (rlMonth.isSelected()) {
+//                    quantity = 1;
+//                } else if (rlSeason.isSelected()) {
+//                    quantity = 3;
+//                } else {
+//                    quantity = 6;
+//                }
+//                presenter.order(monthProduct, quantity);
+                startActivity(new Intent(MonthVipActivity.this, WeixinPayActivity.class));
                 break;
 
         }

@@ -138,6 +138,12 @@ public class BrowserActivity extends BaseActivity {
 
     private void initData() {
         url = getIntent().getStringExtra("url");
+        if (url.toLowerCase().startsWith("http://") || url.toLowerCase().startsWith("https://")) {
+
+        } else {
+            url = "http://" + url;
+        }
+
     }
 
     @Override

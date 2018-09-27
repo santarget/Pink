@@ -92,6 +92,9 @@
         <activity
             android:name=".mvp.activity.WeixinPayActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.activity.BindSmallActivity2"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.WorkService"

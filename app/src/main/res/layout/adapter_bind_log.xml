@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.ssy.pink.view.MarqueeTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvLog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxLines="1"
     android:paddingLeft="3dp"
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
-    android:singleLine="true"
     android:textSize="15sp" />

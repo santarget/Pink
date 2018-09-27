@@ -1,5 +1,7 @@
 package com.ssy.pink.bean;
 
+import com.ssy.pink.utils.CommonUtils;
+
 import java.io.Serializable;
 
 /**
@@ -33,7 +35,7 @@ public class BindLogInfo implements Serializable {
     }
 
     public void setMsg(String msg) {
-        this.msg = msg;
+        this.msg = msg + "\n" + CommonUtils.formatData("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis());
     }
 
     @Override

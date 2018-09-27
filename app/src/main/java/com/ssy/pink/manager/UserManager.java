@@ -143,10 +143,11 @@ public class UserManager {
 
             @Override
             public void onNext(CommonResp<MoneyInfo> moneyInfoCommonResp) {
-                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(moneyInfoCommonResp.getCode()) &&
-                        moneyInfoCommonResp.getData() != null) {
+                EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
+                if (moneyInfoCommonResp.getData() != null) {
                     moneyInfo = moneyInfoCommonResp.getData();
-                    EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
+                } else {
+                    moneyInfo = new MoneyInfo();
                 }
             }
         });

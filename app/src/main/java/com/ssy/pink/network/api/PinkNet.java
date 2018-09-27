@@ -142,11 +142,12 @@ public class PinkNet {
      * @param subscriber
      * @return
      */
-    public static Subscription orderProduct(String customerNum, String transactionid, String productnum, Subscriber<NoBodyEntity> subscriber) {
+    public static Subscription orderProduct(String customerNum, String transactionid, String productnum, int quantity, Subscriber<CommonResp<NoBodyEntity>> subscriber) {
         OrderProductReq req = new OrderProductReq();
         req.setCustomernum(customerNum);
         req.setTransactionid(transactionid);
         req.setProductnum(productnum);
+        req.setQuantity(quantity);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getPinkApi().orderProduct(requestBody)
                 .subscribeOn(Schedulers.io())

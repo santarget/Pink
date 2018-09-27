@@ -120,7 +120,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
 
     @Override
     protected void onUserInvisible() {
-
+        finishRefresh();
     }
 
 
@@ -224,6 +224,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         presenter.getWeiboUserInfo();
+        presenter.getUserMoney();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -233,6 +234,7 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
                 tvAltBlack.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllInValidSmallNum()));
                 tvAltNormal.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
                 tvAltCurrent.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
+                tvMyIdolNumber.setText(String.valueOf(UserManager.getInstance().moneyInfo.getRestBeanNum()));
                 break;
         }
     }

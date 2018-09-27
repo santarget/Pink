@@ -3,10 +3,12 @@ package com.ssy.pink.mvp.presenter;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.FansOrgInfo;
+import com.ssy.pink.bean.MoneyInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
+import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
@@ -14,6 +16,8 @@ import com.ssy.pink.mvp.iview.IMyFragmentView;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.MyUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import rx.Subscriber;
 
@@ -60,7 +64,11 @@ public class MyFragmentPresenter extends BasePresenter {
 
             @Override
             public void onNext(CommonListResp<SmallStatusInfo> smallStatusInfoCommonListResp) {
-                iView.loadSmallCount(smallStatusInfoCommonListResp.getData());
+                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(smallStatusInfoCommonListResp.getCode())) {
+                    iView.loadSmallCount(smallStatusInfoCommonListResp.getData());
+                } else {
+                    iView.showToast(smallStatusInfoCommonListResp.getMsg());
+                }
             }
         });
     }
@@ -79,7 +87,6 @@ public class MyFragmentPresenter extends BasePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        iView.finishRefresh();
                         MyUtils.handleExcep(e);
                     }
 
@@ -114,6 +121,37 @@ public class MyFragmentPresenter extends BasePresenter {
                     iView.showToast(resp.getMsg());
                 }
 
+            }
+        });
+    }
+
+    public void getUserMoney() {
+        PinkNet.getUserMoney(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonResp<MoneyInfo>>() {
+            @Override
+            public void onCompleted() {
+                iView.finishRefresh();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                MyUtils.handleExcep(e);
+                iView.finishRefresh();
+            }
+
+            @Override
+            public void onNext(CommonResp<MoneyInfo> moneyInfoCommonResp) {
+
+                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(moneyInfoCommonResp.getCode())) {
+                    EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
+                    if (moneyInfoCommonResp.getData() != null) {
+                        UserManager.getInstance().moneyInfo = moneyInfoCommonResp.getData();
+                    } else {
+                        UserManager.getInstance().moneyInfo = new MoneyInfo();
+                    }
+
+                } else {
+                    iView.showToast(moneyInfoCommonResp.getMsg());
+                }
             }
         });
     }

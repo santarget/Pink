@@ -44,7 +44,7 @@ public interface PinkApi {
     Observable<NoBodyEntity> syncSpendRecord(@Body RequestBody requestBody);
 
     @POST(ConstantUrl.ORDER_ONE_PRODUCE)
-    Observable<NoBodyEntity> orderProduct(@Body RequestBody requestBody);
+    Observable<CommonResp<NoBodyEntity>> orderProduct(@Body RequestBody requestBody);
 
     /**
      * 查询已经订购的产品

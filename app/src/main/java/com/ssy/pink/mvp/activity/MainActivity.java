@@ -87,6 +87,7 @@ public class MainActivity extends BaseActivity implements IMainActivityView {
         }
         if (currentFragment != null) {
             transaction.hide(currentFragment);
+            currentFragment.setUserVisibleHint(false);
         }
         this.currentFragment = fragment;
         fragment.setUserVisibleHint(true);

@@ -1,10 +1,7 @@
 package com.ssy.pink.mvp.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,15 +10,15 @@ import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.manager.UserManager;
+import com.ssy.pink.mvp.iview.IMonthVipActivityView;
+import com.ssy.pink.mvp.presenter.MonthVipActivityPresenter;
 import com.ssy.pink.utils.ListUtils;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MonthVipActivity extends BaseActivity {
+public class MonthVipActivity extends BaseActivity implements IMonthVipActivityView {
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.tvTopTips)
@@ -43,6 +40,7 @@ public class MonthVipActivity extends BaseActivity {
     @BindView(R.id.tvPay)
     TextView tvPay;
 
+    MonthVipActivityPresenter presenter;
     ProductInfo monthProduct;//包月产品
 
     @Override
@@ -51,6 +49,7 @@ public class MonthVipActivity extends BaseActivity {
         setContentView(R.layout.activity_month_vip);
         ButterKnife.bind(this);
         initView();
+        presenter = new MonthVipActivityPresenter(this);
     }
 
     private void initView() {
@@ -77,27 +76,8 @@ public class MonthVipActivity extends BaseActivity {
                 showToast("未获取到包月产品");
             }
         }
+        updateOrdered();
 
-        //当前用户已订购的产品
-        if (ListUtils.isEmpty(UserManager.getInstance().orderedInfos)) {
-            tvTopTips.setVisibility(View.GONE);
-        } else {
-            UserProductInfo monthOrdered = null;
-            for (UserProductInfo orderedInfo : UserManager.getInstance().orderedInfos) {
-                if (orderedInfo.getProductstate().equalsIgnoreCase("1") &&
-                        orderedInfo.getProducttype().equalsIgnoreCase("1")) {
-                    //已订购的包月产品
-                    monthOrdered = orderedInfo;
-                    break;
-                }
-            }
-            if (monthOrdered == null) {
-                tvTopTips.setVisibility(View.GONE);
-            } else {
-                tvTopTips.setVisibility(View.VISIBLE);
-                tvTopTips.setText(String.format("已开通月度会员，有效期至%s", monthOrdered.getDeadlinetime()));
-            }
-        }
     }
 
     @OnClick({R.id.aivBack, R.id.rlMonth, R.id.rlSeason, R.id.rlHalfYear, R.id.tvOK})
@@ -119,12 +99,19 @@ public class MonthVipActivity extends BaseActivity {
                 tvPay.setText(tvPriceHalfYear.getText().toString());
                 break;
             case R.id.tvOK:
-                if (TextUtils.isEmpty(tvPay.getText().toString())) {
-                    showToast("请选择产品");
+                // TODO: 2018/9/27 测试
+                int quantity = 1;
+                if (rlMonth.isSelected()) {
+                    quantity = 1;
+                } else if (rlSeason.isSelected()) {
+                    quantity = 3;
                 } else {
-                    startActivity(new Intent(MonthVipActivity.this, WeixinPayActivity.class));
+                    quantity = 6;
                 }
+                presenter.order(monthProduct, quantity);
+//                startActivity(new Intent(MonthVipActivity.this, WeixinPayActivity.class));
                 break;
+
         }
     }
 
@@ -133,5 +120,29 @@ public class MonthVipActivity extends BaseActivity {
         rlSeason.setSelected(false);
         rlHalfYear.setSelected(false);
         v.setSelected(true);
+    }
+
+    @Override
+    public void updateOrdered() {
+        //当前用户已订购的产品
+        if (ListUtils.isEmpty(UserManager.getInstance().orderedInfos)) {
+            tvTopTips.setVisibility(View.GONE);
+        } else {
+            UserProductInfo monthOrdered = null;
+            for (UserProductInfo orderedInfo : UserManager.getInstance().orderedInfos) {
+                if (orderedInfo.getProductstate().equalsIgnoreCase("1") &&
+                        orderedInfo.getProducttype().equalsIgnoreCase("1")) {
+                    //已订购的包月产品
+                    monthOrdered = orderedInfo;
+                    break;
+                }
+            }
+            if (monthOrdered == null) {
+                tvTopTips.setVisibility(View.GONE);
+            } else {
+                tvTopTips.setVisibility(View.VISIBLE);
+                tvTopTips.setText(String.format("已开通月度会员，有效期至%s", monthOrdered.getDeadlinetime()));
+            }
+        }
     }
 }

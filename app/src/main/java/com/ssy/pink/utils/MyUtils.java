@@ -1,12 +1,18 @@
 package com.ssy.pink.utils;
 
+import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.exception.ExceptionResponse;
 import com.ssy.pink.common.ConstantWeibo;
+import com.ssy.pink.manager.UserManager;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.net.SocketTimeoutException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -126,5 +132,23 @@ public class MyUtils {
         } else {
             return System.currentTimeMillis() - SharedPreferencesUtil.getFirstUseTime() < 30 * 24 * 3600 * 1000l;
         }
+    }
+
+    /**
+     * 生成订单号
+     * 打头字母 m订购包月产品 t按次产品
+     *
+     * @param info
+     * @return
+     */
+    public static String getTransactionId(ProductInfo info) {
+        String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        if (info.getProducttype().equalsIgnoreCase("1")) {
+            //包月产品
+            uuid = "m" + uuid;
+        } else {
+            uuid = "t" + uuid;
+        }
+        return uuid;
     }
 }

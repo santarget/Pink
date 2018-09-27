@@ -129,7 +129,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 //            }
 //            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
 //            presenter.syncCustomer("C0912110618837004971", etAccout.getText().toString(), "weibo name", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
-            presenter.syncCustomer("testId1", null, "test name1", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+            presenter.syncCustomer("testId3", null, "test name3", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 
 
         }

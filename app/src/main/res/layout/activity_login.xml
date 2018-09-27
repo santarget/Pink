@@ -33,7 +33,7 @@
         android:layout_below="@+id/tvAppName"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="90dp"
         android:orientation="vertical">
 
 
@@ -50,13 +50,15 @@
             android:paddingRight="10dp"
             android:singleLine="true"
             android:textColor="#999999"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginTop="1dp"
-            android:background="#e3e2eb" />
+            android:background="#e3e2eb"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/etPassword"
@@ -73,7 +75,8 @@
             android:paddingRight="10dp"
             android:singleLine="true"
             android:textColor="#999999"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
@@ -171,7 +174,7 @@
         android:gravity="center"
         android:paddingBottom="12dp"
         android:paddingTop="12dp"
-        android:text="@string/login"
+        android:text="微博账号登录"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="17sp" />

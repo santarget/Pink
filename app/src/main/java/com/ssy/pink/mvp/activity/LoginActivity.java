@@ -13,9 +13,11 @@ import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.FansOrgInfo;
+import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.manager.GroupManager;
@@ -112,15 +114,22 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         password = etPassword.getText().toString();
 
 
-        if (TextUtils.isEmpty(accout) || TextUtils.isEmpty(password)) {
-            showToast(R.string.a_or_p_not_blank);
-        } else if (UserManager.getInstance().fansOrgInfo == null) {
+//        if (TextUtils.isEmpty(accout) || TextUtils.isEmpty(password)) {
+//            showToast(R.string.a_or_p_not_blank);
+//        } else
+        if (UserManager.getInstance().fansOrgInfo == null) {
             showToast(R.string.please_choose_org);
         } else {
             showProgress(true);
-//            mSsoHandler.authorize(new SelfWbAuthListener());
-            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            // TODO: 2018/9/27  测试
+//            List<WeiboTokenInfo> tokenInfos = HelperFactory.getTokenDbHelper().queryAllBig();
+//            if (tokenInfos.get(0).getOauth2AccessToken().isSessionValid()) {
+//                WeiboManager.getInstance().mAccessToken = tokenInfos.get(0).getOauth2AccessToken();
+//                presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+//            }
+//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
 //            presenter.syncCustomer("C0912110618837004971", etAccout.getText().toString(), "weibo name", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+            presenter.syncCustomer("testId1", null, "test name1", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 
 
         }
@@ -231,11 +240,15 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    WeiboManager.getInstance().mAccessToken = token;
-                    if (WeiboManager.getInstance().mAccessToken.isSessionValid()) {
-                        // 保存 Token 到 SharedPreferences
-                        AccessTokenKeeper.writeAccessToken(LoginActivity.this, token);
-                        presenter.getWeiboUserInfo(etAccout.getText().toString(), UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+                    if (token.isSessionValid()) {
+                        WeiboTokenInfo weiboTokenInfo = new WeiboTokenInfo().valueOf(token);
+                        weiboTokenInfo.setType(1);
+                        HelperFactory.getTokenDbHelper().insertOrReplace(weiboTokenInfo);
+                        WeiboManager.getInstance().mAccessToken = token;
+                        presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+                    } else {
+                        showProgress(false);
+                        showToast("获取微博授权失败");
                     }
                 }
             });

@@ -67,6 +67,7 @@ public class MyFragmentPresenter extends BasePresenter {
 
     public void getWeiboUserInfo() {
         if (WeiboManager.getInstance().mAccessToken == null) {
+            iView.showToast("未获取到当前微博授权");
             return;
         }
         WeiboNet.getUserInfo(WeiboManager.getInstance().mAccessToken.getUid(), WeiboManager.getInstance().mAccessToken.getToken(),

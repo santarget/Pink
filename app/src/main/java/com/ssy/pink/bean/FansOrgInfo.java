@@ -1,5 +1,7 @@
 package com.ssy.pink.bean;
 
+
+
 import java.io.Serializable;
 
 public class FansOrgInfo implements Serializable {
@@ -15,6 +17,8 @@ public class FansOrgInfo implements Serializable {
     private String fansorginfostate;
 
     private String fansorginfotdesc;
+
+    private String fansorginfourl;//粉丝组织自带链接
 
     private transient boolean isSelected;
 
@@ -77,12 +81,22 @@ public class FansOrgInfo implements Serializable {
     @Override
     public String toString() {
         return "FansOrgInfo{" +
-                "createtime=" + createtime +
+                "createtime='" + createtime + '\'' +
                 ", createuser='" + createuser + '\'' +
                 ", fansorginfoname='" + fansorginfoname + '\'' +
                 ", fansorginfonum='" + fansorginfonum + '\'' +
                 ", fansorginfostate='" + fansorginfostate + '\'' +
                 ", fansorginfotdesc='" + fansorginfotdesc + '\'' +
+                ", fansorginfourl='" + fansorginfourl + '\'' +
+                ", isSelected=" + isSelected +
                 '}';
+    }
+
+    public String getFansorginfourl() {
+        return this.fansorginfourl;
+    }
+
+    public void setFansorginfourl(String fansorginfourl) {
+        this.fansorginfourl = fansorginfourl;
     }
 }

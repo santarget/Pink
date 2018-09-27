@@ -135,6 +135,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     }
 
     private void initView() {
+        etWeiboUrl.setText(UserManager.getInstance().fansOrgInfo.getFansorginfourl());
         rbRandomEmoticon.setChecked(true);
         etCustom.setVisibility(View.GONE);
         rbContentKeep.setChecked(true);
@@ -410,6 +411,9 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                 break;
             case EventCode.WORK_UPDATE_LOG:
                 tvLog.setText(LoopManager.getInstance().logSb.toString());
+                break;
+            case EventCode.MODIFY_FANS_ORG:
+                etWeiboUrl.setText(UserManager.getInstance().fansOrgInfo.getFansorginfourl());
                 break;
         }
     }

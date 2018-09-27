@@ -2,17 +2,18 @@ package com.ssy.pink.bean;
 
 import java.io.Serializable;
 
-public class UserProductInfo implements Serializable{
+public class UserProductInfo implements Serializable {
     private static final long serialVersionUID = 4190648463309032883L;
     private String customernum;
     private String productnum;
     private String productname;
-    private String deadlinetime;
+    private String deadlinetime; //null 按次产品   “2018-10-02 03:12:44”包月产品
     private String createtime;
     private long price;
     private String productdesc;
-    private String producttype;
-    private String productstate;
+    private String producttype; // 0按此 1包月
+    private String productstate; // 0：无效  1：有效
+    private long deadlinetimeLongType;
 
     public String getCustomernum() {
         return customernum;
@@ -98,6 +99,7 @@ public class UserProductInfo implements Serializable{
                 ", productdesc='" + productdesc + '\'' +
                 ", producttype='" + producttype + '\'' +
                 ", productstate='" + productstate + '\'' +
+                ", deadlinetimeLongType=" + deadlinetimeLongType +
                 '}';
     }
 }

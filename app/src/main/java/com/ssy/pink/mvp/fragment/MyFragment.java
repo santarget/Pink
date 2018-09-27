@@ -244,7 +244,9 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
             if (fansOrgInfo != null) {
                 tvOrg.setText(fansOrgInfo.getFansorginfoname());
                 if (!fansOrgInfo.getFansorginfonum().equals(UserManager.getInstance().userInfo.getFansorginfonum())) {
+                    UserManager.getInstance().fansOrgInfo = fansOrgInfo;
                     presenter.syncCustomer(fansOrgInfo.getFansorginfonum());
+                    EventBus.getDefault().post(EventCode.MODIFY_FANS_ORG);
                 }
             }
         }

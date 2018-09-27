@@ -1,5 +1,7 @@
 package com.ssy.pink.bean.weibo;
 
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Unique;
@@ -44,30 +46,6 @@ public class WeiboTokenInfo implements Serializable {
 
     public void setWeiboUid(String weiboUid) {
         this.weiboUid = weiboUid;
-    }
-
-    public String getmAccessToken() {
-        return mAccessToken;
-    }
-
-    public void setmAccessToken(String mAccessToken) {
-        this.mAccessToken = mAccessToken;
-    }
-
-    public String getmRefreshToken() {
-        return mRefreshToken;
-    }
-
-    public void setmRefreshToken(String mRefreshToken) {
-        this.mRefreshToken = mRefreshToken;
-    }
-
-    public long getmExpiresTime() {
-        return mExpiresTime;
-    }
-
-    public void setmExpiresTime(long mExpiresTime) {
-        this.mExpiresTime = mExpiresTime;
     }
 
     public int getType() {
@@ -126,5 +104,25 @@ public class WeiboTokenInfo implements Serializable {
 
     public void setMExpiresTime(long mExpiresTime) {
         this.mExpiresTime = mExpiresTime;
+    }
+
+    public WeiboTokenInfo valueOf(Oauth2AccessToken oauth2AccessToken) {
+        if (oauth2AccessToken == null) {
+            return null;
+        }
+        this.setMAccessToken(oauth2AccessToken.getToken());
+        this.setMRefreshToken(oauth2AccessToken.getRefreshToken());
+        this.setMExpiresTime(oauth2AccessToken.getExpiresTime());
+        this.setWeiboUid(oauth2AccessToken.getUid());
+        return this;
+    }
+
+    public Oauth2AccessToken getOauth2AccessToken() {
+        Oauth2AccessToken oauth2AccessToken = new Oauth2AccessToken();
+        oauth2AccessToken.setUid(this.weiboUid);
+        oauth2AccessToken.setToken(this.mAccessToken);
+        oauth2AccessToken.setRefreshToken(this.mRefreshToken);
+        oauth2AccessToken.setExpiresTime(this.mExpiresTime);
+        return oauth2AccessToken;
     }
 }

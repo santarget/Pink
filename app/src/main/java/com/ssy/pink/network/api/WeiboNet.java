@@ -1,8 +1,17 @@
 package com.ssy.pink.network.api;
 
+import android.content.Context;
+
+import com.sina.weibo.sdk.auth.AccessTokenKeeper;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.AsyncWeiboRunner;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.net.WeiboParameters;
 import com.ssy.pink.bean.weibo.EmotionInfo;
 import com.ssy.pink.bean.weibo.RankInfo;
 import com.ssy.pink.bean.weibo.WeiboInfo;
+import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.bean.request.ShareWeiboReq;
 import com.ssy.pink.bean.response.WeiboListResp;
@@ -109,4 +118,37 @@ public class WeiboNet {
         call.enqueue(callback);
     }
 
+    /**
+     * 刷新微博token
+     *
+     * @param weiboTokenInfo
+     * @param appKey
+     * @param context
+     * @param listener
+     */
+    public static void refreshToken(WeiboTokenInfo weiboTokenInfo, String appKey, final Context context, final RequestListener listener) {
+        Oauth2AccessToken token = weiboTokenInfo.getOauth2AccessToken();
+        if (token != null) {
+            String REFRESH_TOKEN_URL = "https://api.weibo.com/oauth2/access_token";
+            WeiboParameters params = new WeiboParameters(appKey);
+            params.put("client_id", appKey);
+            params.put("grant_type", "refresh_token");
+            params.put("refresh_token", token.getRefreshToken());
+            (new AsyncWeiboRunner(context)).requestAsync(REFRESH_TOKEN_URL, params, "POST", new RequestListener() {
+                public void onComplete(String response) {
+                    Oauth2AccessToken refreshToken = Oauth2AccessToken.parseAccessToken(response);
+                    AccessTokenKeeper.writeAccessToken(context, refreshToken);
+                    if (listener != null) {
+                        listener.onComplete(response);
+                    }
+                }
+
+                public void onWeiboException(WeiboException e) {
+                    if (listener != null) {
+                        listener.onWeiboException(e);
+                    }
+                }
+            });
+        }
+    }
 }

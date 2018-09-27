@@ -2,7 +2,7 @@ package com.ssy.pink.bean;
 
 import java.io.Serializable;
 
-public class ProductInfo implements Serializable{
+public class ProductInfo implements Serializable {
     private static final long serialVersionUID = -4887988961685937383L;
     private String productnum;
 
@@ -12,60 +12,75 @@ public class ProductInfo implements Serializable{
 
     private String productdesc;
 
-    private String producttype;
+    private String producttype;//0：按次产品   1：包月产品
 
-    private String productstate;
+    private String productstate;//0无效  1有效
 
     private String createtime;
 
     private String createuser;
 
-    public void setProductnum(String productnum){
+    public void setProductnum(String productnum) {
         this.productnum = productnum;
     }
-    public String getProductnum(){
+
+    public String getProductnum() {
         return this.productnum;
     }
-    public void setProductname(String productname){
+
+    public void setProductname(String productname) {
         this.productname = productname;
     }
-    public String getProductname(){
+
+    public String getProductname() {
         return this.productname;
     }
-    public void setPrice(int price){
+
+    public void setPrice(int price) {
         this.price = price;
     }
-    public int getPrice(){
+
+    public int getPrice() {
         return this.price;
     }
-    public void setProductdesc(String productdesc){
+
+    public void setProductdesc(String productdesc) {
         this.productdesc = productdesc;
     }
-    public String getProductdesc(){
+
+    public String getProductdesc() {
         return this.productdesc;
     }
-    public void setProducttype(String producttype){
+
+    public void setProducttype(String producttype) {
         this.producttype = producttype;
     }
-    public String getProducttype(){
+
+    public String getProducttype() {
         return this.producttype;
     }
-    public void setProductstate(String productstate){
+
+    public void setProductstate(String productstate) {
         this.productstate = productstate;
     }
-    public String getProductstate(){
+
+    public String getProductstate() {
         return this.productstate;
     }
-    public void setCreatetime(String createtime){
+
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
-    public String getCreatetime(){
+
+    public String getCreatetime() {
         return this.createtime;
     }
-    public void setCreateuser(String createuser){
+
+    public void setCreateuser(String createuser) {
         this.createuser = createuser;
     }
-    public String getCreateuser(){
+
+    public String getCreateuser() {
         return this.createuser;
     }
 

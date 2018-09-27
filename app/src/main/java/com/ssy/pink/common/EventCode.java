@@ -13,6 +13,7 @@ public class EventCode {
 
     /* 用户数据更新 */
     public static final int GET_MONEY_INFO = 20;//获取用户金额信息(金额，爱豆，小号) MoneyInfo
+    public static final int MODIFY_FANS_ORG = 21;//修改粉丝组织
 
     /* 分组和小号*/
     public static final int ADD_GROUP = 30;//添加分组

@@ -28,7 +28,6 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="15dp"
-                android:text="已开通月度会员，有效期至2018.10.10"
                 android:textColor="@color/item_text_title"
                 android:textSize="14sp" />
 

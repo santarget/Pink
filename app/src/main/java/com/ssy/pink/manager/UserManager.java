@@ -3,6 +3,7 @@ package com.ssy.pink.manager;
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.CustomerInfo;
+import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.weibo.EmotionInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.MoneyInfo;
@@ -10,6 +11,7 @@ import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.common.EventCode;
+import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.ListUtils;
@@ -24,9 +26,10 @@ import rx.Subscriber;
 public class UserManager {
     public static UserManager instance;
     public CustomerInfo userInfo = new CustomerInfo();
-    public List<UserProductInfo> orderedInfos;
-    public MoneyInfo moneyInfo = new MoneyInfo();
-    public FansOrgInfo fansOrgInfo;
+    public List<UserProductInfo> orderedInfos;//用户已订购的产品列表
+    public MoneyInfo moneyInfo = new MoneyInfo();//用户的金额信息
+    public FansOrgInfo fansOrgInfo;//当前用户所属的粉丝组织
+    public List<ProductInfo> productInfos;//所有产品列表
 
     private UserManager() {
 
@@ -36,6 +39,7 @@ public class UserManager {
      * 同步主账号信息后再调用
      */
     public void initAfterSync() {
+        listProduct();
         listOrderedInfo();
         getUserMoney();
         getWeiboEmotions();
@@ -50,6 +54,27 @@ public class UserManager {
             }
         }
         return instance;
+    }
+
+    public void listProduct() {
+        PinkNet.listProduct(new Subscriber<CommonListResp<ProductInfo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                MyUtils.handleExcep(e);
+            }
+
+            @Override
+            public void onNext(CommonListResp<ProductInfo> productInfoCommonListResp) {
+                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(productInfoCommonListResp.getCode())) {
+                    productInfos = productInfoCommonListResp.getData();
+                }
+            }
+        });
     }
 
     /**
@@ -69,8 +94,10 @@ public class UserManager {
 
             @Override
             public void onNext(CommonResp<CustomerInfo> weiboCustomerInfoCommonListResp) {
-                userInfo = weiboCustomerInfoCommonListResp.getData();
-                MyApplication.getInstance().setToken(userInfo.getSessionid());
+                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(weiboCustomerInfoCommonListResp.getCode())) {
+                    userInfo = weiboCustomerInfoCommonListResp.getData();
+                    MyApplication.getInstance().setToken(userInfo.getSessionid());
+                }
             }
         });
     }
@@ -92,7 +119,9 @@ public class UserManager {
 
             @Override
             public void onNext(CommonListResp<UserProductInfo> userProductInfoCommonListResp) {
-                orderedInfos = userProductInfoCommonListResp.getData();
+                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(userProductInfoCommonListResp.getCode())) {
+                    orderedInfos = userProductInfoCommonListResp.getData();
+                }
             }
         });
     }
@@ -114,7 +143,8 @@ public class UserManager {
 
             @Override
             public void onNext(CommonResp<MoneyInfo> moneyInfoCommonResp) {
-                if (moneyInfoCommonResp.getData() != null) {
+                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(moneyInfoCommonResp.getCode()) &&
+                        moneyInfoCommonResp.getData() != null) {
                     moneyInfo = moneyInfoCommonResp.getData();
                     EventBus.getDefault().post(EventCode.GET_MONEY_INFO);
                 }

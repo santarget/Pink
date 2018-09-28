@@ -12,6 +12,7 @@ import com.ssy.pink.R;
 import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.weibo.WeiboUserInfo;
 import com.ssy.pink.glide.GlideUtils;
+import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.mvp.activity.MonthVipActivity;
@@ -103,19 +104,26 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
         MoneyInfo moneyInfo = UserManager.getInstance().moneyInfo;
         if (moneyInfo != null) {
             tvMyIdolNumber.setText(String.valueOf(moneyInfo.getRestBeanNum()));
-            tvAltCurrent.setText(String.valueOf(moneyInfo.getAllSmallNum()));
-            tvAltBlack.setText(String.valueOf(moneyInfo.getAllInValidSmallNum()));
-            tvAltNormal.setText(String.valueOf(moneyInfo.getAllValidSmallNum()));
-        } else {
-            presenter.getSmallStutas();
         }
+//        else {
+//            presenter.getSmallStutas();
+//        }
+        int current = GroupManager.getInstance().smallInfos.size();
+        int normal = GroupManager.getInstance().validSmallInfos.size();
+        tvAltBlack.setText(String.valueOf(current - normal));
+        tvAltNormal.setText(String.valueOf(normal));
+        tvAltCurrent.setText(String.valueOf(current));
 
         refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
     protected void onUserVisible() {
-
+        int current = GroupManager.getInstance().smallInfos.size();
+        int normal = GroupManager.getInstance().validSmallInfos.size();
+        tvAltBlack.setText(String.valueOf(current - normal));
+        tvAltNormal.setText(String.valueOf(normal));
+        tvAltCurrent.setText(String.valueOf(current));
     }
 
     @Override
@@ -235,9 +243,6 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
                 tvAltNormal.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
                 tvAltCurrent.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
                 tvMyIdolNumber.setText(String.valueOf(UserManager.getInstance().moneyInfo.getRestBeanNum()));
-                break;
-            case EventCode.ADD_SMALL:
-                presenter.getUserMoney();
                 break;
         }
     }

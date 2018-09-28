@@ -17,7 +17,8 @@ public class SmallInfoDbHelper extends BaseDbHelper<SmallInfoDao, SmallInfo> {
     }
 
     public SmallInfo uniqueQuery(long smallWeiboId) {
-        return super.uniqueQuery("and", new WhereCondition[]{SmallInfoDao.Properties.WeibosmallNumId.eq(smallWeiboId)});
+        SmallInfo smallInfo = super.uniqueQuery("and", new WhereCondition[]{SmallInfoDao.Properties.WeibosmallNumId.eq(smallWeiboId)});
+        return smallInfo;
     }
 
 

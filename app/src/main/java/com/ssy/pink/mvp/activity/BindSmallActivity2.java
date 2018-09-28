@@ -90,9 +90,13 @@ public class BindSmallActivity2 extends BaseActivity implements IBindSmallActivi
             bindingDialog = new BindingDialog(this);
         }
         if (show) {
-            bindingDialog.show();
+            if (!bindingDialog.isShowing()){
+                bindingDialog.show();
+            }
         } else {
-            bindingDialog.hide();
+            if (bindingDialog.isShowing()){
+                bindingDialog.hide();
+            }
         }
     }
 

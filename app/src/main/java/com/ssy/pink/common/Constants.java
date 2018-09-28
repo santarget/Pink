@@ -9,6 +9,9 @@ import com.ssy.pink.MyApplication;
  * @date 2018/8/9
  */
 public class Constants {
+
+    public static final String BUGLY_APP_ID = "f1ae86160c";
+    public static final String BUGLY_APP_KEY = "e79cefac-664b-4eaa-9c64-04d2841e6f05";
     //permission
     public static final String[] PERMISSION_NEED = {
             Manifest.permission.READ_EXTERNAL_STORAGE,

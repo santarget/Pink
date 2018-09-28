@@ -209,6 +209,7 @@ public class SharedPreferencesUtil {
         editor.putString("login_weibonum", customerInfo.getWeibonum());
         editor.putString("login_weiboname", customerInfo.getWeiboname());
         editor.putString("login_fansorgnum", customerInfo.getFansorginfonum());
+        editor.putString("login_fansorgname", customerInfo.getFansorginfoname());
         editor.apply();
     }
 
@@ -223,6 +224,7 @@ public class SharedPreferencesUtil {
         customerInfo.setWeibonum(getSharedPreferences().getString("login_weibonum", ""));
         customerInfo.setWeiboname(getSharedPreferences().getString("login_weiboname", "未知微博账户"));
         customerInfo.setFansorginfonum(getSharedPreferences().getString("login_fansorgnum", ""));
+        customerInfo.setFansorginfoname(getSharedPreferences().getString("login_fansorgname", ""));
         return customerInfo;
     }
 }

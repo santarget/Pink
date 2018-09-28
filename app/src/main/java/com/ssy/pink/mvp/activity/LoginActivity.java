@@ -16,6 +16,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
+import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.common.EventCode;
@@ -26,6 +27,7 @@ import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.presenter.LoginActivityPresenter;
 import com.ssy.pink.utils.CommonUtils;
+import com.ssy.pink.utils.SharedPreferencesUtil;
 import com.ssy.pink.view.dialog.WaitingDialog;
 import com.ssy.pink.view.dialog.FansOrgDialog;
 import com.ssy.pink.view.dialog.LoginQuestionDialog;
@@ -101,6 +103,10 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         drawable4.setBounds(0, 0, size, size);
         tvOrg.setCompoundDrawables(drawable3, null, drawable4, null);
 
+        CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+        if (customerInfo != null) {
+            tvOrg.setText(customerInfo.getFansorginfoname());
+        }
     }
 
     /**
@@ -245,7 +251,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                         weiboTokenInfo.setType(1);
                         HelperFactory.getTokenDbHelper().insertOrReplace(weiboTokenInfo);
                         WeiboManager.getInstance().mAccessToken = token;
-                        presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+                        presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo == null ?
+                                SharedPreferencesUtil.getLastLoginUser().getFansorginfonum() : UserManager.getInstance().fansOrgInfo.getFansorginfonum());
                     } else {
                         showProgress(false);
                         showToast("获取微博授权失败");

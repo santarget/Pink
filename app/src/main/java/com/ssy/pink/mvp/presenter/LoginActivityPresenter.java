@@ -31,7 +31,6 @@ public class LoginActivityPresenter extends BasePresenter {
     }
 
     public void listFansOrg() {
-
         PinkNet.listFansOrg(new Subscriber<CommonListResp<FansOrgInfo>>() {
             @Override
             public void onCompleted() {

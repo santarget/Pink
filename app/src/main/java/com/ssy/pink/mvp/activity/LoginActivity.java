@@ -27,6 +27,7 @@ import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.presenter.LoginActivityPresenter;
 import com.ssy.pink.utils.CommonUtils;
+import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.SharedPreferencesUtil;
 import com.ssy.pink.view.dialog.WaitingDialog;
 import com.ssy.pink.view.dialog.FansOrgDialog;
@@ -103,10 +104,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         drawable4.setBounds(0, 0, size, size);
         tvOrg.setCompoundDrawables(drawable3, null, drawable4, null);
 
-        CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
-        if (customerInfo != null) {
-            tvOrg.setText(customerInfo.getFansorginfoname());
-        }
     }
 
     /**
@@ -227,6 +224,17 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     @Override
     public void setOrgsList(List<FansOrgInfo> orgsList) {
         this.orgsList = orgsList;
+        CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+        if (customerInfo != null) {
+            for (FansOrgInfo fansOrgInfo : orgsList) {
+                if (fansOrgInfo.getFansorginfonum().equalsIgnoreCase(customerInfo.getFansorginfonum())) {
+//                    fansOrgInfo.isSelected();
+                    UserManager.getInstance().fansOrgInfo = fansOrgInfo;
+                    tvOrg.setText(fansOrgInfo.getFansorginfoname());
+                }
+            }
+        }
+
         if (chooseDialog != null && chooseDialog.isShowing()) {
             chooseDialog.setDatas(orgsList);
         }
@@ -251,8 +259,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                         weiboTokenInfo.setType(1);
                         HelperFactory.getTokenDbHelper().insertOrReplace(weiboTokenInfo);
                         WeiboManager.getInstance().mAccessToken = token;
-                        presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo == null ?
-                                SharedPreferencesUtil.getLastLoginUser().getFansorginfonum() : UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+                        presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
                     } else {
                         showProgress(false);
                         showToast("获取微博授权失败");

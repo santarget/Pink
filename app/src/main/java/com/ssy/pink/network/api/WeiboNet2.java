@@ -31,7 +31,7 @@ public class WeiboNet2 {
 
     public static Subscription repostWeibo(Subscriber<WeiboInfo> subscriber) {
         RepostWeiboReq req = new RepostWeiboReq();
-        req.setId(4282854814589720L);
+        req.setId(4273242237441L);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
         Subscription subscription = getWeiboApi2().repostWeibo(WeiboManager.getInstance().mAccessToken.getToken(),
                 WeiboManager.getInstance().mAccessToken.getUid(), requestBody)

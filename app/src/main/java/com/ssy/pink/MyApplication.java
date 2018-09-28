@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -118,6 +119,9 @@ public class MyApplication extends Application {
     }
 
     public DaoSession getDaoSession() {
+        if (daoSession == null) {
+            initDatabase();
+        }
         return daoSession;
     }
 
@@ -131,9 +135,14 @@ public class MyApplication extends Application {
     }
 
     public String getToken() {
-        if (TextUtils.isEmpty(token)) {
-            token = SharedPreferencesUtil.getLastToken();
-        }
+//        if (TextUtils.isEmpty(token)) {
+//            token = SharedPreferencesUtil.getLastToken();
+//            Log.i("aaaa", "getToken 空：" + token);
+//        } else {
+//            Log.i("aaaa", "getToken 不为空：" + token);
+//
+//        }
+        Log.i("aaaa", "getToken ：" + token);
         return token;
     }
 }

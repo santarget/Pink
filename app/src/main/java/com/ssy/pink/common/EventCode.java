@@ -20,6 +20,7 @@ public class EventCode {
     public static final int UPDATE_GROUPS = 31;//刷新分组信息
     public static final int EDIT_GROUP = 32;//编辑分组信息
     public static final int MOVE_SMALL = 33;//移动小号
+    public static final int ADD_SMALL = 34;//添加小号
 
     /* 抡博 */
     public static final int WORK_FINISH = 40;//抡博完成

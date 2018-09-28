@@ -13,10 +13,13 @@ import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.bean.response.VersionResp;
+import com.ssy.pink.bean.weibo.WeiboInfo;
 import com.ssy.pink.common.ConstantUrl;
 
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -30,6 +33,9 @@ public interface PinkApi {
 
     @POST(ConstantUrl.SYNC_CUSTOMER)
     Observable<CommonResp<CustomerInfo>> syncCustomer(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.SYNC_CUSTOMER)
+    Call<CommonResp<CustomerInfo>> refreshCustomer(@Body RequestBody requestBody);
 
     @POST(ConstantUrl.SYNC_RECHARGE_RECORD)
     Observable<CommonResp<RechargeRecordInfo>> syncRechargeRecord(@Body RequestBody requestBody);

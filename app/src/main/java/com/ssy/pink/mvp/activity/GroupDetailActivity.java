@@ -285,4 +285,12 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(Integer eventCode) {
+        switch (eventCode) {
+            case EventCode.ADD_SMALL:
+                presenter.listSmall();
+                break;
+        }
+    }
 }

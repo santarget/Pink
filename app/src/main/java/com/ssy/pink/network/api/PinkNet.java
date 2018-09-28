@@ -29,6 +29,7 @@ import com.ssy.pink.utils.JsonUtils;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;

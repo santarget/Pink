@@ -47,7 +47,7 @@ public class LoopManager {
     public StringBuilder logSb = new StringBuilder();
     public long acountWait = 7 * 1000l;//账号之间间隔时间
     public long roundWait = 300 * 1000l;//每轮之间间隔时间
-
+    boolean looping;
     //配置项
     public boolean customOn;//开启自定义
     public String customContent;//自定义内容
@@ -75,6 +75,7 @@ public class LoopManager {
         logSb.delete(0, logSb.length());
         WorkService.startService(MyApplication.getInstance(), acountWait, roundWait);
         sendLog("初始化成功，开始抡博");
+        looping = true;
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
     }
 
@@ -157,11 +158,13 @@ public class LoopManager {
             sendLog("第" + finishedCount + "轮微博抡博完成");
             if (finishedCount >= count) {
 //                stopWork();
+                looping = false;
                 EventBus.getDefault().post(EventCode.WORK_FINISH);
                 return null;
             } else {
                 if (ListUtils.isEmpty(smallList)) {
                     sendLog("无有效抡博账号");
+                    looping = false;
                     EventBus.getDefault().post(EventCode.WORK_FINISH);
                     return null;
                 }
@@ -174,6 +177,9 @@ public class LoopManager {
     }
 
     public void work() {
+        if (!looping) {
+            return;
+        }
         final SmallInfo currentSmall = getCurrentSmall();
         if (currentSmall == null) {
             return;

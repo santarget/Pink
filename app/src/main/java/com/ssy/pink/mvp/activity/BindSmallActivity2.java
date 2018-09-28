@@ -11,10 +11,13 @@ import com.ssy.pink.R;
 import com.ssy.pink.adapter.BindLogAdapter;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.BindLogInfo;
+import com.ssy.pink.common.EventCode;
 import com.ssy.pink.mvp.iview.IBindSmallActivityView2;
 import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter2;
 import com.ssy.pink.view.dialog.BindingDialog;
 import com.ssy.pink.view.recyclerViewBase.DashlineItemDivider;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,5 +104,7 @@ public class BindSmallActivity2 extends BaseActivity implements IBindSmallActivi
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+        EventBus.getDefault().post(EventCode.ADD_SMALL);
     }
+
 }

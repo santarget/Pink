@@ -1,5 +1,6 @@
 package com.ssy.pink.mvp.presenter;
 
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.FansOrgInfo;
@@ -117,6 +118,7 @@ public class MyFragmentPresenter extends BasePresenter {
             public void onNext(CommonResp<CustomerInfo> resp) {
                 if (resp.getCode().equalsIgnoreCase(ResponseCode.CODE_SUCCESS)) {
                     UserManager.getInstance().userInfo = resp.getData();
+                    MyApplication.getInstance().setToken(UserManager.getInstance().userInfo.getSessionid());
                 } else {
                     iView.showToast(resp.getMsg());
                 }

@@ -18,6 +18,7 @@ import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.MyUtils;
+import com.ssy.pink.utils.SharedPreferencesUtil;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -112,6 +113,7 @@ public class LoginActivityPresenter extends BasePresenter {
             @Override
             public void onNext(CommonResp<CustomerInfo> resp) {
                 if (resp.getCode().equalsIgnoreCase(ResponseCode.CODE_SUCCESS)) {
+                    SharedPreferencesUtil.setLastLoginUser(resp.getData());
                     UserManager.getInstance().userInfo = resp.getData();
                     MyApplication.getInstance().setToken(resp.getData().getSessionid());
                     iView.toMainActivity();

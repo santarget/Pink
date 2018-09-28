@@ -13,10 +13,12 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.weibo.WeiboInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.LoopManager;
@@ -25,6 +27,7 @@ import com.ssy.pink.mvp.activity.BrowserActivity;
 import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.mvp.presenter.WorkFragmentPresenter;
+import com.ssy.pink.network.api.WeiboNet2;
 import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.MyUtils;
 import com.ssy.pink.view.ChooseGroupView;
@@ -42,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Subscriber;
 
 /**
  * @author ssy
@@ -195,7 +199,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
                     i.putExtra("url", etWeiboUrl.getText().toString());
                     mainActivity.startActivity(i);
                 }
-
                 break;
             case R.id.ivHelpSendContent://发送内容
                 showHelpDialog(R.string.dialog_config_send_content);

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.ssy.pink.MyApplication;
+import com.ssy.pink.bean.CustomerInfo;
 
 public class SharedPreferencesUtil {
 
@@ -197,4 +198,31 @@ public class SharedPreferencesUtil {
         return getSharedPreferences().getString(LAST_TOKEN, "");
     }
 
+    /**
+     * 保存最近一次登录的用户 大号同步参数
+     *
+     * @param customerInfo
+     */
+    public static void setLastLoginUser(CustomerInfo customerInfo) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putString("login_weiboid", customerInfo.getWeiboid());
+        editor.putString("login_weibonum", customerInfo.getWeibonum());
+        editor.putString("login_weiboname", customerInfo.getWeiboname());
+        editor.putString("login_fansorgnum", customerInfo.getFansorginfonum());
+        editor.apply();
+    }
+
+    /**
+     * 获取最近一次登录用户的大号同步参数
+     *
+     * @return
+     */
+    public static CustomerInfo getLastLoginUser() {
+        CustomerInfo customerInfo = new CustomerInfo();
+        customerInfo.setWeiboid(getSharedPreferences().getString("login_weiboid", ""));
+        customerInfo.setWeibonum(getSharedPreferences().getString("login_weibonum", ""));
+        customerInfo.setWeiboname(getSharedPreferences().getString("login_weiboname", "未知微博账户"));
+        customerInfo.setFansorginfonum(getSharedPreferences().getString("login_fansorgnum", ""));
+        return customerInfo;
+    }
 }

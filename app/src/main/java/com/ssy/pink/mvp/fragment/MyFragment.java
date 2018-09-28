@@ -236,6 +236,9 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
                 tvAltCurrent.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
                 tvMyIdolNumber.setText(String.valueOf(UserManager.getInstance().moneyInfo.getRestBeanNum()));
                 break;
+            case EventCode.ADD_SMALL:
+                presenter.getUserMoney();
+                break;
         }
     }
 

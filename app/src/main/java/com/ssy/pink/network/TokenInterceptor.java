@@ -1,13 +1,26 @@
 package com.ssy.pink.network;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.ssy.pink.MyApplication;
+import com.ssy.pink.bean.CustomerInfo;
+import com.ssy.pink.bean.request.SyncCustomerReq;
+import com.ssy.pink.bean.response.CommonResp;
+import com.ssy.pink.manager.UserManager;
+import com.ssy.pink.network.api.PinkApi;
+import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.LogUtil;
+import com.ssy.pink.utils.SharedPreferencesUtil;
 
 import java.io.IOException;
 
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.Call;
 
 /**
  * @author ssy
@@ -20,15 +33,15 @@ public class TokenInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         Response response = chain.proceed(request);
+
         if (isTokenExpired()) {
-            LogUtil.i(TAG, "token is out of time,refresh now.");
             getNewToken();
             //使用新的Token，创建新的请求
-            Request newRequest = chain.request()
-                    .newBuilder()
-                    .build();
             //重新请求
-            return chain.proceed(newRequest);
+            OkHttpClientProvider.refreshSessionPink();
+            final Request.Builder builder = chain.request().newBuilder();
+            builder.header("sessionid", MyApplication.getInstance().getToken());
+            return chain.proceed(builder.build());
         }
         return response;
     }
@@ -39,7 +52,7 @@ public class TokenInterceptor implements Interceptor {
      * @return
      */
     private boolean isTokenExpired() {
-        if (MyApplication.tokenTimeStamp != 0 && System.currentTimeMillis() - MyApplication.tokenTimeStamp > 28 * 60 * 1000) {
+        if (TextUtils.isEmpty(MyApplication.getInstance().getToken())) {
             return true;
         }
         return false;
@@ -51,6 +64,17 @@ public class TokenInterceptor implements Interceptor {
      * @return
      */
     private void getNewToken() throws IOException {
-//        LoginManager.getInstance().refreshToken();
+        CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+        SyncCustomerReq req = new SyncCustomerReq();
+        req.setWeiboid(customerInfo.getWeiboid());
+        req.setWeibonum(customerInfo.getWeibonum());
+        req.setWeiboname(customerInfo.getWeiboname());
+        req.setFansorginfonum(customerInfo.getFansorginfonum());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+
+        Call call = OkHttpClientProvider.getNoSessionPinkRetrofit().create(PinkApi.class).refreshCustomer(requestBody);
+        retrofit2.Response<CommonResp<CustomerInfo>> response = call.execute();
+        UserManager.getInstance().userInfo = response.body().getData();
+        MyApplication.getInstance().setToken(UserManager.getInstance().userInfo.getSessionid());
     }
 }

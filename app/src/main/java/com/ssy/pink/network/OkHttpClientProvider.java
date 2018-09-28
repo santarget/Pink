@@ -1,6 +1,7 @@
 package com.ssy.pink.network;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.common.ConfigProp;
@@ -89,13 +90,11 @@ public class OkHttpClientProvider {
                         LogUtil.i("safeclient", message);
                     }
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new TokenInterceptor())
                 .connectTimeout(15000, TimeUnit.MILLISECONDS)
                 .readTimeout(15000, TimeUnit.MILLISECONDS)
                 .writeTimeout(15000, TimeUnit.MILLISECONDS);
         if (hasToken) {
-//            addTokenHeader(builder);
-            addSessionHeader(builder);
+            addTokenHeader(builder);
         }
         return builder;
     }
@@ -108,19 +107,13 @@ public class OkHttpClientProvider {
                         LogUtil.i("serverdata", message);
                     }
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new TokenInterceptor())
                 .connectTimeout(15000, TimeUnit.MILLISECONDS)
                 .readTimeout(8000, TimeUnit.MILLISECONDS)
                 .writeTimeout(8000, TimeUnit.MILLISECONDS);
         if (hasToken) {
-//            addTokenHeader(builder);
-            addSessionHeader(builder);
+            addTokenHeader(builder);
         }
         return builder;
-    }
-
-    private static void addSessionHeader(OkHttpClient.Builder builder) {
-        builder.addInterceptor(new AddCookiesInterceptor());
     }
 
     /**
@@ -132,21 +125,15 @@ public class OkHttpClientProvider {
         builder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
+                Log.i("aaaa", "addTokenHeader");
                 Request request = chain.request()
                         .newBuilder()
-//                        .addHeader("Authorization", MyApplication.token)
                         .addHeader("sessionid", MyApplication.getInstance().getToken())
-                        .addHeader("Content-Type", "application/json; charset=UTF-8")
-//                    .addHeader("Accept-Encoding", "*")
-//                    .addHeader("Connection", "keep-alive")
-//                    .addHeader("Accept", "*/*")
-//                    .addHeader("Access-Control-Allow-Origin", "*")
-//                    .addHeader("Access-Control-Allow-Headers", "X-Requested-With")
-//                    .addHeader("Vary", "Accept-Encoding")
                         .build();
                 return chain.proceed(request);
             }
         });
+        builder.addInterceptor(new TokenInterceptor());
     }
 
     public static Retrofit getWeiboRetrofit() {
@@ -215,5 +202,13 @@ public class OkHttpClientProvider {
             }
         }
         return noSessionRetrofit;
+    }
+
+    public static void refreshSessionPink() {
+        if (ConfigProp.verifyCert) {
+            pinkClient = getSafeBuilder(true).build();
+        } else {
+            pinkClient = getUnsafeBuilder(true).build();
+        }
     }
 }

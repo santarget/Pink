@@ -68,7 +68,7 @@ public class WorkFragmentPresenter extends BasePresenter {
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
                     return;
                 }
-//                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());//暂时屏蔽
+                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());//暂时屏蔽
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override

@@ -107,6 +107,9 @@ public class BindSmallActivity2 extends BaseActivity implements IBindSmallActivi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (bindingDialog!=null){
+            bindingDialog = null;
+        }
         presenter.onDestroy();
         EventBus.getDefault().post(EventCode.ADD_SMALL);
     }

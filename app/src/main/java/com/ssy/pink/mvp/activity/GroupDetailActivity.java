@@ -172,6 +172,7 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
         }
 //        }
         adapter = new SmallAdapter(this, groupInfo.getAllSmallInfos());
+        adapter.setMenuListener(this);
         recyclerView.setAdapter(adapter);
         presenter.setGroupInfo(groupInfo);
         tvAccoutNumber.setText(String.valueOf(groupInfo.getAllSmallInfos().size()));

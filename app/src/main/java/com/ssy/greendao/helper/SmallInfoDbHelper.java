@@ -17,13 +17,15 @@ public class SmallInfoDbHelper extends BaseDbHelper<SmallInfoDao, SmallInfo> {
     }
 
     public SmallInfo uniqueQuery(long smallWeiboId) {
-        SmallInfo smallInfo = super.uniqueQuery("and", new WhereCondition[]{SmallInfoDao.Properties.WeibosmallNumId.eq(smallWeiboId)});
-        return smallInfo;
+        return super.uniqueQuery("and", new WhereCondition[]{SmallInfoDao.Properties.WeibosmallNumId.eq(smallWeiboId)});
     }
 
 
     public void deleteById(long smallWeiboId) {
-        delete(uniqueQuery(smallWeiboId));
+        SmallInfo smallInfo = uniqueQuery(smallWeiboId);
+        if (smallInfo != null) {
+            delete(uniqueQuery(smallWeiboId));
+        }
     }
 
     public void deleteByIdsStr(String smallWeiboIds) {

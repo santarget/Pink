@@ -130,11 +130,10 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 //                WeiboManager.getInstance().mAccessToken = tokenInfos.get(0).getOauth2AccessToken();
 //                presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 //            }
-            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-//            presenter.syncCustomer("C0912110618837004971", etAccout.getText().toString(), "weibo name", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
-//            presenter.syncCustomer("testId3", null, "test name3", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
 
-
+            WeiboManager.getInstance().mAccessToken = AccessTokenKeeper.readAccessToken(this);
+            presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
         }
     }
 
@@ -255,6 +254,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 @Override
                 public void run() {
                     if (token.isSessionValid()) {
+                        AccessTokenKeeper.writeAccessToken(LoginActivity.this, token);
                         WeiboTokenInfo weiboTokenInfo = new WeiboTokenInfo().valueOf(token);
                         weiboTokenInfo.setType(1);
                         HelperFactory.getTokenDbHelper().insertOrReplace(weiboTokenInfo);

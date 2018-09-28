@@ -58,7 +58,8 @@ public class GroupDetailActivityPresenter extends BasePresenter {
             public void onNext(CommonResp<NoBodyEntity> noBodyEntityCommonResp) {
                 if (noBodyEntityCommonResp.getCode().equals(ResponseCode.CODE_SUCCESS)) {
                     iView.showToast(R.string.delete_success);
-                    helper.deleteByIdsStr(smallWeiboId);
+                    listSmall();
+//                    helper.deleteByIdsStr(smallWeiboId);
                 } else {
                     iView.showToast(noBodyEntityCommonResp.getMsg());
                 }
@@ -81,6 +82,7 @@ public class GroupDetailActivityPresenter extends BasePresenter {
             public void onNext(CommonResp<NoBodyEntity> noBodyEntityCommonResp) {
                 if (noBodyEntityCommonResp.getCode().equals(ResponseCode.CODE_SUCCESS)) {
                     iView.showToast(R.string.move_success);
+                    listSmall();
                 } else {
                     iView.showToast(noBodyEntityCommonResp.getMsg());
                 }
@@ -104,12 +106,13 @@ public class GroupDetailActivityPresenter extends BasePresenter {
             @Override
             public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
                 GroupManager.getInstance().smallInfos.clear();
+                HelperFactory.getSmallInfoDbHelper().deleteAll();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
                     iView.finishRefresh();
-                    HelperFactory.getSmallInfoDbHelper().deleteAll();
+                    iView.updateData();
                     return;
                 }
-//                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());
+                HelperFactory.getSmallInfoDbHelper().insertOrReplaceList(smallInfoCommonListResp.getData());
                 GroupManager.getInstance().smallInfos.addAll(smallInfoCommonListResp.getData());
                 boolean b = GroupManager.getInstance().classifySmall(new Subscriber<List<GroupInfo>>() {
                     @Override

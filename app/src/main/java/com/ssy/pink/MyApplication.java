@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.ssy.greendao.gen.DaoMaster;
 import com.ssy.greendao.gen.DaoSession;
 import com.ssy.pink.common.ConfigProp;
+import com.ssy.pink.common.Constants;
 import com.ssy.pink.glide.OkHttpUrlLoader;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.network.OkHttpClientProvider;
@@ -26,6 +27,9 @@ import com.ssy.pink.utils.SharedPreferencesUtil;
 import com.ssy.pink.view.header.MaterialHeader;
 
 import java.io.InputStream;
+
+import cn.testin.analysis.data.TestinDataApi;
+import cn.testin.analysis.data.TestinDataConfig;
 
 
 public class MyApplication extends Application {
@@ -56,6 +60,15 @@ public class MyApplication extends Application {
 
     private void initCrashReport() {
 //        ReportManager.getInstance().init();
+        //设置启动参数
+        TestinDataConfig testinDataConfig = new TestinDataConfig()
+                .openShake(false)//设置是否打开摇一摇反馈bug功能
+                .collectCrash(true)//设置是否收集app崩溃信息
+                .collectANR(true)//设置是否收集ANR异常信息
+                .collectLogCat(false)//设置是否收集logcat系统日志
+                .collectUserSteps(true);//设置是否收集用户操作步骤
+        //SDK初始化
+        TestinDataApi.init(this, Constants.BUGOUT_APP_KEY, testinDataConfig);
     }
 
     private void initSmartRefreshLayout() {

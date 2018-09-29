@@ -4,6 +4,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.ssy.pink.MyApplication;
@@ -25,16 +26,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.SocketTimeoutException;
 
+import cn.testin.analysis.bug.BugOutApi;
+
 /**
  * 添加异常处理的Activity超类
  */
 public class BaseActivity extends PermissionActivity implements IView {
 
     private static final String TAG = "BaseActivity";
-    private static final String NO_SUCH_SOURCE = "NoSuchSource_The source does not exist.";
-    private static final String NO_SUCH_LINK = "NoSuchLink_This Link does not exist.";
-    private static final String SAME_FOLDER_CONFLICT = "SameNodeConflict_The dest folder is same as the src folder.";
-    private static final String SUB_FOLDER_CONFLICT = "SubFolderConflict_The dest folder is sub folder for the src folder.";
     private NetChangeReceiver netChangeReceiver;
 
     @Override
@@ -55,6 +54,23 @@ public class BaseActivity extends PermissionActivity implements IView {
         registerNetChangeReceiver();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BugOutApi.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BugOutApi.onPause(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        BugOutApi.onDispatchTouchEvent(this, ev);
+        return super.dispatchTouchEvent(ev);
+    }
     protected void registerNetChangeReceiver() {
         IntentFilter iFilter = new IntentFilter();
         iFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);

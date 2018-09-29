@@ -91,7 +91,9 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
     //微信支付
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.6'
-    compile 'com.tencent.bugly:crashreport:2.6.6.1'
+    //bugout
+    compile 'cn.testin.analysis:testin-data:5.0.6'
+    compile 'cn.testin.analysis:bugout:1.0.4'
 }
 
 greendao {

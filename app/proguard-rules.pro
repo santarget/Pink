@@ -170,6 +170,10 @@ public static java.lang.String TABLENAME;
 -keep class com.tencent.mm.sdk.** {*;}
 #微博
 -keep class com.sina.weibo.sdk.** { *; }
+#bugout
+-dontwarn cn.testin.analysis.**
+-keep class cn.testin.analysis.** {*;}
+-keepnames class * extends android.view.View
 
 
 

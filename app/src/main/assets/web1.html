@@ -1,0 +1,106 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf8">
+    <script type="text/javascript">
+
+        function javaCallJs(){
+        	 document.getElementById("content").innerHTML ="<br\>JAVA调用了JS的无参函数";
+        }
+
+        function javaCallJswithParam(arg){
+        	 document.getElementById("content").innerHTML =
+        	 ("<br\>"+arg);
+        }
+
+        function cfm() {
+            confirm("")
+        }
+
+        function pmt() {
+           prompt("","");
+        }
+
+        function onAlert()
+        {
+            alert("这是网页中的alert方法，如果重写了mWebView的onAlert方法，该方法不会执行");
+        }
+
+
+        function forwardWeibo(content, retcode) {
+         var Data = new FormData();
+         Data.append('pic_src', '');
+          Data.append('pic_id', '');
+           Data.append('appkey', '');
+        // mid为该微博的id
+         Data.append('mid', '4084814640382488');
+         Data.append('style_type', '2');
+         Data.append('mark', '');
+         //reason为转发内容
+         Data.append('reason', content);
+         Data.append('location', 'page_100206_home');
+          Data.append('pdetail', '1002061738376280');
+          Data.append('module', '');
+           Data.append('page_module_id', '');
+            Data.append('refer_sort', '');
+            Data.append('is_comment_base', '1');
+            Data.append('rank', '0');
+             Data.append('rankid', '');
+              Data.append('_t', '0');
+               Data.append('retcode', retcode || '');
+
+               var xhr = new XMLHttpRequest();
+
+               xhr.timeout = 3000;
+               xhr.responseType = "text";
+               xhr.open('POST', 'http://weibo.com/aj/v6/mblog/forward?ajwvr=6&domain=100206&__rnd=' + new Date().getTime(), true);
+                 //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+                xhr.onreadystatechange = function(e) {
+                 if (this.status == 200 || this.status == 304) {
+                   var data = JSON.parse(this.responseText);
+                     if (data.code == "100000") {
+                      // 转发微博成功
+                      console.log(content);
+                  }else {
+                      // 转发微博失败
+                      console.log(data);
+                       }
+                  }
+               };
+               xhr.send(Data);
+            }
+               //count++解决转发内容相同问题
+               var count = 1008611;
+               setInterval(function(){
+                var str="转发微博"+count++;
+                forwardWeibo(str);
+                }, 5000);
+
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+HTML BBB <br/>
+<h1>
+    <div id="content">content</div>
+</h1>
+
+<br/>
+<br/>
+<input type="button" value="调用Android带参函数"
+       onclick="window.android.javaMethodWithArgument('BBB')"/>
+<br/>
+<br/>
+<br/>
+<input type="button" value="跳转新界面"
+       onclick="window.android.toActivity()"/>
+</body>
+</html>

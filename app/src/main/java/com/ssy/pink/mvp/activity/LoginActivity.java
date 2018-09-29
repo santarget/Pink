@@ -3,13 +3,10 @@ package com.ssy.pink.mvp.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
@@ -21,18 +18,16 @@ import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
-import com.ssy.pink.manager.GroupManager;
-import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
+import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.mvp.presenter.LoginActivityPresenter;
 import com.ssy.pink.utils.CommonUtils;
-import com.ssy.pink.utils.ListUtils;
 import com.ssy.pink.utils.SharedPreferencesUtil;
-import com.ssy.pink.view.dialog.WaitingDialog;
 import com.ssy.pink.view.dialog.FansOrgDialog;
 import com.ssy.pink.view.dialog.LoginQuestionDialog;
 import com.ssy.pink.view.dialog.LoginUseDialog;
+import com.ssy.pink.view.dialog.WaitingDialog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -111,6 +106,10 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        if (true) {
+            startActivity(new Intent(this, TestActivity.class));
+            return;
+        }
         // Store values at the time of the login attempt.
         accout = etAccout.getText().toString();
         password = etPassword.getText().toString();

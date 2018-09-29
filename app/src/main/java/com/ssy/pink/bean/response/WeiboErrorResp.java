@@ -6,6 +6,7 @@ public class WeiboErrorResp implements Serializable {
     public static final String APPLICATION_RESTRICTIONS = "applications over the unaudited use restrictions";
     public static final String NO_DOMAIN = "text not find domain";
     public static final String REPEAT_CONTENT = "repeat content";
+    public static final String UPDATE_TOO_FAST = "update weibo too fast";
     private static final long serialVersionUID = -6444870257947849379L;
     String error;
     long error_code;

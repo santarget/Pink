@@ -153,7 +153,7 @@ public class UserManager {
         });
     }
 
-    private void getWeiboEmotions() {
+    public void getWeiboEmotions() {
         WeiboNet.getEmotions(new Subscriber<List<EmotionInfo>>() {
             @Override
             public void onCompleted() {

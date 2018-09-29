@@ -10,6 +10,7 @@ import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.VersionInfo;
 import com.ssy.pink.manager.GroupManager;
+import com.ssy.pink.manager.LoopManager;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.mvp.iview.ISettingActivityView;
 import com.ssy.pink.mvp.presenter.SettingActivityPresenter;
@@ -68,6 +69,8 @@ public class SettingActivity extends BaseActivity implements ISettingActivityVie
                 MyApplication.tokenTimeStamp = 0;
                 UserManager.getInstance().reset();
                 GroupManager.getInstance().reset();
+                LoopManager.getInstance().reset();
+
                 Intent i = new Intent(this, LoginActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

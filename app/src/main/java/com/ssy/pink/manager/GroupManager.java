@@ -44,7 +44,14 @@ public class GroupManager {
      * 给小号归类
      */
     public boolean classifySmall(Subscriber<List<GroupInfo>> subscriber) {
-        if (ListUtils.isEmpty(groupInfos) || ListUtils.isEmpty(smallInfos)) {
+        if (ListUtils.isEmpty(groupInfos)) {
+            return false;
+        }
+        if (ListUtils.isEmpty(smallInfos)) {
+            for (GroupInfo groupInfo : groupInfos) {
+                groupInfo.getAllSmallInfos().clear();
+                groupInfo.getValidSmallInfos().clear();
+            }
             return false;
         }
         validSmallInfos.clear();

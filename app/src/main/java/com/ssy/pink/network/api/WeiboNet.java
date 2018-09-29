@@ -137,7 +137,7 @@ public class WeiboNet {
             (new AsyncWeiboRunner(context)).requestAsync(REFRESH_TOKEN_URL, params, "POST", new RequestListener() {
                 public void onComplete(String response) {
                     Oauth2AccessToken refreshToken = Oauth2AccessToken.parseAccessToken(response);
-                    AccessTokenKeeper.writeAccessToken(context, refreshToken);
+//                    AccessTokenKeeper.writeAccessToken(context, refreshToken);
                     if (listener != null) {
                         listener.onComplete(response);
                     }

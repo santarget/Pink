@@ -90,11 +90,11 @@ public class BindSmallActivity2 extends BaseActivity implements IBindSmallActivi
             bindingDialog = new BindingDialog(this);
         }
         if (show) {
-            if (!bindingDialog.isShowing()){
+            if (!bindingDialog.isShowing()) {
                 bindingDialog.show();
             }
         } else {
-            if (bindingDialog.isShowing()){
+            if (bindingDialog.isShowing()) {
                 bindingDialog.hide();
             }
         }
@@ -106,10 +106,11 @@ public class BindSmallActivity2 extends BaseActivity implements IBindSmallActivi
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        if (bindingDialog!=null){
+        if (bindingDialog != null) {
+            bindingDialog.dismiss();
             bindingDialog = null;
         }
+        super.onDestroy();
         presenter.onDestroy();
         EventBus.getDefault().post(EventCode.ADD_SMALL);
     }

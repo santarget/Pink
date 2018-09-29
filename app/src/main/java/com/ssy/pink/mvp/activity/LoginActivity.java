@@ -48,7 +48,6 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends BaseActivity implements ILoginActivityView {
 
-
     @BindView(R.id.etAccout)
     EditText etAccout;
     @BindView(R.id.etPassword)
@@ -131,9 +130,19 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 //                presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 //            }
 //            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+            if (customerInfo != null) {
+                WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(customerInfo.getWeiboid());
+                if (tokenInfo != null) {
+                    WeiboManager.getInstance().mAccessToken = tokenInfo.getOauth2AccessToken();
+                    presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+                } else {
+                    mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+                }
+            } else {
+                mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            }
 
-            WeiboManager.getInstance().mAccessToken = AccessTokenKeeper.readAccessToken(this);
-            presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
         }
     }
 
@@ -254,7 +263,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 @Override
                 public void run() {
                     if (token.isSessionValid()) {
-                        AccessTokenKeeper.writeAccessToken(LoginActivity.this, token);
                         WeiboTokenInfo weiboTokenInfo = new WeiboTokenInfo().valueOf(token);
                         weiboTokenInfo.setType(1);
                         HelperFactory.getTokenDbHelper().insertOrReplace(weiboTokenInfo);

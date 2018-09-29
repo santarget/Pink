@@ -616,6 +616,8 @@
                     android:background="@drawable/shape_gray_border">
 
                     <TextView
+                        android:textSize="13sp"
+                        android:textColor="@color/item_text_tips"
                         android:id="@+id/tvLog"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

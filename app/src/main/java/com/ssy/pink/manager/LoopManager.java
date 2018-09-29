@@ -39,6 +39,7 @@ import retrofit2.Response;
  */
 public class LoopManager {
     private final String divider = "\n----------------------------------------------\n";
+    private final String historyStr = "\n================== 历史操作 ================\n";//历史操作
     private static LoopManager instance;
     public List<SmallInfo> smallList = new ArrayList<>();//抡博的小号集合
     private List<EmotionInfo> emotionInfoList = new ArrayList<>();
@@ -48,6 +49,7 @@ public class LoopManager {
     public long acountWait = 7 * 1000l;//账号之间间隔时间
     public long roundWait = 300 * 1000l;//每轮之间间隔时间
     boolean looping;
+    int logCount;//日志条数，保留一定数量
     //配置项
     public boolean customOn;//开启自定义
     public String customContent;//自定义内容
@@ -72,16 +74,17 @@ public class LoopManager {
     }
 
     public void startWork() {
-        logSb.delete(0, logSb.length());
         WorkService.startService(MyApplication.getInstance(), acountWait, roundWait);
-        sendLog("初始化成功，开始抡博");
+        sendHistory();
+        sendLogWithoutTime("初始化成功，开始抡博");
         looping = true;
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
     }
 
     public void stopWork() {
+        looping = false;
         WorkService.stopService(MyApplication.getInstance());
-        sendLog("抡博结束");
+        sendLogWithoutTime("抡博结束");
     }
 
     /**
@@ -120,18 +123,46 @@ public class LoopManager {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         String formatStr = formatter.format(new Date());
         logSb.insert(0, log + "\n" + formatStr + divider);
-//        logSb.insert(0, log + "\n" + CommonUtils.formatData("yyyy-MM-dd HH:mm:ss.SSS", System.currentTimeMillis()) + divider);
+        //超出的日志删除
+        logCount++;
+        if (logCount >= 200) {//保留200条
+            int last = logSb.lastIndexOf(divider);
+            logSb.delete(last, logSb.length());//删除分隔符
+            int last2 = logSb.lastIndexOf(divider);//倒数第二个分隔符之后的文字
+            logSb.delete(last2 + divider.length(), logSb.length());
+            logCount--;
+        }
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
+    }
+
+    private void sendLogWithoutTime(String log) {
+        logSb.insert(0, log + divider);
+        EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
+    }
+
+    private void sendHistory() {
+        if (logSb.length() != 0) {
+            int position = logSb.indexOf(historyStr);
+            if (position != -1) {
+                logSb.delete(position, position + historyStr.length());
+            }
+            logSb.insert(0, historyStr);
+            EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
+        }
     }
 
     private void removeSmall(SmallInfo smallInfo) {
         smallList.remove(smallInfo);
-        sendLog("已将账号" + smallInfo.getSmallWeiboName() + "移出抡博队列");
     }
 
     private String getEmotion() {
-        emotionInfoList = HelperFactory.getEmotionDbHelper().queryAll();
+        try {
+            emotionInfoList = HelperFactory.getEmotionDbHelper().queryAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (ListUtils.isEmpty(emotionInfoList)) {
+            UserManager.getInstance().getWeiboEmotions();
             return "[吃瓜]";
         } else {
             //获取随机表情
@@ -163,7 +194,6 @@ public class LoopManager {
                 return null;
             } else {
                 if (ListUtils.isEmpty(smallList)) {
-                    sendLog("无有效抡博账号");
                     looping = false;
                     EventBus.getDefault().post(EventCode.WORK_FINISH);
                     return null;
@@ -186,7 +216,7 @@ public class LoopManager {
         }
         WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentSmall.getWeibosmallNumId());
         if (tokenInfo == null || TextUtils.isEmpty(tokenInfo.getMAccessToken())) {
-            sendLog(currentSmall.getSmallWeiboName() + "无微博授权或微博授权已过期");
+            sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + "无微博授权或微博授权已过期");
             removeSmall(currentSmall);
             EventBus.getDefault().post(EventCode.WORK_NEXT);
             return;
@@ -200,7 +230,17 @@ public class LoopManager {
                     try {
                         errorMsg = response.errorBody().string();
                         WeiboErrorResp errorResp = JsonUtils.toObject(errorMsg, WeiboErrorResp.class);
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorResp.getError());
+                        String errorStr = errorResp.getError();
+                        if (errorStr.contains(WeiboErrorResp.APPLICATION_RESTRICTIONS)) {
+                            errorStr = "应用使用受限";
+                        } else if (errorStr.contains(WeiboErrorResp.NO_DOMAIN)) {
+                            errorStr = "未发现有效链接";
+                        } else if (errorStr.contains(WeiboErrorResp.REPEAT_CONTENT)) {
+                            errorStr = "重复内容";
+                        } else if (errorStr.contains(WeiboErrorResp.UPDATE_TOO_FAST)) {
+                            errorStr = "发送过快";
+                        }
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorStr);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (IOException e) {
@@ -238,4 +278,11 @@ public class LoopManager {
         HttpManager.openUrl(MyApplication.getInstance(), REFRESH_TOKEN_URL, "POST", params);
     }
 
+    public void reset() {
+        logSb.delete(0, logSb.length());
+        logCount = 0;
+        smallList.clear();
+        smallQueue.clear();
+        looping = false;
+    }
 }

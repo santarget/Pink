@@ -125,7 +125,6 @@ public class OkHttpClientProvider {
         builder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Log.i("aaaa", "addTokenHeader");
                 Request request = chain.request()
                         .newBuilder()
                         .addHeader("sessionid", MyApplication.getInstance().getToken())

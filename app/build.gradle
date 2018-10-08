@@ -73,6 +73,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'org.greenrobot:greendao:3.2.0'
+    compile 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
     compile 'com.alibaba:fastjson:1.1.68.android'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -97,7 +98,7 @@ dependencies {
 }
 
 greendao {
-    schemaVersion 2
+    schemaVersion 4
     daoPackage 'com.ssy.greendao.gen'
     targetGenDir 'src/main/java'
 }

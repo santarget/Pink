@@ -4,20 +4,17 @@ import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.exception.ExceptionResponse;
 import com.ssy.pink.common.ConstantWeibo;
-import com.ssy.pink.manager.UserManager;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.net.SocketTimeoutException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLException;
 
+import cn.testin.analysis.bug.BugOutApi;
 import retrofit2.adapter.rxjava.HttpException;
 
 /**
@@ -31,6 +28,7 @@ public class MyUtils {
      * @param throwable
      */
     public static void handleExcep(Throwable throwable) {
+        BugOutApi.reportException(throwable);
         if (throwable instanceof HttpException) {
             if (((HttpException) throwable).code() == 502) {
                 ExceptionResponse exception = new ExceptionResponse();

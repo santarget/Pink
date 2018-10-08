@@ -174,6 +174,11 @@ public static java.lang.String TABLENAME;
 -dontwarn cn.testin.analysis.**
 -keep class cn.testin.analysis.** {*;}
 -keepnames class * extends android.view.View
+#greendao upgrader helper
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+    public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
+    public static void createTable(org.greenrobot.greendao.database.Database, boolean);
+}
 
 
 

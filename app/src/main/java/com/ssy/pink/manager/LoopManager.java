@@ -1,22 +1,22 @@
 package com.ssy.pink.manager;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSONException;
 import com.sina.weibo.sdk.net.HttpManager;
 import com.sina.weibo.sdk.net.WeiboParameters;
 import com.ssy.greendao.helper.HelperFactory;
+import com.ssy.greendao.helper.LoopLogInfoDbHelper;
 import com.ssy.pink.MyApplication;
-import com.ssy.pink.bean.weibo.EmotionInfo;
 import com.ssy.pink.bean.SmallInfo;
-import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.bean.response.WeiboErrorResp;
+import com.ssy.pink.bean.weibo.EmotionInfo;
+import com.ssy.pink.bean.weibo.LoopLogInfo;
+import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.service.WorkService;
-import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.ListUtils;
 
@@ -49,7 +49,8 @@ public class LoopManager {
     public long acountWait = 7 * 1000l;//账号之间间隔时间
     public long roundWait = 300 * 1000l;//每轮之间间隔时间
     boolean looping;
-    int logCount;//日志条数，保留一定数量
+    //    int logCount;//日志条数，保留一定数量
+    LoopLogInfoDbHelper logInfoDbHelper;
     //配置项
     public boolean customOn;//开启自定义
     public String customContent;//自定义内容
@@ -60,6 +61,7 @@ public class LoopManager {
     public String url;//要抡博的链接
 
     private LoopManager() {
+        logInfoDbHelper = HelperFactory.getLoopLogInfoDbHelper();
     }
 
     public static LoopManager getInstance() {
@@ -75,7 +77,15 @@ public class LoopManager {
 
     public void startWork() {
         WorkService.startService(MyApplication.getInstance(), acountWait, roundWait);
-        sendHistory();
+        logSb.delete(0, logSb.length());
+        List<LoopLogInfo> logs = logInfoDbHelper.queryAllLog(UserManager.getInstance().userInfo.getWeiboid());
+        if (!ListUtils.isEmpty(logs)) {
+            for (LoopLogInfo log : logs) {
+                logSb.append(log.getTime()).append(" ").append(log.getLog()).append(divider);
+            }
+            logSb.insert(0, historyStr);
+        }
+//        sendHistory();
         sendLogWithoutTime("初始化成功，开始抡博");
         looping = true;
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
@@ -119,20 +129,39 @@ public class LoopManager {
         }
     }
 
-    private void sendLog(String log) {
+    private void sendLog(String log, boolean needRecord) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         String formatStr = formatter.format(new Date());
-        logSb.insert(0, log + "\n" + formatStr + divider);
-        //超出的日志删除
-        logCount++;
-        if (logCount >= 200) {//保留200条
-            int last = logSb.lastIndexOf(divider);
-            logSb.delete(last, logSb.length());//删除分隔符
-            int last2 = logSb.lastIndexOf(divider);//倒数第二个分隔符之后的文字
-            logSb.delete(last2 + divider.length(), logSb.length());
-            logCount--;
-        }
+        logSb.insert(0, formatStr + " " + log + divider);
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
+
+        if (needRecord) {
+            LoopLogInfo loopLogInfo = new LoopLogInfo();
+            loopLogInfo.setWeiboUid(UserManager.getInstance().userInfo.getWeiboid());
+            loopLogInfo.setTime(formatStr);
+            loopLogInfo.setLog(log);
+            logInfoDbHelper.insert(loopLogInfo);
+            List<LoopLogInfo> logInfos = logInfoDbHelper.queryAllLog(UserManager.getInstance().userInfo.getWeiboid());
+            if (logInfos.size() >= 4) {  //超出的日志删除
+                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 1));
+                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 2));
+//            logInfoDbHelper.delete(logInfos.get(2));
+//            logInfoDbHelper.delete(logInfos.get(3));
+//            logInfoDbHelper.delete(logInfos.get(4));
+            }
+        }
+
+        //超出的日志删除
+//        logCount++;
+//        if (logCount >= 200) {//保留200条
+//            int last = logSb.lastIndexOf(divider);
+//            logSb.delete(last, logSb.length());//删除分隔符
+//            int last2 = logSb.lastIndexOf(divider);//倒数第二个分隔符之后的文字
+//            logSb.delete(last2 + divider.length(), logSb.length());
+//            logCount--;
+//        }
+//        EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
+
     }
 
     private void sendLogWithoutTime(String log) {
@@ -186,7 +215,7 @@ public class LoopManager {
     private SmallInfo getCurrentSmall() {
         if (ListUtils.isEmpty(smallQueue)) {
             finishedCount++;
-            sendLog("第" + finishedCount + "轮微博抡博完成");
+            sendLog("第" + finishedCount + "轮微博抡博完成",false);
             if (finishedCount >= count) {
 //                stopWork();
                 looping = false;
@@ -216,7 +245,7 @@ public class LoopManager {
         }
         WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentSmall.getWeibosmallNumId());
         if (tokenInfo == null || TextUtils.isEmpty(tokenInfo.getMAccessToken())) {
-            sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + "无微博授权或微博授权已过期");
+            sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + "无微博授权或微博授权已过期",true);
             removeSmall(currentSmall);
             EventBus.getDefault().post(EventCode.WORK_NEXT);
             return;
@@ -240,29 +269,29 @@ public class LoopManager {
                         } else if (errorStr.contains(WeiboErrorResp.UPDATE_TOO_FAST)) {
                             errorStr = "发送过快";
                         }
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorStr);
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorStr,true);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败");
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败",true);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + errorMsg);
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + errorMsg,true);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     }
                 } else {
-                    sendLog(currentSmall.getSmallWeiboName() + "微博发布成功");
+                    sendLog(currentSmall.getSmallWeiboName() + "微博发布成功",true);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + t.toString());
+                sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + t.toString(),true);
                 removeSmall(currentSmall);
                 EventBus.getDefault().post(EventCode.WORK_NEXT);
             }
@@ -280,7 +309,7 @@ public class LoopManager {
 
     public void reset() {
         logSb.delete(0, logSb.length());
-        logCount = 0;
+//        logCount = 0;
         smallList.clear();
         smallQueue.clear();
         looping = false;

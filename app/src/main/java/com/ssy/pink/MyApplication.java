@@ -17,6 +17,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.ssy.greendao.gen.DaoMaster;
 import com.ssy.greendao.gen.DaoSession;
+import com.ssy.greendao.helper.MyOpenHelper;
 import com.ssy.pink.common.ConfigProp;
 import com.ssy.pink.common.Constants;
 import com.ssy.pink.glide.OkHttpUrlLoader;
@@ -124,11 +125,12 @@ public class MyApplication extends Application {
         // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
         // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
         // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, dbName, null);
+        MyOpenHelper helper = new MyOpenHelper(this, dbName, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+        daoSession.clear();////清空所有数据表的缓存
     }
 
     public DaoSession getDaoSession() {

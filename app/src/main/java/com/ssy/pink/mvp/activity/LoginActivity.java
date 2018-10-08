@@ -106,10 +106,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (true) {
-            startActivity(new Intent(this, TestActivity.class));
-            return;
-        }
         // Store values at the time of the login attempt.
         accout = etAccout.getText().toString();
         password = etPassword.getText().toString();
@@ -168,7 +164,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvLogin:
-                long str = CommonUtils.getWeiboCreateTime("Sat Aug 11 07:22:06 +0800 2018");
                 attemptLogin();
                 break;
             case R.id.tvTips:

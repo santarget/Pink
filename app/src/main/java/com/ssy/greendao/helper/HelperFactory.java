@@ -11,6 +11,7 @@ public class HelperFactory {
     private static WeiboUserlInfoDbHelper weiboUserlInfoDbHelper;
     private static TokenDbHelper tokenDbHelper;
     private static EmotionDbHelper emotionDbHelper;
+    private static LoopLogInfoDbHelper loopLogInfoDbHelper;
 
     public static SmallInfoDbHelper getSmallInfoDbHelper() {
         if (smallInfoDbHelper == null) {
@@ -38,6 +39,13 @@ public class HelperFactory {
             emotionDbHelper = new EmotionDbHelper(MyApplication.getInstance().getDaoSession().getEmotionInfoDao());
         }
         return emotionDbHelper;
+    }
+
+    public static LoopLogInfoDbHelper getLoopLogInfoDbHelper() {
+        if (loopLogInfoDbHelper == null) {
+            loopLogInfoDbHelper = new LoopLogInfoDbHelper(MyApplication.getInstance().getDaoSession().getLoopLogInfoDao());
+        }
+        return loopLogInfoDbHelper;
     }
 
 }

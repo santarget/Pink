@@ -126,5 +126,4 @@ public abstract class BaseDbHelper<T extends AbstractDao, W> {
     public void deleteAll() {
         dao.deleteAll();
     }
-
 }

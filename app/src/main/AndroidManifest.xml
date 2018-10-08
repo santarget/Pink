@@ -13,12 +13,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <!-- bugout  0 -->
+    <!-- bugout  start -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <!-- bugout  1 -->
+    <!-- bugout  end -->
 
     <meta-data
         android:name="com.ssy.pink.glide.UnsafeOkHttpGlideModule"
@@ -106,7 +106,6 @@
             android:name=".service.WorkService"
             android:exported="false" />
 
-        <activity android:name=".mvp.activity.TestActivity"></activity>
     </application>
 
 </manifest>

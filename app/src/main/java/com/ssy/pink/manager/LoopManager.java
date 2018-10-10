@@ -75,8 +75,10 @@ public class LoopManager {
         return instance;
     }
 
-    public void startWork() {
-        WorkService.startService(MyApplication.getInstance(), acountWait, roundWait);
+    /**
+     * 显示历史操作日志
+     */
+    public void setHistoryLog() {
         logSb.delete(0, logSb.length());
         List<LoopLogInfo> logs = logInfoDbHelper.queryAllLog(UserManager.getInstance().userInfo.getWeiboid());
         if (!ListUtils.isEmpty(logs)) {
@@ -85,10 +87,15 @@ public class LoopManager {
             }
             logSb.insert(0, historyStr);
         }
+        EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
+    }
+
+    public void startWork() {
+        WorkService.startService(MyApplication.getInstance(), acountWait, roundWait);
+        setHistoryLog();
 //        sendHistory();
         sendLogWithoutTime("初始化成功，开始抡博");
         looping = true;
-        EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
     }
 
     public void stopWork() {
@@ -142,12 +149,12 @@ public class LoopManager {
             loopLogInfo.setLog(log);
             logInfoDbHelper.insert(loopLogInfo);
             List<LoopLogInfo> logInfos = logInfoDbHelper.queryAllLog(UserManager.getInstance().userInfo.getWeiboid());
-            if (logInfos.size() >= 4) {  //超出的日志删除
+            if (logInfos.size() >= 200) {  //超出的日志删除
                 logInfoDbHelper.delete(logInfos.get(logInfos.size() - 1));
                 logInfoDbHelper.delete(logInfos.get(logInfos.size() - 2));
-//            logInfoDbHelper.delete(logInfos.get(2));
-//            logInfoDbHelper.delete(logInfos.get(3));
-//            logInfoDbHelper.delete(logInfos.get(4));
+                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 3));
+                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 4));
+                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 5));
             }
         }
 
@@ -215,7 +222,7 @@ public class LoopManager {
     private SmallInfo getCurrentSmall() {
         if (ListUtils.isEmpty(smallQueue)) {
             finishedCount++;
-            sendLog("第" + finishedCount + "轮微博抡博完成",false);
+//            sendLog("第" + finishedCount + "轮微博抡博完成", false);
             if (finishedCount >= count) {
 //                stopWork();
                 looping = false;
@@ -245,7 +252,7 @@ public class LoopManager {
         }
         WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentSmall.getWeibosmallNumId());
         if (tokenInfo == null || TextUtils.isEmpty(tokenInfo.getMAccessToken())) {
-            sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + "无微博授权或微博授权已过期",true);
+            sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + "无微博授权或微博授权已过期", true);
             removeSmall(currentSmall);
             EventBus.getDefault().post(EventCode.WORK_NEXT);
             return;
@@ -269,29 +276,29 @@ public class LoopManager {
                         } else if (errorStr.contains(WeiboErrorResp.UPDATE_TOO_FAST)) {
                             errorStr = "发送过快";
                         }
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorStr,true);
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorStr, true);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败",true);
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败", true);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + errorMsg,true);
+                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + errorMsg, true);
                         removeSmall(currentSmall);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     }
                 } else {
-                    sendLog(currentSmall.getSmallWeiboName() + "微博发布成功",true);
+                    sendLog(currentSmall.getSmallWeiboName() + "微博发布成功", true);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + t.toString(),true);
+                sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + t.toString(), true);
                 removeSmall(currentSmall);
                 EventBus.getDefault().post(EventCode.WORK_NEXT);
             }

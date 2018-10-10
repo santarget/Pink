@@ -11,10 +11,13 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ssy.greendao.helper.HelperFactory;
+import com.ssy.greendao.helper.LoopLogInfoDbHelper;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseFragment;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.weibo.LoopLogInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.manager.GroupManager;
 import com.ssy.pink.manager.LoopManager;
@@ -119,7 +122,7 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
 
     @Override
     protected void onFirstUserVisible() {
-
+        LoopManager.getInstance().setHistoryLog();
     }
 
     @Override

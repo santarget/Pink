@@ -14,6 +14,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author ssy
  * @date 2018/9/18
@@ -22,7 +25,8 @@ public class WorkService extends Service {
     private static long accoutWait;
     private static long roundWait;
 
-    private Handler handler = new Handler();
+    //    private Handler handler = new Handler();
+    private Timer timer = new Timer();
 
     @Nullable
     @Override
@@ -67,20 +71,34 @@ public class WorkService extends Service {
     public void onMessage(Integer eventCode) {
         switch (eventCode) {
             case EventCode.WORK_NEXT:
-                handler.postDelayed(new Runnable() {
+                TimerTask timerTask = new TimerTask() {
                     @Override
                     public void run() {
                         LoopManager.getInstance().work();
                     }
-                }, accoutWait);
+                };
+                timer.schedule(timerTask, accoutWait);
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        LoopManager.getInstance().work();
+//                    }
+//                }, accoutWait);
                 break;
             case EventCode.WORK_WAITING:
-                handler.postDelayed(new Runnable() {
+                TimerTask timerTask1 = new TimerTask() {
                     @Override
                     public void run() {
                         LoopManager.getInstance().work();
                     }
-                }, roundWait);
+                };
+                timer.schedule(timerTask1, roundWait);
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        LoopManager.getInstance().work();
+//                    }
+//                }, roundWait);
                 break;
         }
     }

@@ -234,9 +234,10 @@ public class LoopManager {
                     EventBus.getDefault().post(EventCode.WORK_FINISH);
                     return null;
                 }
+                smallQueue.addAll(smallList);
                 EventBus.getDefault().post(EventCode.WORK_WAITING);
+                return null;
             }
-            smallQueue.addAll(smallList);
         }
         SmallInfo smallInfo = smallQueue.poll();// 移除并返问队列头部的元素    如果队列为空，则返回null
         return smallInfo;

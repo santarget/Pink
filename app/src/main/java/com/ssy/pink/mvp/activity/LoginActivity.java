@@ -119,24 +119,26 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         } else {
             showProgress(true);
             // TODO: 2018/9/27  测试
+            startActivity(new Intent(this, MyIdolActivity.class));
+            finish();
 //            List<WeiboTokenInfo> tokenInfos = HelperFactory.getTokenDbHelper().queryAllBig();
 //            if (tokenInfos.get(0).getOauth2AccessToken().isSessionValid()) {
 //                WeiboManager.getInstance().mAccessToken = tokenInfos.get(0).getOauth2AccessToken();
 //                presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 //            }
-            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-//            CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
-//            if (customerInfo != null) {
-//                WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(customerInfo.getWeiboid());
-//                if (tokenInfo != null) {
-//                    WeiboManager.getInstance().mAccessToken = tokenInfo.getOauth2AccessToken();
-//                    presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
-//                } else {
-//                    mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-//                }
-//            } else {
-//                mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-//            }
+//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            /*CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+            if (customerInfo != null) {
+                WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(customerInfo.getWeiboid());
+                if (tokenInfo != null) {
+                    WeiboManager.getInstance().mAccessToken = tokenInfo.getOauth2AccessToken();
+                    presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+                } else {
+                    mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+                }
+            } else {
+                mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            }*/
 
         }
     }

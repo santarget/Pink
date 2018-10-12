@@ -101,6 +101,10 @@
         <activity
             android:name=".mvp.activity.BindSmallActivity2"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="net.sourceforge.simcpux.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
 
         <service
             android:name=".service.WorkService"

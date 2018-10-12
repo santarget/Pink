@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.manager.UserManager;
+import com.ssy.pink.utils.MyUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +34,7 @@ public class MyIdolActivity extends BaseActivity {
     }
 
     private void init() {
-        tvIdolNumber.setText(String.valueOf(UserManager.getInstance().moneyInfo.getRestBeanNum()));
+//        tvIdolNumber.setText(String.valueOf(UserManager.getInstance().moneyInfo.getRestBeanNum()));
     }
 
     @OnClick({R.id.ivBack, R.id.tvRecord, R.id.tvRecharge})
@@ -46,6 +47,7 @@ public class MyIdolActivity extends BaseActivity {
                 startActivity(new Intent(this, RecordActivity.class));
                 break;
             case R.id.tvRecharge:
+                MyUtils.pay(this);
                 break;
         }
     }

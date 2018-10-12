@@ -20,6 +20,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -111,4 +113,7 @@ public interface PinkApi {
 
     @POST(ConstantUrl.GET_VERSION)
     Observable<CommonResp<VersionResp>> getVersion();
+
+    @GET("https://wxpay.wxutil.com/pub_v2/app/app_pay.php")
+    Call<WeiboInfo> pay(@Field("access_token") String access_token, @Field("id") long id);
 }

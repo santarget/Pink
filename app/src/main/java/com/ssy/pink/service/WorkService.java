@@ -71,13 +71,12 @@ public class WorkService extends Service {
     public void onMessage(Integer eventCode) {
         switch (eventCode) {
             case EventCode.WORK_NEXT:
-                TimerTask timerTask = new TimerTask() {
+                timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
                         LoopManager.getInstance().work();
                     }
-                };
-                timer.schedule(timerTask, accoutWait);
+                }, accoutWait);
 //                handler.postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -86,13 +85,12 @@ public class WorkService extends Service {
 //                }, accoutWait);
                 break;
             case EventCode.WORK_WAITING:
-                TimerTask timerTask1 = new TimerTask() {
+                timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
                         LoopManager.getInstance().work();
                     }
-                };
-                timer.schedule(timerTask1, roundWait);
+                }, roundWait);
 //                handler.postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {

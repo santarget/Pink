@@ -7,3 +7,6 @@
 4.抡博日志 减少不必要内容，历史操作保留200条
 
 5.增加崩溃日志收集
+
+
+https://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&su=MTgzMTI0OTMxMDc%3D&rsakt=mod&checkpin=1&client=ssologin.js(v1.4.19)&_=1533119627438

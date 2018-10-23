@@ -15,6 +15,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true    //开启矢量图
     }
+    useLibrary 'org.apache.http.legacy'
     buildTypes {
         release {
             minifyEnabled false

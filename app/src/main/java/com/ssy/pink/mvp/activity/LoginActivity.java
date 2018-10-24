@@ -22,6 +22,7 @@ import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.mvp.presenter.LoginActivityPresenter;
+import com.ssy.pink.network.api.LoginWei;
 import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.SharedPreferencesUtil;
 import com.ssy.pink.view.dialog.FansOrgDialog;
@@ -166,7 +167,14 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvLogin:
-                attemptLogin();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new LoginWei().preLogin();
+                    }
+                }).start();
+
+//                attemptLogin();
                 break;
             case R.id.tvTips:
                 showLoginUseDialog();

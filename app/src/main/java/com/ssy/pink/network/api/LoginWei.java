@@ -1,5 +1,11 @@
 package com.ssy.pink.network.api;
 
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.ssy.pink.bean.weibo.PreLoginInfo;
+import com.ssy.pink.utils.JsonUtils;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -40,17 +46,42 @@ public class LoginWei {
      * @throws IOException
      * @throws ClientProtocolException
      */
-    public static void main(String[] args) throws ClientProtocolException, IOException {
-        LoginWei wei = new LoginWei();
-        wei.login("https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.19)&_=1539745862512");
+//    public static void main(String[] args) throws ClientProtocolException, IOException {
+//        LoginWei wei = new LoginWei();
+////        wei.login("https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.19)&_=1539745862512");
+//    }
+    public void preLogin() {
+        HttpClient httpClient = new DefaultHttpClient();
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        String url = "https://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController" +
+                ".preloginCallBack&su=MTgzMTI0OTMxMDc%3D&rsakt=mod&checkpin=1&client=ssologin.js(v1.4.19)&_="
+                + timeStamp;
+        Log.i("aaaa", "preLogin url:" + url);
+        HttpGet httpGet = new HttpGet(url);
+        try {
+            HttpResponse response = httpClient.execute(httpGet);
+            HttpEntity resEntity = response.getEntity();
+            if (resEntity != null) {
+                String result = EntityUtils.toString(resEntity, "UTF-8");
+                //返回数据格式： sinaSSOController.preloginCallBack(json);
+                result = result.substring(0, result.length() - 1)
+                        .replace("sinaSSOController.preloginCallBack(", "");
+                PreLoginInfo info = JsonUtils.toObject(result, PreLoginInfo.class);
+                login(httpClient, info, timeStamp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void login(String url) throws ClientProtocolException, IOException {
+    public void login(HttpClient httpClient, PreLoginInfo preLoginInfo, String timeStamp) throws ClientProtocolException, IOException {
         String charset = "UTF-8";
         HttpPost post = null;
         HttpPost postz = null;
-        HttpClient httpClient = new DefaultHttpClient();
-        post = new HttpPost(url);
+//        HttpClient httpClient = new DefaultHttpClient();
+        post = new HttpPost("https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.19)&_=" + timeStamp);
         post.setHeader("Content-type", "application/x-www-form-urlencoded");
         post.setHeader("Access-Control-Allow-Credentials", "true");
         post.setHeader("Access-Control-Allow-Origin", "http://my.sina.com.cn");
@@ -64,21 +95,21 @@ public class LoginWei {
         list.add(new BasicNameValuePair("useticket", "0"));
         list.add(new BasicNameValuePair("vsnf", "1"));
         list.add(new BasicNameValuePair("ssosimplelogin", "1"));
-//        list.add(new BasicNameValuePair("su", this.su));
-//        list.add(new BasicNameValuePair("service", "sso"));
-//        list.add(new BasicNameValuePair("servertime", this.servertime));
-//        list.add(new BasicNameValuePair("nonce", this.nonce));
-//        list.add(new BasicNameValuePair("pwencode", "rsa2"));
-//        list.add(new BasicNameValuePair("rsakv", this.rsakv));
-//        list.add(new BasicNameValuePair("sp", this.sp));
+        list.add(new BasicNameValuePair("su", preLoginInfo.getSu()));
+        list.add(new BasicNameValuePair("service", "sso"));
+        list.add(new BasicNameValuePair("servertime", preLoginInfo.getServertime()));
+        list.add(new BasicNameValuePair("nonce", preLoginInfo.getNonce()));
+        list.add(new BasicNameValuePair("pwencode", "rsa2"));
+        list.add(new BasicNameValuePair("rsakv", preLoginInfo.getRsakv()));
+        list.add(new BasicNameValuePair("sp", preLoginInfo.getSp()));
         list.add(new BasicNameValuePair("encoding", "UTF-8"));
         list.add(new BasicNameValuePair("prelt", "162"));
         list.add(new BasicNameValuePair("url", "http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack"));
         list.add(new BasicNameValuePair("returntype", "TEXT"));
         list.add(new BasicNameValuePair("sr", "1366*768"));
-//        if (!this.door.isEmpty()) {
-//            list.add(new BasicNameValuePair("door", this.door));
-//        }
+        if (!TextUtils.isEmpty(preLoginInfo.getDoor())) {
+            list.add(new BasicNameValuePair("door", preLoginInfo.getDoor()));
+        }
         list.add(new BasicNameValuePair("pagerefer", "http://my.sina.com.cn/profile/logined"));
         list.add(new BasicNameValuePair("qrcode_flag", "true"));
         list.add(new BasicNameValuePair("__proto__", "Object"));

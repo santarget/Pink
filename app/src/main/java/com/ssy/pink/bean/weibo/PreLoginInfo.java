@@ -67,4 +67,16 @@ public class PreLoginInfo implements Serializable {
     public void setDoor(String door) {
         this.door = door;
     }
+
+    @Override
+    public String toString() {
+        return "PreLoginInfo{" +
+                "servertime='" + servertime + '\'' +
+                ", nonce='" + nonce + '\'' +
+                ", rsakv='" + rsakv + '\'' +
+                ", sp='" + sp + '\'' +
+                ", su='" + su + '\'' +
+                ", door='" + door + '\'' +
+                '}';
+    }
 }

@@ -15,7 +15,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true    //开启矢量图
     }
-    useLibrary 'org.apache.http.legacy'
+    packagingOptions {//加上这写代码
+        pickFirst 'META-INF/*'
+    }
+//    useLibrary 'org.apache.http.legacy'
     buildTypes {
         release {
             minifyEnabled false

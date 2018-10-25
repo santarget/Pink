@@ -1,4 +1,4 @@
-package com.ssy.pink.network.api;
+package com.ssy.pink.network.api.sin;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,7 +40,6 @@ public class LoginWei {
 	public String su = "MTU5MDYyNzQ5NzA=";
 	
 	public String door = "";*/
-
     /**
      * @param args
      * @throws IOException
@@ -81,7 +80,7 @@ public class LoginWei {
         HttpPost post = null;
         HttpPost postz = null;
 //        HttpClient httpClient = new DefaultHttpClient();
-        post = new HttpPost("https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.19)&_=" + timeStamp);
+        post = new HttpPost("https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.19)&_=" + "1539745862512");
         post.setHeader("Content-type", "application/x-www-form-urlencoded");
         post.setHeader("Access-Control-Allow-Credentials", "true");
         post.setHeader("Access-Control-Allow-Origin", "http://my.sina.com.cn");

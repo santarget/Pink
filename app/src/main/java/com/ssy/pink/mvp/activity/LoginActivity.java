@@ -171,7 +171,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                     @Override
                     public void run() {
 //                        new LoginWei().preLogin();
-                        SinaSSO.test();
+                        new SinaSSO().test();
                     }
                 }).start();
 

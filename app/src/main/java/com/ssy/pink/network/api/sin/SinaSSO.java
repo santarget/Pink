@@ -1,7 +1,6 @@
 package com.ssy.pink.network.api.sin;
 
 
-import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
@@ -24,6 +23,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -54,23 +59,23 @@ public class SinaSSO {
 
 
     /**
-     * @param args
+     * //     * @param args
+     *
      * @throws IOException
      * @throws ClientProtocolException
      * @throws NoSuchMethodException
      * @throws ScriptException
      */
-    public static void main(String[] args) throws ClientProtocolException, IOException, ScriptException, NoSuchMethodException {
+   /* public static void main(String[] args) throws ClientProtocolException, IOException, ScriptException, NoSuchMethodException {
         // TODO Auto-generated method stub
         SetConfig config = getServerInfo();
 //		login("15951739789", "syf195337", config);
         login("18312292265", "cvy94463", config);
-    }
-
-    public static void test() {
+    }*/
+    public void test() {
         try {
             SetConfig config = getServerInfo();
-            login("18312292265", "cvy94463", config);
+            login("13432146843", "bip22980", config);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ScriptException e) {
@@ -80,7 +85,7 @@ public class SinaSSO {
         }
     }
 
-    public static void login(String name, String password, SetConfig info) throws ScriptException, NoSuchMethodException, ClientProtocolException, IOException {
+    public void login(String name, String password, SetConfig info) throws ScriptException, NoSuchMethodException, ClientProtocolException, IOException {
         String su = new String(Base64.encode(name.getBytes(), Base64.DEFAULT));
         String sp = encodePassword(password, info);
         Log.i("aaaa", "sp:" + sp);
@@ -127,34 +132,11 @@ public class SinaSSO {
                 System.out.println("login result =" + result);
             }
         }
+
     }
 
-    public static String encodePassword(String password, SetConfig info) throws ScriptException, NoSuchMethodException {
-//        Context rhino = Context.enter();
-//        rhino.setOptimizationLevel(-1);
-//        try {
-//            Scriptable scope = rhino.initStandardObjects();
-//
-//            ScriptableObject.putProperty(scope, "javaContext", Context.javaToJS(MainActivity.this, scope));
-//            ScriptableObject.putProperty(scope, "javaLoader", Context.javaToJS(MainActivity.class.getClassLoader(), scope));
-//
-//            rhino.evaluateString(scope, js, "MainActivity", 1, null);
-//
-//            Function function = (Function) scope.get(functionName, scope);
-//
-//            Object result = function.call(rhino, scope, scope, functionParams);
-//            if (result instanceof String) {
-//                return (String) result;
-//            } else if (result instanceof NativeJavaObject) {
-//                return (String) ((NativeJavaObject) result).getDefaultValue(String.class);
-//            } else if (result instanceof NativeObject) {
-//                return (String) ((NativeObject) result).getDefaultValue(String.class);
-//            }
-//            return result.toString();//(String) function.call(rhino, scope, scope, functionParams);
-//        } finally {
-//            Context.exit();
-//        }
-        String sp = "";
+    public String encodePassword(String password, SetConfig info) throws ScriptException, NoSuchMethodException {
+       /* String sp = "";
         ScriptEngineManager sem = new ScriptEngineManager();
         List<ScriptEngineFactory> engineFactories = sem.getEngineFactories();
         ScriptEngine se = sem.getEngineByName("javascript");
@@ -164,31 +146,32 @@ public class SinaSSO {
             sp = (String) iv.invokeFunction("getpass", password, info.getServertime(), info.getNonce(),
                     info.getPubkey());
         }
-        return sp;
+        return sp;*/
+        Context rhino = Context.enter();
+        rhino.setOptimizationLevel(-1);
+        try {
+            Scriptable scope = rhino.initStandardObjects();
 
-        // 得到公钥对象
-       /* try {
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(info.getPubkey().getBytes());
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PublicKey pubKey = keyFactory.generatePublic(keySpec);
-            // 加密数据
-            Cipher cp = Cipher.getInstance("RSA/None/PKCS1Padding");
-            cp.init(Cipher.ENCRYPT_MODE, pubKey);
-            return new String(cp.doFinal(password.getBytes()));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
+            ScriptableObject.putProperty(scope, "javaContext", Context.javaToJS(this, scope));
+            ScriptableObject.putProperty(scope, "javaLoader", Context.javaToJS(SinaSSO.class.getClassLoader(), scope));
+
+            rhino.evaluateString(scope, sina_js, "SinaSSO", 1, null);
+
+            Function function = (Function) scope.get("getpass", scope);
+            Object[] functionParams = new Object[]{password, info.getServertime(), info.getNonce(),
+                    info.getPubkey()};
+            Object result = function.call(rhino, scope, scope, functionParams);
+            if (result instanceof String) {
+                return (String) result;
+            } else if (result instanceof NativeJavaObject) {
+                return (String) ((NativeJavaObject) result).getDefaultValue(String.class);
+            } else if (result instanceof NativeObject) {
+                return (String) ((NativeObject) result).getDefaultValue(String.class);
+            }
+            return result.toString();//(String) function.call(rhino, scope, scope, functionParams);
+        } finally {
+            Context.exit();
         }
-        return "";*/
     }
 
     /**
@@ -208,6 +191,7 @@ public class SinaSSO {
         HttpEntity resEntity = getssoresponse.getEntity();
         String result = EntityUtils.toString(resEntity, "UTF-8");
         String importantText = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);
+        Log.i("aaaa", "importantText:" + importantText);
         return JsonUtils.toObject(importantText, SetConfig.class);
 ////        JSONObject configInfo = JSONObject.fromObject(importantText);
 //        info.setNonce(configInfo.getString("nonce"));

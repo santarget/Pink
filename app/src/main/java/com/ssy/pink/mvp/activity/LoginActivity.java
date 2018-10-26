@@ -30,6 +30,7 @@ import com.ssy.pink.view.dialog.LoginQuestionDialog;
 import com.ssy.pink.view.dialog.LoginUseDialog;
 import com.ssy.pink.view.dialog.WaitingDialog;
 
+import org.apache.http.util.TextUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -80,7 +81,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         initView();
         mSsoHandler = new SsoHandler(this);
         presenter = new LoginActivityPresenter(this);
-        presenter.listFansOrg();
+//        presenter.listFansOrg();
     }
 
     private void initView() {
@@ -98,7 +99,6 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         Drawable drawable4 = getResources().getDrawable(R.drawable.ic_arrow_right);
         drawable4.setBounds(0, 0, size, size);
         tvOrg.setCompoundDrawables(drawable3, null, drawable4, null);
-
     }
 
     /**
@@ -167,11 +167,14 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvLogin:
+                if (TextUtils.isEmpty(etAccout.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())){
+                    return;
+                }
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
 //                        new LoginWei().preLogin();
-                        new SinaSSO().test();
+                        SinaSSO.getInstance().test(etAccout.getText().toString(),etPassword.getText().toString());
                     }
                 }).start();
 
@@ -184,7 +187,17 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 showLoginQuestionDialog();
                 break;
             case R.id.tvOrg:
-                showLoginChooseDialog();
+//                showLoginChooseDialog();
+                if (TextUtils.isEmpty(etAccout.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())){
+                    return;
+                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        new LoginWei().preLogin();
+                        SinaSSO.getInstance().repost();
+                    }
+                }).start();
                 break;
         }
     }

@@ -50,8 +50,7 @@
             android:paddingRight="10dp"
             android:singleLine="true"
             android:textColor="#999999"
-            android:textSize="14sp"
-            android:visibility="gone" />
+            android:textSize="14sp" />
 
         <View
             android:layout_width="match_parent"
@@ -75,8 +74,7 @@
             android:paddingRight="10dp"
             android:singleLine="true"
             android:textColor="#999999"
-            android:textSize="14sp"
-            android:visibility="gone" />
+            android:textSize="14sp" />
 
         <View
             android:layout_width="match_parent"
@@ -94,7 +92,7 @@
             android:drawablePadding="12dp"
             android:drawableRight="@drawable/ic_arrow_right"
             android:gravity="center_vertical"
-            android:hint="请选择组织"
+            android:hint="转发微博"
             android:maxLines="1"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"

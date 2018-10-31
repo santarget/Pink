@@ -3,8 +3,10 @@ package com.ssy.pink.mvp.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -18,11 +20,13 @@ import com.ssy.pink.bean.FansOrgInfo;
 import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.common.EventWithObj;
+import com.ssy.pink.glide.GlideUtils;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.manager.WeiboManager;
 import com.ssy.pink.mvp.iview.ILoginActivityView;
 import com.ssy.pink.mvp.presenter.LoginActivityPresenter;
-import com.ssy.pink.network.api.sin.SinaSSO;
+import com.ssy.pink.network.api.sina.SinaSSO;
+import com.ssy.pink.network.api.sina.script.ScriptException;
 import com.ssy.pink.utils.CommonUtils;
 import com.ssy.pink.utils.SharedPreferencesUtil;
 import com.ssy.pink.view.dialog.FansOrgDialog;
@@ -34,6 +38,8 @@ import org.apache.http.util.TextUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -71,7 +77,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
      * 注意：SsoHandler 仅当 SDK 支持 SSO 时有效
      */
     private SsoHandler mSsoHandler;
-
+    private ImageView ivCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,26 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         mSsoHandler = new SsoHandler(this);
         presenter = new LoginActivityPresenter(this);
 //        presenter.listFansOrg();
+        test();
+    }
+
+    private void test() {
+        findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            SinaSSO.getInstance().login(etAccout.getText().toString(), etPassword.getText().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
+
     }
 
     private void initView() {
@@ -167,18 +193,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvLogin:
-                if (TextUtils.isEmpty(etAccout.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())){
-                    return;
-                }
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        new LoginWei().preLogin();
-                        SinaSSO.getInstance().test(etAccout.getText().toString(),etPassword.getText().toString());
-                    }
-                }).start();
-
-//                attemptLogin();
+                attemptLogin();
                 break;
             case R.id.tvTips:
                 showLoginUseDialog();
@@ -188,14 +203,16 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 break;
             case R.id.tvOrg:
 //                showLoginChooseDialog();
-                if (TextUtils.isEmpty(etAccout.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())){
+                if (TextUtils.isEmpty(etAccout.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())) {
                     return;
                 }
+                final EditText etIndex = (EditText) findViewById(R.id.etIndex);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
 //                        new LoginWei().preLogin();
-                        SinaSSO.getInstance().repost();
+                        SinaSSO.getInstance().repost("4289628737675854", Integer.valueOf(etIndex.getText().toString()));
+
                     }
                 }).start();
                 break;
@@ -319,6 +336,15 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(String eventCode) {
+        switch (eventCode) {
+            case "downloadcodepng":
+                GlideUtils.loadImageWithoutCache(this, ivCode, new File(Environment.getExternalStorageDirectory() + "/1/", "verify_code.png"));
+                break;
+        }
     }
 }
 

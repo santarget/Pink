@@ -1,4 +1,4 @@
-package com.ssy.pink.network.api.sin.script;
+package com.ssy.pink.network.api.sina.script;
 
 import java.io.Reader;
 

@@ -1,4 +1,4 @@
-package com.ssy.pink.network.api.sin.script;//
+package com.ssy.pink.network.api.sina.script;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //

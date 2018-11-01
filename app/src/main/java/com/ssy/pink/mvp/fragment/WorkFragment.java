@@ -2,6 +2,7 @@ package com.ssy.pink.mvp.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -347,12 +348,21 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
             LoopManager.getInstance().setSmalls(workSmallList);
         }
 
-
-        if (TextUtils.isEmpty(etWeiboUrl.getText().toString())) {
+        String url = etWeiboUrl.getText().toString();
+        if (TextUtils.isEmpty(url)) {
             showToast("请设置微博链接");
             return false;
         }
-        LoopManager.getInstance().url = etWeiboUrl.getText().toString();
+        int index = url.lastIndexOf("/");
+        if (index > 0) {
+            String weiboId = url.substring(index + 1, url.length());
+            Log.i("aaaa", "weiboId:" + weiboId);
+            LoopManager.getInstance().weiboId = weiboId;
+        } else {
+            showToast("微博链接无效，请检查");
+            return false;
+        }
+
         if (rbRandomEmoticon.isChecked()) {
             LoopManager.getInstance().customOn = false;
             LoopManager.getInstance().randomOn = true;

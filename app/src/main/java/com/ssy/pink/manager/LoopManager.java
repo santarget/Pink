@@ -2,32 +2,23 @@ package com.ssy.pink.manager;
 
 import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSONException;
-import com.sina.weibo.sdk.net.HttpManager;
-import com.sina.weibo.sdk.net.WeiboParameters;
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.greendao.helper.LoopLogInfoDbHelper;
 import com.ssy.greendao.helper.WeiboLoginDbHelper;
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.SmallInfo;
-import com.ssy.pink.bean.response.WeiboErrorResp;
 import com.ssy.pink.bean.weibo.EmotionInfo;
 import com.ssy.pink.bean.weibo.LoopLogInfo;
 import com.ssy.pink.bean.weibo.RepostResult;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
-import com.ssy.pink.bean.weibo.WeiboTokenInfo;
-import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.common.EventCode;
-import com.ssy.pink.network.api.WeiboNet;
 import com.ssy.pink.network.api.sina.RepostInfo;
 import com.ssy.pink.network.api.sina.SinaSSO;
 import com.ssy.pink.service.WorkService;
-import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.ListUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,10 +27,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * 抡博管理器
@@ -66,7 +53,8 @@ public class LoopManager {
     public boolean keepOthers;//其他人转发内容保留
     public int speed;// 0慢速  1稳定 2快速
     public int count;//数量设置
-    public String url;//要抡博的链接
+    //    public String url;//要抡博的链接
+    public String weiboId;//要抡博的微博id
     private final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     private LoopManager() {
@@ -223,7 +211,7 @@ public class LoopManager {
         }
     }
 
-    private String getWeibo() {
+    private String getWeiboReason() {
         StringBuilder sbWeibo = new StringBuilder();
         if (customOn) {
             sbWeibo.append(customContent);
@@ -231,7 +219,6 @@ public class LoopManager {
         if (randomOn) {
             sbWeibo.append(getEmotion());
         }
-        sbWeibo.append(url);
         return sbWeibo.toString();
     }
 
@@ -270,19 +257,19 @@ public class LoopManager {
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                RepostInfo repostInfo = SinaSSO.getInstance().repost(currentRepost, "4289628737675854");
-                if (repostInfo.getRepostResult() == null){
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败" , true);
+                RepostInfo repostInfo = SinaSSO.getInstance().repost(currentRepost, weiboId, getWeiboReason());
+                if (repostInfo.getRepostResult() == null) {
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败", true);
                     removeSmall(currentRepost);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
-                }else if (repostInfo.getRepostResult().getCode().equals(RepostResult.SUCCESS)){
+                } else if (repostInfo.getRepostResult().getCode().equals(RepostResult.SUCCESS)) {
                     sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布成功", true);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
-                }else{
-                    if (currentRepost.getRepostResult().getCode().equals(RepostResult.ERROR_RELOAD)){
-
-                    }
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败:"+ repostInfo.getRepostResult().getMsg(), true);
+                } else if (currentRepost.getRepostResult().getCode().equals(RepostResult.ERROR_RELOAD)) {
+                    //重新登录再试一次
+                    work(currentRepost);
+                } else {
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败:" + repostInfo.getRepostResult().getMsg(), true);
                     removeSmall(currentRepost);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }
@@ -343,6 +330,35 @@ public class LoopManager {
         });*/
     }
 
+    private void work(final RepostInfo currentRepost) {
+        if (TextUtils.isEmpty(weiboId)) {
+            return;
+        }
+        if (!looping) {
+            return;
+        }
+        if (currentRepost == null) {
+            return;
+        }
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                RepostInfo repostInfo = SinaSSO.getInstance().repost(currentRepost, weiboId, getWeiboReason());
+                if (repostInfo.getRepostResult() == null) {
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败", true);
+                    removeSmall(currentRepost);
+                    EventBus.getDefault().post(EventCode.WORK_NEXT);
+                } else if (repostInfo.getRepostResult().getCode().equals(RepostResult.SUCCESS)) {
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布成功", true);
+                    EventBus.getDefault().post(EventCode.WORK_NEXT);
+                } else {
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败:" + repostInfo.getRepostResult().getMsg(), true);
+                    removeSmall(currentRepost);
+                    EventBus.getDefault().post(EventCode.WORK_NEXT);
+                }
+            }
+        });
+    }
 
     public void reset() {
         logSb.delete(0, logSb.length());

@@ -130,8 +130,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 //                WeiboManager.getInstance().mAccessToken = tokenInfos.get(0).getOauth2AccessToken();
 //                presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 //            }
-//            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+            /*CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
             if (customerInfo != null) {
                 WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(customerInfo.getWeiboid());
                 if (tokenInfo != null) {
@@ -142,7 +142,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 }
             } else {
                 mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            }
+            }*/
 
         }
     }

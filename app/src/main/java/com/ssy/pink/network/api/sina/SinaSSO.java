@@ -168,7 +168,7 @@ public class SinaSSO {
         return null;
     }
 
-    public RepostInfo repost(RepostInfo repostInfo, String weiboId) {
+    public RepostInfo repost(RepostInfo repostInfo, String weiboId,String reason) {
         HttpClient httpClient;
         if (repostInfo.getHttpClient() == null) {
             httpClient = new DefaultHttpClient();
@@ -183,11 +183,11 @@ public class SinaSSO {
                     repostInfo.setWeiboLoginInfo(weiboLoginInfo);
                     HelperFactory.getWeiboLoginDbHelper().insertOrReplace(weiboLoginInfo);
                 } else {
-                    repostInfo.setRepostResult(new RepostResult(RepostResult.ERROR_RELOAD, "微博授权过期"));
+                    repostInfo.setRepostResult(new RepostResult(weiboLoginInfo == null ? "微博登录失败" : weiboLoginInfo.getReason()));
                     return repostInfo;
                 }
             } catch (IOException e) {
-                repostInfo.setRepostResult(new RepostResult("微博尝试登录失败"));
+                repostInfo.setRepostResult(new RepostResult("微博登录失败"));
                 e.printStackTrace();
                 return repostInfo;
             }
@@ -233,7 +233,7 @@ public class SinaSSO {
             listParam.add(new BasicNameValuePair("pic_src", ""));
             listParam.add(new BasicNameValuePair("rank", "0"));
             listParam.add(new BasicNameValuePair("rankid", ""));
-            listParam.add(new BasicNameValuePair("reason", "测试转发微博" + System.currentTimeMillis()));
+            listParam.add(new BasicNameValuePair("reason", reason));
             listParam.add(new BasicNameValuePair("refer_sort", ""));
             listParam.add(new BasicNameValuePair("rid", "0_0_0_3071694476221415112_0_0"));
             listParam.add(new BasicNameValuePair("style_type", "1"));
@@ -250,6 +250,7 @@ public class SinaSSO {
                         repostInfo.setRepostResult(repostResult);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        repostInfo.setRepostResult(new RepostResult(RepostResult.ERROR_RELOAD, "尝试重新登录"));
                         HelperFactory.getWeiboLoginDbHelper().delete(repostInfo.getWeiboLoginInfo());
                         repostInfo.setWeiboLoginInfo(null);
                     }

@@ -14,6 +14,7 @@ android {
         flavorDimensions "versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true    //开启矢量图
+        multiDexEnabled true
     }
     packagingOptions {//加上这写代码
         pickFirst 'META-INF/*'
@@ -99,6 +100,7 @@ dependencies {
     //bugout
     compile 'cn.testin.analysis:testin-data:5.0.6'
     compile 'cn.testin.analysis:bugout:1.0.4'
+    compile 'com.android.support:multidex:1.0.3'
 }
 
 greendao {

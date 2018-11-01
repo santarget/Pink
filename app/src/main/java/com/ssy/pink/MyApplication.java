@@ -1,9 +1,8 @@
 package com.ssy.pink;
 
-import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -33,7 +32,7 @@ import cn.testin.analysis.data.TestinDataApi;
 import cn.testin.analysis.data.TestinDataConfig;
 
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
     private static MyApplication instance;
     /**
      * 用户相关

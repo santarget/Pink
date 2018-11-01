@@ -2,6 +2,7 @@ package com.ssy.pink.mvp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +16,15 @@ import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.common.Constants;
+import com.ssy.pink.common.EventCode;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IBindSmallActivityView;
 import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter;
 import com.ssy.pink.view.dialog.BindAbnormalDialog;
 import com.ssy.pink.view.dialog.BindFinishDialog;
 import com.ssy.pink.view.recyclerViewBase.DashlineItemDivider;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -85,17 +89,22 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
     }
 
     @Override
-    public void setCurrentProgress(int finished) {
-        tvFinish.setText(String.valueOf(finished));
-        progressBar.setProgress(finished / BindManager.getInstance().smallInfos.size() * 100);
-        if (finished == BindManager.getInstance().smallInfos.size()) {
-            //绑定结束
-            if (presenter.getFailList().size() == 0) {
-                showBindFinishDialog();
-            } else {
-                showBindAbnormalDialog();
+    public void setCurrentProgress(final int finished) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tvFinish.setText(String.valueOf(finished));
+                progressBar.setProgress(finished * 100 / BindManager.getInstance().smallInfos.size());
+                if (finished == BindManager.getInstance().smallInfos.size()) {
+                    //绑定结束
+                    if (presenter.getFailList().size() == 0) {
+                        showBindFinishDialog();
+                    } else {
+                        showBindAbnormalDialog();
+                    }
+                }
             }
-        }
+        });
     }
 
     @Override
@@ -146,5 +155,8 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+        if (progressBar.getProgress()>1){
+            EventBus.getDefault().post(EventCode.ADD_SMALL);
+        }
     }
 }

@@ -24,7 +24,7 @@ public class SmallInfoDbHelper extends BaseDbHelper<SmallInfoDao, SmallInfo> {
     public void deleteById(long smallWeiboId) {
         SmallInfo smallInfo = uniqueQuery(smallWeiboId);
         if (smallInfo != null) {
-            delete(uniqueQuery(smallWeiboId));
+            delete(smallInfo);
         }
     }
 

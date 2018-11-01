@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.ssy.greendao.gen.WeiboLoginInfoDao;
 import com.ssy.greendao.gen.WeiboTokenInfoDao;
+import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
 import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 
@@ -28,6 +29,12 @@ public class WeiboLoginDbHelper extends BaseDbHelper<WeiboLoginInfoDao, WeiboLog
         return super.uniqueQuery("and", new WhereCondition[]{WeiboLoginInfoDao.Properties.Uid.eq(weiboId)});
     }
 
+    public void deleteById(String uid) {
+        WeiboLoginInfo weiboLoginInfo = uniqueQuery(uid);
+        if (weiboLoginInfo != null) {
+            delete(weiboLoginInfo);
+        }
+    }
     /**
      * 查询所有大号的微博授权
      *

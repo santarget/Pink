@@ -62,7 +62,7 @@ public class AddSmallActivityPresenter extends BasePresenter {
                     } else {
                         SmallInfo info = new SmallInfo();
                         info.setSmallWeiboNum(temp[0]);
-                        info.setUsepwd(AesUtils.encrypt(temp[1]));
+                        info.setUsepwd(temp[1]);
                         BindManager.getInstance().smallInfos.add(info);
                     }
                 }

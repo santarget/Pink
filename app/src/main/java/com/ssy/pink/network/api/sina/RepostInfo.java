@@ -1,5 +1,6 @@
 package com.ssy.pink.network.api.sina;
 
+import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.weibo.RepostResult;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
 
@@ -7,28 +8,27 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * @author ssy
  * @date 2018/10/31
  */
-public class SinaAccout implements Serializable {
+public class RepostInfo implements Serializable {
     private static final long serialVersionUID = -3426075099812335796L;
-    String sinaAccout;
-    WeiboLoginInfo weiboLoginInfo;
+    SmallInfo smallInfo;//小号
+    WeiboLoginInfo weiboLoginInfo;//鉴权
 
     HttpClient httpClient;
     HttpResponse ssoResponse;
 
-    RepostResult repostResult;
+    RepostResult repostResult;//转发日志
 
-    public String getSinaAccout() {
-        return sinaAccout;
+    public SmallInfo getSmallInfo() {
+        return smallInfo;
     }
 
-    public void setSinaAccout(String sinaAccout) {
-        this.sinaAccout = sinaAccout;
+    public void setSmallInfo(SmallInfo smallInfo) {
+        this.smallInfo = smallInfo;
     }
 
     public WeiboLoginInfo getWeiboLoginInfo() {
@@ -64,23 +64,9 @@ public class SinaAccout implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SinaAccout)) return false;
-        SinaAccout that = (SinaAccout) o;
-        return Objects.equals(sinaAccout, that.sinaAccout);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(sinaAccout);
-    }
-
-    @Override
     public String toString() {
-        return "SinaAccout{" +
-                "sinaAccout='" + sinaAccout + '\'' +
+        return "RepostInfo{" +
+                "smallInfo=" + smallInfo +
                 ", weiboLoginInfo=" + weiboLoginInfo +
                 ", httpClient=" + httpClient +
                 ", ssoResponse=" + ssoResponse +

@@ -346,7 +346,6 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
         } else {
             LoopManager.getInstance().setSmalls(workSmallList);
         }
-//        }
 
 
         if (TextUtils.isEmpty(etWeiboUrl.getText().toString())) {

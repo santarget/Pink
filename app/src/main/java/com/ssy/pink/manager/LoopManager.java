@@ -7,15 +7,20 @@ import com.sina.weibo.sdk.net.HttpManager;
 import com.sina.weibo.sdk.net.WeiboParameters;
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.greendao.helper.LoopLogInfoDbHelper;
+import com.ssy.greendao.helper.WeiboLoginDbHelper;
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.response.WeiboErrorResp;
 import com.ssy.pink.bean.weibo.EmotionInfo;
 import com.ssy.pink.bean.weibo.LoopLogInfo;
+import com.ssy.pink.bean.weibo.RepostResult;
+import com.ssy.pink.bean.weibo.WeiboLoginInfo;
 import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.common.ConstantWeibo;
 import com.ssy.pink.common.EventCode;
 import com.ssy.pink.network.api.WeiboNet;
+import com.ssy.pink.network.api.sina.RepostInfo;
+import com.ssy.pink.network.api.sina.SinaSSO;
 import com.ssy.pink.service.WorkService;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.ListUtils;
@@ -29,6 +34,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,9 +48,9 @@ public class LoopManager {
     private final String divider = "\n----------------------------------------------\n";
     private final String historyStr = "\n================== 历史操作 ================\n";//历史操作
     private static LoopManager instance;
-    public List<SmallInfo> smallList = new ArrayList<>();//抡博的小号集合
     private List<EmotionInfo> emotionInfoList = new ArrayList<>();
-    private LinkedList<SmallInfo> smallQueue = new LinkedList();
+    public List<RepostInfo> totalRepostList = new ArrayList<>();//抡博的小号集合
+    private LinkedList<RepostInfo> repostQueue = new LinkedList();
     private int finishedCount;//本次抡博已完成了几轮
     public StringBuilder logSb = new StringBuilder();
     public long acountWait = 7 * 1000l;//账号之间间隔时间
@@ -51,6 +58,7 @@ public class LoopManager {
     boolean looping;
     //    int logCount;//日志条数，保留一定数量
     LoopLogInfoDbHelper logInfoDbHelper;
+    WeiboLoginDbHelper weiboDbHelper;
     //配置项
     public boolean customOn;//开启自定义
     public String customContent;//自定义内容
@@ -59,9 +67,11 @@ public class LoopManager {
     public int speed;// 0慢速  1稳定 2快速
     public int count;//数量设置
     public String url;//要抡博的链接
+    private final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     private LoopManager() {
         logInfoDbHelper = HelperFactory.getLoopLogInfoDbHelper();
+        weiboDbHelper = HelperFactory.getWeiboLoginDbHelper();
     }
 
     public static LoopManager getInstance() {
@@ -110,10 +120,16 @@ public class LoopManager {
      * @param workSmalls
      */
     public void setSmalls(List<SmallInfo> workSmalls) {
-        smallList.clear();
-        smallList.addAll(workSmalls);
-        smallQueue.clear();
-        smallQueue.addAll(workSmalls);
+        totalRepostList.clear();
+        repostQueue.clear();
+        for (SmallInfo smallInfo : workSmalls) {
+            RepostInfo info = new RepostInfo();
+            info.setSmallInfo(smallInfo);
+            WeiboLoginInfo weiboLoginInfo = weiboDbHelper.uniqueQuery(smallInfo.getWeibosmallNumId());
+            info.setWeiboLoginInfo(weiboLoginInfo);
+            totalRepostList.add(info);
+        }
+        repostQueue.addAll(totalRepostList);
         finishedCount = 0;
     }
 
@@ -187,8 +203,8 @@ public class LoopManager {
         }
     }
 
-    private void removeSmall(SmallInfo smallInfo) {
-        smallList.remove(smallInfo);
+    private void removeSmall(RepostInfo repostInfo) {
+        totalRepostList.remove(repostInfo);
     }
 
     private String getEmotion() {
@@ -219,8 +235,8 @@ public class LoopManager {
         return sbWeibo.toString();
     }
 
-    private SmallInfo getCurrentSmall() {
-        if (ListUtils.isEmpty(smallQueue)) {
+    private RepostInfo getCurrentRepost() {
+        if (ListUtils.isEmpty(repostQueue)) {
             finishedCount++;
 //            sendLog("第" + finishedCount + "轮微博抡博完成", false);
             if (finishedCount >= count) {
@@ -229,17 +245,17 @@ public class LoopManager {
                 EventBus.getDefault().post(EventCode.WORK_FINISH);
                 return null;
             } else {
-                if (ListUtils.isEmpty(smallList)) {
+                if (ListUtils.isEmpty(totalRepostList)) {
                     looping = false;
                     EventBus.getDefault().post(EventCode.WORK_FINISH);
                     return null;
                 }
-                smallQueue.addAll(smallList);
+                repostQueue.addAll(totalRepostList);
                 EventBus.getDefault().post(EventCode.WORK_WAITING);
                 return null;
             }
         }
-        SmallInfo smallInfo = smallQueue.poll();// 移除并返问队列头部的元素    如果队列为空，则返回null
+        RepostInfo smallInfo = repostQueue.poll();// 移除并返问队列头部的元素    如果队列为空，则返回null
         return smallInfo;
     }
 
@@ -247,14 +263,35 @@ public class LoopManager {
         if (!looping) {
             return;
         }
-        final SmallInfo currentSmall = getCurrentSmall();
-        if (currentSmall == null) {
+        final RepostInfo currentRepost = getCurrentRepost();
+        if (currentRepost == null) {
             return;
         }
-        WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentSmall.getWeibosmallNumId());
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                RepostInfo repostInfo = SinaSSO.getInstance().repost(currentRepost, "4289628737675854");
+                if (repostInfo.getRepostResult() == null){
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败" , true);
+                    removeSmall(currentRepost);
+                    EventBus.getDefault().post(EventCode.WORK_NEXT);
+                }else if (repostInfo.getRepostResult().getCode().equals(RepostResult.SUCCESS)){
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布成功", true);
+                    EventBus.getDefault().post(EventCode.WORK_NEXT);
+                }else{
+                    if (currentRepost.getRepostResult().getCode().equals(RepostResult.ERROR_RELOAD)){
+
+                    }
+                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败:"+ repostInfo.getRepostResult().getMsg(), true);
+                    removeSmall(currentRepost);
+                    EventBus.getDefault().post(EventCode.WORK_NEXT);
+                }
+            }
+        });
+      /*  WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(currentRepost.getWeibosmallNumId());
         if (tokenInfo == null || TextUtils.isEmpty(tokenInfo.getMAccessToken())) {
-            sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + "无微博授权或微博授权已过期", true);
-            removeSmall(currentSmall);
+            sendLog(currentRepost.getSmallWeiboName() + "微博发布失败:" + "无微博授权或微博授权已过期", true);
+            removeSmall(currentRepost);
             EventBus.getDefault().post(EventCode.WORK_NEXT);
             return;
         }
@@ -277,49 +314,41 @@ public class LoopManager {
                         } else if (errorStr.contains(WeiboErrorResp.UPDATE_TOO_FAST)) {
                             errorStr = "发送过快";
                         }
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败:" + errorStr, true);
-                        removeSmall(currentSmall);
+                        sendLog(currentRepost.getSmallWeiboName() + "微博发布失败:" + errorStr, true);
+                        removeSmall(currentRepost);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败", true);
-                        removeSmall(currentSmall);
+                        sendLog(currentRepost.getSmallWeiboName() + "微博发布失败", true);
+                        removeSmall(currentRepost);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + errorMsg, true);
-                        removeSmall(currentSmall);
+                        sendLog(currentRepost.getSmallWeiboName() + "微博发布失败：" + errorMsg, true);
+                        removeSmall(currentRepost);
                         EventBus.getDefault().post(EventCode.WORK_NEXT);
                     }
                 } else {
-                    sendLog(currentSmall.getSmallWeiboName() + "微博发布成功", true);
+                    sendLog(currentRepost.getSmallWeiboName() + "微博发布成功", true);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                sendLog(currentSmall.getSmallWeiboName() + "微博发布失败：" + t.toString(), true);
-                removeSmall(currentSmall);
+                sendLog(currentRepost.getSmallWeiboName() + "微博发布失败：" + t.toString(), true);
+                removeSmall(currentRepost);
                 EventBus.getDefault().post(EventCode.WORK_NEXT);
             }
-        });
+        });*/
     }
 
-    private void refreshToken(WeiboTokenInfo tokenInfo) {
-        String REFRESH_TOKEN_URL = "https://api.weibo.com/oauth2/access_token";
-        WeiboParameters params = new WeiboParameters(ConstantWeibo.APP_KEY);
-        params.put("client_id", ConstantWeibo.APP_KEY);
-        params.put("grant_type", "refresh_token");
-        params.put("refresh_token", tokenInfo.getMRefreshToken());
-        HttpManager.openUrl(MyApplication.getInstance(), REFRESH_TOKEN_URL, "POST", params);
-    }
 
     public void reset() {
         logSb.delete(0, logSb.length());
 //        logCount = 0;
-        smallList.clear();
-        smallQueue.clear();
+        totalRepostList.clear();
+        repostQueue.clear();
         looping = false;
     }
 }

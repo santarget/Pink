@@ -33,15 +33,15 @@ public class BindLogAdapter extends BaseRecycleViewAdapter<BindLogInfo> {
         BindLogInfo info = data.get(position);
         BindLogViewHolder myHolder = (BindLogViewHolder) holder;
         if (info.getStatus() == 1) {
-            String str = String.format("%s 账号绑定成功。", info.getSmallInfo().getSmallWeiboName());
+            String str = String.format("%s 账号绑定成功。", info.getSmallInfo().getSmallWeiboNum());
             myHolder.tvLog.setText(str);
             myHolder.tvLog.setTextColor(context.getResources().getColor(R.color.txt_dialog_title));
         } else if (info.getStatus() == 0) {
-            String str = String.format("%s 账号绑定失败，原因：%s", info.getSmallInfo().getSmallWeiboName(), info.getMsg());
+            String str = String.format("%s 账号绑定失败，原因：%s", info.getSmallInfo().getSmallWeiboNum(), info.getMsg());
             myHolder.tvLog.setText(str);
             myHolder.tvLog.setTextColor(context.getResources().getColor(R.color.txt_small_log_red));
         } else {
-            String str = String.format("%s 账号绑定中...", info.getSmallInfo().getSmallWeiboName());
+            String str = String.format("%s 账号绑定中...", info.getSmallInfo().getSmallWeiboNum());
             myHolder.tvLog.setText(str);
             myHolder.tvLog.setTextColor(context.getResources().getColor(R.color.txt_dialog_title));
         }

@@ -33,11 +33,12 @@
         android:layout_below="@+id/tvAppName"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="90dp"
         android:orientation="vertical">
 
 
         <EditText
+            android:visibility="gone"
             android:id="@+id/etAccout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -60,6 +61,7 @@
             android:visibility="gone" />
 
         <EditText
+            android:visibility="gone"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -176,68 +178,6 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="17sp" />
-
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvLogin"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnPre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="预登陆" />
-
-        <EditText
-            android:id="@+id/etCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="40dp" />
-
-        <Button
-            android:id="@+id/btnSetCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设置验证码" />
-
-        <Button
-            android:id="@+id/btnCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="刷新验证码" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="登陆" />
-
-        <EditText
-            android:id="@+id/etIndex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="0" />
-
-        <ImageView
-            android:id="@+id/ivCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="wrap_content"

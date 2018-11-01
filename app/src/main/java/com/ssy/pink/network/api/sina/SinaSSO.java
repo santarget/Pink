@@ -106,10 +106,10 @@ public class SinaSSO {
         Log.i("aaaa", "下载验证码完毕！");
     }
 
-    public void login(String name, String password) throws IOException {
+    public WeiboLoginInfo login(String name, String password) throws IOException {
         PreLoginInfo preLoginInfo = getServerInfo();
         if (preLoginInfo == null) {
-            return;
+            return null;
         }
         SinaAccout sinaAccout = new SinaAccout();
         sinaAccout.setSinaAccout(name);
@@ -162,14 +162,11 @@ public class SinaSSO {
                     WeiboLoginInfo weiboLoginInfo = JsonUtils.toObject(result, WeiboLoginInfo.class);
                     sinaAccout.setWeiboLoginInfo(weiboLoginInfo);
                     Log.i("aaaa", "weiboLoginInfo：" + weiboLoginInfo.toString());
-                    if (weiboLoginInfo.getRetcode().equals("0")) {
-                        sinaAccoutSet.add(sinaAccout);
-                        Log.i("aaaa", "sinaAccoutSet size = " + sinaAccoutSet.size());
-                    }
+                    return weiboLoginInfo;
                 }
             }
         }
-
+        return null;
     }
 
     private void repost(SinaAccout sinaAccout, String weiboId) {

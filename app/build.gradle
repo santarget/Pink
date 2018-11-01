@@ -5,8 +5,8 @@ android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "net.sourceforge.simcpux"
-//        applicationId "com.ssy.pink"
+//        applicationId "net.sourceforge.simcpux"
+        applicationId "com.ssy.pink"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1

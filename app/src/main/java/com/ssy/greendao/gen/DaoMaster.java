@@ -26,6 +26,7 @@ public class DaoMaster extends AbstractDaoMaster {
         LoopLogInfoDao.createTable(db, ifNotExists);
         WeiboTokenInfoDao.createTable(db, ifNotExists);
         WeiboUserInfoDao.createTable(db, ifNotExists);
+        WeiboLoginInfoDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -35,6 +36,7 @@ public class DaoMaster extends AbstractDaoMaster {
         LoopLogInfoDao.dropTable(db, ifExists);
         WeiboTokenInfoDao.dropTable(db, ifExists);
         WeiboUserInfoDao.dropTable(db, ifExists);
+        WeiboLoginInfoDao.dropTable(db, ifExists);
     }
 
     /**
@@ -58,6 +60,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(LoopLogInfoDao.class);
         registerDaoClass(WeiboTokenInfoDao.class);
         registerDaoClass(WeiboUserInfoDao.class);
+        registerDaoClass(WeiboLoginInfoDao.class);
     }
 
     public DaoSession newSession() {

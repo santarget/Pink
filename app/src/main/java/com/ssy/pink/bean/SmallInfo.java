@@ -21,8 +21,8 @@ public class SmallInfo implements Serializable {
     private String customerNum;//所属的大号的会员id
     private String customerGroupNum;//所属分组的编号
     private String customerGroupName;
-    private String smallWeiboNum;
-    private String usepwd;
+    private String smallWeiboNum;//微博账号
+    private String usepwd;//微博密码
     private String smallWeiboName;
 
     @Unique
@@ -45,8 +45,8 @@ public class SmallInfo implements Serializable {
 
     @Generated(hash = 375693950)
     public SmallInfo(String customerNum, String customerGroupNum, String customerGroupName, String smallWeiboNum,
-            String usepwd, String smallWeiboName, String weibosmallNumId, String smallNumFansOrgInfoName,
-            String smallNumFansOrgInfoNum, String smallNumStatus) {
+                     String usepwd, String smallWeiboName, String weibosmallNumId, String smallNumFansOrgInfoName,
+                     String smallNumFansOrgInfoNum, String smallNumStatus) {
         this.customerNum = customerNum;
         this.customerGroupNum = customerGroupNum;
         this.customerGroupName = customerGroupName;

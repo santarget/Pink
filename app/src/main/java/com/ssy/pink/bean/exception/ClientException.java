@@ -7,6 +7,8 @@ public class ClientException extends Exception {
     //自定义异常错误码
     public static final int CODE_CERT_EXCEPTION = 902;//证书异常
     public static final int CODE_DISABLE_NETWORK_900 = 900; //网络不可用
+    public static final int WEIBO_LOGIN_IO_ERROR = 800; //绑定小号时登录io异常
+    public static final int WEIBO_LOGIN_NULL_ERROR = 801; //绑定小号时账号验证失败
     private String detailMessage;
     private int errorCode = 901; //自定义异常错误码
 

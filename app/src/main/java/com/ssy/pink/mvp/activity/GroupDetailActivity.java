@@ -126,9 +126,9 @@ public class GroupDetailActivity extends BaseActivity implements IGroupDetailAct
                 }
                 break;
             case R.id.llAdd:
-//                Intent i = new Intent(this, AddSmallActivity.class);
-                BindManager.getInstance().groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
-                Intent i = new Intent(this, BindSmallActivity2.class);
+                Intent i = new Intent(this, AddSmallActivity.class);
+                BindManager.getInstance().groupInfo = groupInfo;
+//                Intent i = new Intent(this, BindSmallActivity2.class);
 //                i.putExtra(Constants.INTENT_KEY_DATA, groupInfo);
                 startActivity(i);
                 break;

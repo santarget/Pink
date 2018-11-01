@@ -46,7 +46,7 @@ public class AddSmallActivity extends BaseActivity implements IAddSmallActivityV
     }
 
     private void init() {
-        BindManager.getInstance().groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
+//        BindManager.getInstance().groupInfo = (GroupInfo) getIntent().getSerializableExtra(Constants.INTENT_KEY_DATA);
         tvTitle.setText("绑号");
     }
 

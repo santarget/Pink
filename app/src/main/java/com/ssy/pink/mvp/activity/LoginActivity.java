@@ -87,27 +87,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         initView();
         mSsoHandler = new SsoHandler(this);
         presenter = new LoginActivityPresenter(this);
-//        presenter.listFansOrg();
-        test();
-    }
-
-    private void test() {
-        findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            SinaSSO.getInstance().login(etAccout.getText().toString(), etPassword.getText().toString());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-            }
-        });
-
+        presenter.listFansOrg();
     }
 
     private void initView() {
@@ -145,16 +125,13 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             showToast(R.string.please_choose_org);
         } else {
             showProgress(true);
-            // TODO: 2018/9/27  测试
-            startActivity(new Intent(this, MyIdolActivity.class));
-            finish();
 //            List<WeiboTokenInfo> tokenInfos = HelperFactory.getTokenDbHelper().queryAllBig();
 //            if (tokenInfos.get(0).getOauth2AccessToken().isSessionValid()) {
 //                WeiboManager.getInstance().mAccessToken = tokenInfos.get(0).getOauth2AccessToken();
 //                presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
 //            }
 //            mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            /*CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+            CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
             if (customerInfo != null) {
                 WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(customerInfo.getWeiboid());
                 if (tokenInfo != null) {
@@ -165,7 +142,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 }
             } else {
                 mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            }*/
+            }
 
         }
     }
@@ -202,19 +179,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 showLoginQuestionDialog();
                 break;
             case R.id.tvOrg:
-//                showLoginChooseDialog();
-                if (TextUtils.isEmpty(etAccout.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())) {
-                    return;
-                }
-                final EditText etIndex = (EditText) findViewById(R.id.etIndex);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        new LoginWei().preLogin();
-                        SinaSSO.getInstance().repost("4289628737675854", Integer.valueOf(etIndex.getText().toString()));
-
-                    }
-                }).start();
+                showLoginChooseDialog();
                 break;
         }
     }

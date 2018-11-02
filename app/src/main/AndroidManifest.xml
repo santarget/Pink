@@ -110,6 +110,7 @@
             android:name=".service.WorkService"
             android:exported="false" />
 
+        <activity android:name=".mvp.activity.TestActivity"></activity>
     </application>
 
 </manifest>

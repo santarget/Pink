@@ -2,10 +2,8 @@ package com.ssy.pink.utils;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.ssy.pink.R;
 import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.exception.ExceptionResponse;
@@ -29,7 +27,6 @@ import javax.net.ssl.SSLException;
 import cn.testin.analysis.bug.BugOutApi;
 import okhttp3.Call;
 import okhttp3.Request;
-import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
 
 /**

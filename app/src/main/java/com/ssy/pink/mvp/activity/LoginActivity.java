@@ -302,14 +302,5 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         }
 
     }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(String eventCode) {
-        switch (eventCode) {
-            case "downloadcodepng":
-                GlideUtils.loadImageWithoutCache(this, ivCode, new File(Environment.getExternalStorageDirectory() + "/1/", "verify_code.png"));
-                break;
-        }
-    }
 }
 

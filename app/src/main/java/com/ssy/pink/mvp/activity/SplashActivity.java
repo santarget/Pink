@@ -113,7 +113,8 @@ public class SplashActivity extends BaseActivity implements ISplashActivityView 
 
     @Override
     public void toLoginActivity() {
-        Intent loginActivity = new Intent(this, LoginActivity.class);
+//        Intent loginActivity = new Intent(this, LoginActivity.class);
+        Intent loginActivity = new Intent(this, TestActivity.class);
         startActivity(loginActivity);
         finish();
     }

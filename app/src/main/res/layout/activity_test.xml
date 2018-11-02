@@ -8,7 +8,22 @@
     android:orientation="vertical"
     tools:context=".mvp.activity.TestActivity">
 
-    <include layout="@layout/title_bar" />
+    <EditText
+        android:id="@+id/etAccout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:inputType="textPersonName"
+        android:text="18312292265" />
+
+    <EditText
+        android:id="@+id/etPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:inputType="textPersonName"
+        android:text="cvy94463" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,20 +31,44 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/btnPre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="调用带参函数" />
+            android:text="预登陆" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="转发微博" />
+            android:text="登录"
+
+            />
     </LinearLayout>
 
-    <WebView
-        android:id="@+id/webView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取验证码" />
+
+        <EditText
+            android:id="@+id/etCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:ems="8"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
 </LinearLayout>

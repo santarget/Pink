@@ -45,6 +45,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
     private SmallInfoDbHelper smallDbHelper;
     private WeiboLoginDbHelper weiboDbHelper;
     private final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+private final Thread thread = new Thread();
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -82,6 +83,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
         iView.getAdapter().notifyItemChanged(0);
         bindingLogInfo = logInfo;
 //        mSsoHandler.authorizeWeb(new SelfWbAuthListener());
+
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {

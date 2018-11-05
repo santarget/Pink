@@ -15,16 +15,21 @@ import com.ssy.pink.adapter.BindLogAdapter;
 import com.ssy.pink.base.BaseActivity;
 import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.weibo.PreLoginInfo;
 import com.ssy.pink.common.Constants;
 import com.ssy.pink.common.EventCode;
+import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.mvp.iview.IBindSmallActivityView;
 import com.ssy.pink.mvp.presenter.BindSmallActivityPresenter;
 import com.ssy.pink.view.dialog.BindAbnormalDialog;
 import com.ssy.pink.view.dialog.BindFinishDialog;
+import com.ssy.pink.view.dialog.CodeInputDialog;
 import com.ssy.pink.view.recyclerViewBase.DashlineItemDivider;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -155,8 +160,32 @@ public class BindSmallActivity extends BaseActivity implements IBindSmallActivit
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-        if (progressBar.getProgress()>1){
+        if (progressBar.getProgress() > 1) {
             EventBus.getDefault().post(EventCode.ADD_SMALL);
         }
+    }
+
+    @Override
+    public void showCodeInputDialog(final PreLoginInfo preLoginInfo) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                CodeInputDialog codeInputDialog = new CodeInputDialog(BindSmallActivity.this);
+                codeInputDialog.setListener(new CodeInputDialog.CodeDialogListener() {
+                    @Override
+                    public void onOKClicked(CodeInputDialog dialog, String codeStr) {
+                        dialog.dismiss();
+                        presenter.reBind(preLoginInfo, codeStr);
+                    }
+
+                    @Override
+                    public void onCancelClicked(CodeInputDialog dialog) {
+                        dialog.dismiss();
+                        presenter.cancelRebind();
+                    }
+                });
+                codeInputDialog.show();
+            }
+        });
     }
 }

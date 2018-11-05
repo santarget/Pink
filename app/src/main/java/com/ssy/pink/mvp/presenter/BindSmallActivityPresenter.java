@@ -13,7 +13,10 @@ import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.exception.ClientException;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
+import com.ssy.pink.bean.weibo.PreLoginInfo;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
+import com.ssy.pink.common.EventCode;
+import com.ssy.pink.common.EventWithObj;
 import com.ssy.pink.common.ResponseCode;
 import com.ssy.pink.manager.BindManager;
 import com.ssy.pink.manager.UserManager;
@@ -22,6 +25,9 @@ import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.sina.SinaSSO;
 import com.ssy.pink.utils.ListUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +51,13 @@ public class BindSmallActivityPresenter extends BasePresenter {
     private SmallInfoDbHelper smallDbHelper;
     private WeiboLoginDbHelper weiboDbHelper;
     private final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-private final Thread thread = new Thread();
+    private Thread thread;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case CODE_BIND_NEXT:
+                    iView.getAdapter().notifyDataSetChanged();
                     totalList.remove(0);
                     if (ListUtils.isEmpty(totalList)) {
                     } else {
@@ -61,8 +68,8 @@ private final Thread thread = new Thread();
         }
     };
 
-    public BindSmallActivityPresenter(IBindSmallActivityView iView, Activity activity) {
-        this.iView = iView;
+    public BindSmallActivityPresenter(IBindSmallActivityView iBindSmallActivityView, Activity activity) {
+        this.iView = iBindSmallActivityView;
         this.activity = activity;
 //        mSsoHandler = new SsoHandler(activity);
         smallDbHelper = HelperFactory.getSmallInfoDbHelper();
@@ -90,19 +97,28 @@ private final Thread thread = new Thread();
                 try {
                     WeiboLoginInfo weiboLoginInfo = SinaSSO.getInstance().login(bindingLogInfo.getSmallInfo().getSmallWeiboNum(), bindingLogInfo.getSmallInfo().getUsepwd());
                     if (weiboLoginInfo == null) {
-                        failList.add(bindingLogInfo.getSmallInfo());
-                        iView.setCurrentProgress(getFinishCount());
-                        bindingLogInfo.setStatus(0);
-                        bindingLogInfo.setMsg(ClientException.WEIBO_LOGIN_NULL_ERROR + "_" + "账号验证不通过");
-                        iView.getAdapter().notifyItemChanged(0);
-                        handler.sendEmptyMessage(CODE_BIND_NEXT);
+                        handleBindFail(ClientException.WEIBO_LOGIN_NULL_ERROR + "_账号验证不通过");
                     } else if (!weiboLoginInfo.getRetcode().equals("0")) {
-                        failList.add(bindingLogInfo.getSmallInfo());
-                        iView.setCurrentProgress(getFinishCount());
-                        bindingLogInfo.setStatus(0);
-                        bindingLogInfo.setMsg(weiboLoginInfo.getRetcode() + "_" + weiboLoginInfo.getReason());
-                        iView.getAdapter().notifyItemChanged(0);
-                        handler.sendEmptyMessage(CODE_BIND_NEXT);
+                        if (weiboLoginInfo.getRetcode().equals("4049")) {
+                            //输入验证码
+                            PreLoginInfo preLoginInfo = SinaSSO.getInstance().getServerInfo();
+                            if (preLoginInfo == null) {
+                                handleBindFail(weiboLoginInfo.getRetcode() + "_" + weiboLoginInfo.getReason());
+                            } else {
+                                File file = SinaSSO.getInstance().downloadImage(preLoginInfo);
+                                if (file != null && file.exists()) {
+                                    iView.showCodeInputDialog(preLoginInfo);
+                                } else {
+                                    handleBindFail(ClientException.WEIBO_LOGIN_PIC_ERROR + "_验证码获取失败");
+                                }
+                            }
+                        } else {
+                            failList.add(bindingLogInfo.getSmallInfo());
+                            iView.setCurrentProgress(getFinishCount());
+                            bindingLogInfo.setStatus(0);
+                            bindingLogInfo.setMsg(weiboLoginInfo.getRetcode() + "_" + weiboLoginInfo.getReason());
+                            handler.sendEmptyMessage(CODE_BIND_NEXT);
+                        }
                     } else {
 //                        WeiboTokenInfo tokenInfo = new WeiboTokenInfo(token.getUid(), token.getToken(), token.getRefreshToken(),
 //                                token.getExpiresTime(), 0);
@@ -120,12 +136,37 @@ private final Thread thread = new Thread();
                     iView.setCurrentProgress(getFinishCount());
                     bindingLogInfo.setStatus(0);
                     bindingLogInfo.setMsg(ClientException.WEIBO_LOGIN_IO_ERROR + "_" + e.getMessage());
-                    iView.getAdapter().notifyItemChanged(0);
                     handler.sendEmptyMessage(CODE_BIND_NEXT);
                 }
             }
         });
 
+    }
+
+    /**
+     * 输入验证码重新绑定
+     */
+    public void reBind(final PreLoginInfo preLoginInfo, final String door) {
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                WeiboLoginInfo weiboLoginInfo = SinaSSO.getInstance().loginWithDoor(preLoginInfo, bindingLogInfo.getSmallInfo().getSmallWeiboNum(), bindingLogInfo.getSmallInfo().getUsepwd(), door);
+                if (weiboLoginInfo == null) {
+                    handleBindFail(ClientException.WEIBO_LOGIN_NULL_ERROR + "_" + "账号验证不通过");
+                } else if (!weiboLoginInfo.getRetcode().equals("0")) {
+                    handleBindFail(weiboLoginInfo.getRetcode() + "_" + weiboLoginInfo.getReason());
+                } else {
+                    weiboDbHelper.insertOrReplace(weiboLoginInfo);
+                    bindingLogInfo.getSmallInfo().setWeibosmallNumId(weiboLoginInfo.getUid());
+                    bindingLogInfo.setMsg("账号验证通过，正在绑定到大号");
+                    bindSmallSingle(bindingLogInfo);
+                }
+            }
+        });
+    }
+
+    public void cancelRebind() {
+        handleBindFail(ClientException.WEIBO_LOGIN_PIC_CANCEL_ERROR + "_" + "取消输入验证码");
     }
 
     private void bindSmallSingle(final BindLogInfo bindLogInfo) {
@@ -136,7 +177,6 @@ private final Thread thread = new Thread();
                     @Override
                     public void onCompleted() {
                         iView.setCurrentProgress(getFinishCount());
-                        iView.getAdapter().notifyDataSetChanged();
                         handler.sendEmptyMessage(CODE_BIND_NEXT);
                     }
 
@@ -147,7 +187,6 @@ private final Thread thread = new Thread();
                         bindLogInfo.setMsg(e.getMessage());
 
                         iView.setCurrentProgress(getFinishCount());
-                        iView.getAdapter().notifyDataSetChanged();
                         handler.sendEmptyMessage(CODE_BIND_NEXT);
                     }
 
@@ -221,6 +260,14 @@ private final Thread thread = new Thread();
             handler.sendEmptyMessage(CODE_BIND_NEXT);
         }
     }*/
+
+    private void handleBindFail(String msg) {
+        failList.add(bindingLogInfo.getSmallInfo());
+        iView.setCurrentProgress(getFinishCount());
+        bindingLogInfo.setStatus(0);
+        bindingLogInfo.setMsg(msg);
+        handler.sendEmptyMessage(CODE_BIND_NEXT);
+    }
 
     public void onDestroy() {
         mSubscriptions.clear();

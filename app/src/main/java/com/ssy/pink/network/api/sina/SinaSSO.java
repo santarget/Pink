@@ -7,13 +7,13 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSONException;
 import com.ssy.greendao.helper.HelperFactory;
+import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.weibo.PreLoginInfo;
 import com.ssy.pink.bean.weibo.RepostResult;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.ListUtils;
 
-import net.sourceforge.tess4j.Tesseract;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -91,7 +91,7 @@ public class SinaSSO {
             HttpResponse response = httpClient.execute(getMethod, new BasicHttpContext());
             HttpEntity entity = response.getEntity();
             InputStream instream = entity.getContent();
-            File file = new File(Environment.getExternalStorageDirectory() + "/1/", "verify_code.png");
+            File file = new File(MyApplication.getInstance().getExternalFilesDir(null) + "", "verify_code.png");
             if (file.exists()) {
                 file.delete();
             }
@@ -324,7 +324,7 @@ public class SinaSSO {
         return preLoginInfo;
     }
 
-    public WeiboLoginInfo testLogin(PreLoginInfo preLoginInfo, String name, String password, String door) {
+    public WeiboLoginInfo loginWithDoor(PreLoginInfo preLoginInfo, String name, String password, String door) {
         String su = new String(Base64.encode(name.getBytes(), Base64.DEFAULT));
         String sp = encodePassword(password, preLoginInfo);
         HttpPost post = null;

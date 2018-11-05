@@ -9,12 +9,8 @@ import android.widget.ImageView;
 
 import com.ssy.pink.R;
 import com.ssy.pink.bean.weibo.PreLoginInfo;
-import com.ssy.pink.bean.weibo.WeiboLoginInfo;
 import com.ssy.pink.glide.GlideUtils;
 import com.ssy.pink.network.api.sina.SinaSSO;
-
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
 
 import java.io.File;
 
@@ -58,8 +54,8 @@ public class TestActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (preLoginInfo != null) {
-                            WeiboLoginInfo weiboLoginInfo = SinaSSO.getInstance().testLogin(preLoginInfo, etAccout.getText().toString(), etPwd.getText().toString(), etCode.getText().toString());
-                            Log.i("aaaa", "登陆：" + weiboLoginInfo.toString());
+//                            WeiboLoginInfo weiboLoginInfo = SinaSSO.getInstance().testLogin(preLoginInfo, etAccout.getText().toString(), etPwd.getText().toString(), etCode.getText().toString());
+//                            Log.i("aaaa", "登陆：" + weiboLoginInfo.toString());
                         }
 
                     }
@@ -72,16 +68,16 @@ public class TestActivity extends AppCompatActivity {
                     public void run() {
                         if (preLoginInfo != null) {
                             final File file = SinaSSO.getInstance().downloadImage(preLoginInfo);
-                            Tesseract instance = new Tesseract();
+//                            Tesseract instance = new Tesseract();
 
                             //将验证码图片的内容识别为字符串
-                            try {
-                                String result = instance.doOCR(file);
-                                Log.i("aaaa", "result:" + result);
-                            } catch (TesseractException e) {
-                                Log.i("aaaa", "result TesseractException:" + e.getMessage());
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                String result = instance.doOCR(file);
+//                                Log.i("aaaa", "result:" + result);
+//                            } catch (TesseractException e) {
+//                                Log.i("aaaa", "result TesseractException:" + e.getMessage());
+//                                e.printStackTrace();
+//                            }
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

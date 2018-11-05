@@ -109,6 +109,10 @@ public class GroupDetailActivityPresenter extends BasePresenter {
                 HelperFactory.getSmallInfoDbHelper().deleteAll();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
                     iView.finishRefresh();
+                    for (GroupInfo groupInfo : GroupManager.getInstance().groupInfos) {
+                        groupInfo.getAllSmallInfos().clear();
+                        groupInfo.getValidSmallInfos().clear();
+                    }
                     iView.updateData();
                     return;
                 }

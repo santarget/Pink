@@ -28,5 +28,4 @@ public class EventCode {
     public static final int WORK_WAITING = 43;//每轮之间等待
     public static final int WORK_NEXT = 44;//下一个账号
 
-
 }

@@ -1,7 +1,10 @@
 package com.ssy.pink.manager;
 
+import com.ssy.greendao.helper.HelperFactory;
+import com.ssy.greendao.helper.SmallStatusDbHelper;
 import com.ssy.pink.bean.GroupInfo;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.SmallStatus;
 import com.ssy.pink.utils.ListUtils;
 
 import java.util.ArrayList;
@@ -25,8 +28,10 @@ public class GroupManager {
     public List<GroupInfo> groupInfos = new ArrayList<>();
     public List<SmallInfo> smallInfos = new ArrayList<>();//所有小号集合
     public List<SmallInfo> validSmallInfos = new ArrayList<>();//所有有效小号集合
+    private SmallStatusDbHelper statusDbHelper;
 
     private GroupManager() {
+        statusDbHelper = HelperFactory.getSmallStatusDbHelper();
     }
 
     public static GroupManager getInstance() {
@@ -64,7 +69,14 @@ public class GroupManager {
                         for (SmallInfo smallInfo : smallInfos) {
                             if (groupInfo.getCustomergroupnum().equalsIgnoreCase(smallInfo.getCustomerGroupNum())) {
                                 allSmalls.add(smallInfo);
-                                if (smallInfo.getSmallNumStatus().equals("1")) {
+                                /*if (smallInfo.getSmallNumStatus().equals("1")) {
+                                    validSmalls.add(smallInfo);
+                                }*/
+                                SmallStatus smallStatus = statusDbHelper.uniqueQuery(smallInfo.getWeibosmallNumId());
+                                if (smallStatus == null) {
+                                    statusDbHelper.insertOrReplace(smallInfo.getWeibosmallNumId(), true);
+                                    validSmalls.add(smallInfo);
+                                } else if (smallStatus.getNormal()) {
                                     validSmalls.add(smallInfo);
                                 }
                             }

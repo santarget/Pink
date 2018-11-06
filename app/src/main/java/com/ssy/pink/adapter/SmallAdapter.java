@@ -11,9 +11,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ssy.greendao.helper.HelperFactory;
+import com.ssy.greendao.helper.SmallStatusDbHelper;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BaseRecycleViewAdapter;
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.mvp.activity.MyIdolActivity;
 import com.ssy.pink.utils.ListUtils;
 
 import java.util.List;
@@ -30,6 +33,7 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
 
     private boolean isMulti;
     private OnSlideMenuListener menuListener;
+    SmallStatusDbHelper dbHelper = HelperFactory.getSmallStatusDbHelper();
 
     public SmallAdapter(Context context, List<SmallInfo> data) {
         super(context, data);
@@ -48,14 +52,15 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SmallInfo info = data.get(position);
         GroupRecycleViewHolder myHolder = (GroupRecycleViewHolder) holder;
-        myHolder.tvName.setText(info.getSmallWeiboName());
+        myHolder.tvWeiboUid.setText(info.getWeibosmallNumId());
         if (TextUtils.isEmpty(info.getSmallWeiboNum())) {
             myHolder.tvWeiboAccout.setVisibility(View.GONE);
         } else {
             myHolder.tvWeiboAccout.setText(info.getSmallWeiboNum());
             myHolder.tvWeiboAccout.setVisibility(View.VISIBLE);
         }
-        myHolder.tvStatus.setText(info.getSmallNumStatus().equalsIgnoreCase("1") ? "有效" : "无效");
+
+        myHolder.tvStatus.setText(dbHelper.uniqueQuery(info.getWeibosmallNumId()).getNormal() ? "有效" : "无效");
         if (isMulti) {
             myHolder.checkbox.setVisibility(View.VISIBLE);
             myHolder.checkbox.setChecked(info.isChecked());
@@ -65,8 +70,8 @@ public class SmallAdapter extends BaseRecycleViewAdapter<SmallInfo> {
     }
 
     class GroupRecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.tvName)
-        TextView tvName;
+        @BindView(R.id.tvWeiboUid)
+        TextView tvWeiboUid;
         @BindView(R.id.ivIcon)
         ImageView ivIcon;
         @BindView(R.id.menuDelete)

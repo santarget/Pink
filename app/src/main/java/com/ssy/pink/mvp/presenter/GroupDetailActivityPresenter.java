@@ -2,6 +2,7 @@ package com.ssy.pink.mvp.presenter;
 
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.greendao.helper.SmallInfoDbHelper;
+import com.ssy.greendao.helper.SmallStatusDbHelper;
 import com.ssy.pink.R;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.GroupInfo;
@@ -31,10 +32,12 @@ public class GroupDetailActivityPresenter extends BasePresenter {
     GroupInfo groupInfo;
     List<SmallInfo> selectList = new ArrayList<>();
     SmallInfoDbHelper helper;
+    SmallStatusDbHelper statusDbHelper;
 
     public GroupDetailActivityPresenter(IGroupDetailActivityView iView) {
         this.iView = iView;
         helper = HelperFactory.getSmallInfoDbHelper();
+        statusDbHelper = HelperFactory.getSmallStatusDbHelper();
     }
 
     public GroupDetailActivityPresenter setGroupInfo(GroupInfo groupInfo) {
@@ -58,6 +61,7 @@ public class GroupDetailActivityPresenter extends BasePresenter {
             public void onNext(CommonResp<NoBodyEntity> noBodyEntityCommonResp) {
                 if (noBodyEntityCommonResp.getCode().equals(ResponseCode.CODE_SUCCESS)) {
                     iView.showToast(R.string.delete_success);
+                    statusDbHelper.deleteById(smallWeiboId);
                     listSmall();
 //                    helper.deleteByIdsStr(smallWeiboId);
                 } else {

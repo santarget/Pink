@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.greendao.helper.LoopLogInfoDbHelper;
+import com.ssy.greendao.helper.SmallStatusDbHelper;
 import com.ssy.greendao.helper.WeiboLoginDbHelper;
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.SmallInfo;
@@ -12,6 +13,7 @@ import com.ssy.pink.bean.weibo.LoopLogInfo;
 import com.ssy.pink.bean.weibo.RepostResult;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
 import com.ssy.pink.common.EventCode;
+import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.sina.RepostInfo;
 import com.ssy.pink.network.api.sina.SinaSSO;
 import com.ssy.pink.service.WorkService;
@@ -46,6 +48,8 @@ public class LoopManager {
     //    int logCount;//日志条数，保留一定数量
     LoopLogInfoDbHelper logInfoDbHelper;
     WeiboLoginDbHelper weiboDbHelper;
+    SmallStatusDbHelper statusDbHelper;
+
     //配置项
     public boolean customOn;//开启自定义
     public String customContent;//自定义内容
@@ -60,6 +64,7 @@ public class LoopManager {
     private LoopManager() {
         logInfoDbHelper = HelperFactory.getLoopLogInfoDbHelper();
         weiboDbHelper = HelperFactory.getWeiboLoginDbHelper();
+        statusDbHelper = HelperFactory.getSmallStatusDbHelper();
     }
 
     public static LoopManager getInstance() {
@@ -140,39 +145,38 @@ public class LoopManager {
         }
     }
 
-    private void sendLog(String log, boolean needRecord) {
+    private void sendLog(RepostInfo repostInfo, String msg, boolean success) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(repostInfo.getSmallInfo().getSmallWeiboNum());
+        if (success) {
+            sb.append("转发成功");
+        } else {
+            sb.append("转发失败");
+            statusDbHelper.insertOrReplace(repostInfo.getSmallInfo().getWeibosmallNumId(), false);
+        }
+        if (!TextUtils.isEmpty(msg)) {
+            sb.append(": msg");
+        }
+
+        String log = sb.toString();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         String formatStr = formatter.format(new Date());
         logSb.insert(0, formatStr + " " + log + divider);
         EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
 
-        if (needRecord) {
-            LoopLogInfo loopLogInfo = new LoopLogInfo();
-            loopLogInfo.setWeiboUid(UserManager.getInstance().userInfo.getWeiboid());
-            loopLogInfo.setTime(formatStr);
-            loopLogInfo.setLog(log);
-            logInfoDbHelper.insert(loopLogInfo);
-            List<LoopLogInfo> logInfos = logInfoDbHelper.queryAllLog(UserManager.getInstance().userInfo.getWeiboid());
-            if (logInfos.size() >= 200) {  //超出的日志删除
-                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 1));
-                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 2));
-                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 3));
-                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 4));
-                logInfoDbHelper.delete(logInfos.get(logInfos.size() - 5));
-            }
+        LoopLogInfo loopLogInfo = new LoopLogInfo();
+        loopLogInfo.setWeiboUid(UserManager.getInstance().userInfo.getWeiboid());
+        loopLogInfo.setTime(formatStr);
+        loopLogInfo.setLog(log);
+        logInfoDbHelper.insert(loopLogInfo);
+        List<LoopLogInfo> logInfos = logInfoDbHelper.queryAllLog(UserManager.getInstance().userInfo.getWeiboid());
+        if (logInfos.size() >= 200) {  //超出的日志删除
+            logInfoDbHelper.delete(logInfos.get(logInfos.size() - 1));
+            logInfoDbHelper.delete(logInfos.get(logInfos.size() - 2));
+            logInfoDbHelper.delete(logInfos.get(logInfos.size() - 3));
+            logInfoDbHelper.delete(logInfos.get(logInfos.size() - 4));
+            logInfoDbHelper.delete(logInfos.get(logInfos.size() - 5));
         }
-
-        //超出的日志删除
-//        logCount++;
-//        if (logCount >= 200) {//保留200条
-//            int last = logSb.lastIndexOf(divider);
-//            logSb.delete(last, logSb.length());//删除分隔符
-//            int last2 = logSb.lastIndexOf(divider);//倒数第二个分隔符之后的文字
-//            logSb.delete(last2 + divider.length(), logSb.length());
-//            logCount--;
-//        }
-//        EventBus.getDefault().post(EventCode.WORK_UPDATE_LOG);
-
     }
 
     private void sendLogWithoutTime(String log) {
@@ -259,17 +263,17 @@ public class LoopManager {
             public void run() {
                 RepostInfo repostInfo = SinaSSO.getInstance().repost(currentRepost, weiboId, getWeiboReason());
                 if (repostInfo.getRepostResult() == null) {
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败", true);
+                    sendLog(currentRepost, "", false);
                     removeSmall(currentRepost);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 } else if (repostInfo.getRepostResult().getCode().equals(RepostResult.SUCCESS)) {
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布成功", true);
+                    sendLog(currentRepost, "", true);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 } else if (currentRepost.getRepostResult().getCode().equals(RepostResult.ERROR_RELOAD)) {
                     //重新登录再试一次
                     work(currentRepost);
                 } else {
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败:" + repostInfo.getRepostResult().getMsg(), true);
+                    sendLog(currentRepost, repostInfo.getRepostResult().getMsg(), false);
                     removeSmall(currentRepost);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }
@@ -345,14 +349,14 @@ public class LoopManager {
             public void run() {
                 RepostInfo repostInfo = SinaSSO.getInstance().repost(currentRepost, weiboId, getWeiboReason());
                 if (repostInfo.getRepostResult() == null) {
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败", true);
+                    sendLog(currentRepost, "", false);
                     removeSmall(currentRepost);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 } else if (repostInfo.getRepostResult().getCode().equals(RepostResult.SUCCESS)) {
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布成功", true);
+                    sendLog(currentRepost, "", true);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 } else {
-                    sendLog(currentRepost.getSmallInfo().getSmallWeiboNum() + "微博发布失败:" + repostInfo.getRepostResult().getMsg(), true);
+                    sendLog(currentRepost, repostInfo.getRepostResult().getMsg(), false);
                     removeSmall(currentRepost);
                     EventBus.getDefault().post(EventCode.WORK_NEXT);
                 }

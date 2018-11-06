@@ -13,6 +13,7 @@ public class HelperFactory {
     private static EmotionDbHelper emotionDbHelper;
     private static LoopLogInfoDbHelper loopLogInfoDbHelper;
     private static WeiboLoginDbHelper weiboLoginDbHelper;
+    private static SmallStatusDbHelper smallStatusDbHelper;
 
     public static SmallInfoDbHelper getSmallInfoDbHelper() {
         if (smallInfoDbHelper == null) {
@@ -54,6 +55,13 @@ public class HelperFactory {
             weiboLoginDbHelper = new WeiboLoginDbHelper(MyApplication.getInstance().getDaoSession().getWeiboLoginInfoDao());
         }
         return weiboLoginDbHelper;
+    }
+
+    public static SmallStatusDbHelper getSmallStatusDbHelper() {
+        if (smallStatusDbHelper == null) {
+            smallStatusDbHelper = new SmallStatusDbHelper(MyApplication.getInstance().getDaoSession().getSmallStatusDao());
+        }
+        return smallStatusDbHelper;
     }
 
 }

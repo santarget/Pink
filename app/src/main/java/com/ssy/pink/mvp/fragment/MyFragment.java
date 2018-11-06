@@ -187,24 +187,6 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
     }
 
     @Override
-    public void loadSmallCount(List<SmallStatusInfo> smallStatusInfos) {
-        if (!ListUtils.isEmpty(smallStatusInfos)) {
-            int valid = 0;
-            int invalid = 0;
-            for (SmallStatusInfo info : smallStatusInfos) {
-                if (info.getSmallnumstatus().equalsIgnoreCase("0")) {
-                    invalid = info.getCountnum();
-                } else if (info.getSmallnumstatus().equalsIgnoreCase("1")) {
-                    valid = info.getCountnum();
-                }
-            }
-            tvAltBlack.setText(String.valueOf(invalid));
-            tvAltNormal.setText(String.valueOf(valid));
-            tvAltCurrent.setText(String.valueOf(invalid + valid));
-        }
-    }
-
-    @Override
     public void finishRefresh() {
         refreshLayout.finishRefresh();
     }
@@ -239,9 +221,9 @@ public class MyFragment extends BaseFragment implements IMyFragmentView, OnRefre
     public void onMessage(Integer eventCode) {
         switch (eventCode) {
             case EventCode.GET_MONEY_INFO:
-                tvAltBlack.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllInValidSmallNum()));
-                tvAltNormal.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
-                tvAltCurrent.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
+//                tvAltBlack.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllInValidSmallNum()));
+//                tvAltNormal.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllValidSmallNum()));
+//                tvAltCurrent.setText(String.valueOf(UserManager.getInstance().moneyInfo.getAllSmallNum()));
                 tvMyIdolNumber.setText(String.valueOf(UserManager.getInstance().moneyInfo.getRestBeanNum()));
                 break;
         }

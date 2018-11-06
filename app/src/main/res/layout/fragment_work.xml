@@ -217,13 +217,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="7dp"
                     android:layout_toLeftOf="@+id/ivVisitUrl"
                     android:background="@drawable/shape_gray_bg_radius"
                     android:padding="5dp"
                     android:text="https://www.baidu.com"
                     android:textColor="@color/item_text_content"
-                    android:textSize="@dimen/item_text_content_size" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/ivVisitUrl"

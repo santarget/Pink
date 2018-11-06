@@ -6,6 +6,7 @@ import android.os.Message;
 
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.greendao.helper.SmallInfoDbHelper;
+import com.ssy.greendao.helper.SmallStatusDbHelper;
 import com.ssy.greendao.helper.WeiboLoginDbHelper;
 import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.BindLogInfo;
@@ -50,6 +51,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
     private BindLogInfo bindingLogInfo;//正在绑定的对象
     private SmallInfoDbHelper smallDbHelper;
     private WeiboLoginDbHelper weiboDbHelper;
+    private SmallStatusDbHelper statusDbHelper;
     private final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
     private Thread thread;
     private Handler handler = new Handler() {
@@ -74,6 +76,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
 //        mSsoHandler = new SsoHandler(activity);
         smallDbHelper = HelperFactory.getSmallInfoDbHelper();
         weiboDbHelper = HelperFactory.getWeiboLoginDbHelper();
+        statusDbHelper = HelperFactory.getSmallStatusDbHelper();
     }
 
     public void bindSmall() {
@@ -203,7 +206,7 @@ public class BindSmallActivityPresenter extends BasePresenter {
                             successList.add(smallInfo);
                             bindLogInfo.setSmallInfo(smallInfo);
                             bindLogInfo.setStatus(1);
-
+                            statusDbHelper.insertOrReplace(info.getWeibosmallNumId(), true);
                         } else {
                             failList.add(info);
                             bindLogInfo.setStatus(0);

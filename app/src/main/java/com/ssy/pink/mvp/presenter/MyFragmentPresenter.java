@@ -51,29 +51,6 @@ public class MyFragmentPresenter extends BasePresenter {
         });
     }
 
-    public void getSmallStutas() {
-        PinkNet.getSmallStutas(UserManager.getInstance().userInfo.getCustomernum(), new Subscriber<CommonListResp<SmallStatusInfo>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                MyUtils.handleExcep(e);
-            }
-
-            @Override
-            public void onNext(CommonListResp<SmallStatusInfo> smallStatusInfoCommonListResp) {
-                if (ResponseCode.CODE_SUCCESS.equalsIgnoreCase(smallStatusInfoCommonListResp.getCode())) {
-                    iView.loadSmallCount(smallStatusInfoCommonListResp.getData());
-                } else {
-                    iView.showToast(smallStatusInfoCommonListResp.getMsg());
-                }
-            }
-        });
-    }
-
     public void getWeiboUserInfo() {
         if (WeiboManager.getInstance().mAccessToken == null) {
             iView.showToast("未获取到当前微博授权");

@@ -30,8 +30,7 @@ public class SmallInfo implements Serializable {
     private String weibosmallNumId;
     private String smallNumFansOrgInfoName;//所属粉丝组织
     private String smallNumFansOrgInfoNum;
-    private String smallNumStatus;//0无效  1有效
-
+    private String smallNumStatus;//0无效  1有效  这个可以忽略  用SmallStatus判断
     @Transient
     transient boolean checked;
 
@@ -174,6 +173,9 @@ public class SmallInfo implements Serializable {
                 ", smallNumFansOrgInfoName='" + smallNumFansOrgInfoName + '\'' +
                 ", smallNumFansOrgInfoNum='" + smallNumFansOrgInfoNum + '\'' +
                 ", smallNumStatus='" + smallNumStatus + '\'' +
+                ", checked=" + checked +
                 '}';
     }
+
+
 }

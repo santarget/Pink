@@ -9,6 +9,7 @@ import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.ssy.pink.bean.SmallInfo;
+import com.ssy.pink.bean.SmallStatus;
 import com.ssy.pink.bean.weibo.EmotionInfo;
 import com.ssy.pink.bean.weibo.LoopLogInfo;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
@@ -16,6 +17,7 @@ import com.ssy.pink.bean.weibo.WeiboTokenInfo;
 import com.ssy.pink.bean.weibo.WeiboUserInfo;
 
 import com.ssy.greendao.gen.SmallInfoDao;
+import com.ssy.greendao.gen.SmallStatusDao;
 import com.ssy.greendao.gen.EmotionInfoDao;
 import com.ssy.greendao.gen.LoopLogInfoDao;
 import com.ssy.greendao.gen.WeiboLoginInfoDao;
@@ -32,6 +34,7 @@ import com.ssy.greendao.gen.WeiboUserInfoDao;
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig smallInfoDaoConfig;
+    private final DaoConfig smallStatusDaoConfig;
     private final DaoConfig emotionInfoDaoConfig;
     private final DaoConfig loopLogInfoDaoConfig;
     private final DaoConfig weiboLoginInfoDaoConfig;
@@ -39,6 +42,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig weiboUserInfoDaoConfig;
 
     private final SmallInfoDao smallInfoDao;
+    private final SmallStatusDao smallStatusDao;
     private final EmotionInfoDao emotionInfoDao;
     private final LoopLogInfoDao loopLogInfoDao;
     private final WeiboLoginInfoDao weiboLoginInfoDao;
@@ -51,6 +55,9 @@ public class DaoSession extends AbstractDaoSession {
 
         smallInfoDaoConfig = daoConfigMap.get(SmallInfoDao.class).clone();
         smallInfoDaoConfig.initIdentityScope(type);
+
+        smallStatusDaoConfig = daoConfigMap.get(SmallStatusDao.class).clone();
+        smallStatusDaoConfig.initIdentityScope(type);
 
         emotionInfoDaoConfig = daoConfigMap.get(EmotionInfoDao.class).clone();
         emotionInfoDaoConfig.initIdentityScope(type);
@@ -68,6 +75,7 @@ public class DaoSession extends AbstractDaoSession {
         weiboUserInfoDaoConfig.initIdentityScope(type);
 
         smallInfoDao = new SmallInfoDao(smallInfoDaoConfig, this);
+        smallStatusDao = new SmallStatusDao(smallStatusDaoConfig, this);
         emotionInfoDao = new EmotionInfoDao(emotionInfoDaoConfig, this);
         loopLogInfoDao = new LoopLogInfoDao(loopLogInfoDaoConfig, this);
         weiboLoginInfoDao = new WeiboLoginInfoDao(weiboLoginInfoDaoConfig, this);
@@ -75,6 +83,7 @@ public class DaoSession extends AbstractDaoSession {
         weiboUserInfoDao = new WeiboUserInfoDao(weiboUserInfoDaoConfig, this);
 
         registerDao(SmallInfo.class, smallInfoDao);
+        registerDao(SmallStatus.class, smallStatusDao);
         registerDao(EmotionInfo.class, emotionInfoDao);
         registerDao(LoopLogInfo.class, loopLogInfoDao);
         registerDao(WeiboLoginInfo.class, weiboLoginInfoDao);
@@ -84,6 +93,7 @@ public class DaoSession extends AbstractDaoSession {
     
     public void clear() {
         smallInfoDaoConfig.clearIdentityScope();
+        smallStatusDaoConfig.clearIdentityScope();
         emotionInfoDaoConfig.clearIdentityScope();
         loopLogInfoDaoConfig.clearIdentityScope();
         weiboLoginInfoDaoConfig.clearIdentityScope();
@@ -93,6 +103,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public SmallInfoDao getSmallInfoDao() {
         return smallInfoDao;
+    }
+
+    public SmallStatusDao getSmallStatusDao() {
+        return smallStatusDao;
     }
 
     public EmotionInfoDao getEmotionInfoDao() {

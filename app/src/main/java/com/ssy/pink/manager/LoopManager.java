@@ -155,7 +155,7 @@ public class LoopManager {
             statusDbHelper.insertOrReplace(repostInfo.getSmallInfo().getWeibosmallNumId(), false);
         }
         if (!TextUtils.isEmpty(msg)) {
-            sb.append(": " + msg);
+            sb.append(": ").append(msg);
         }
 
         String log = sb.toString();

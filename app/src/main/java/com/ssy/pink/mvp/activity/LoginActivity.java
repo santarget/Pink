@@ -59,6 +59,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     TextView tvOrg;
     @BindView(R.id.tvLogin)
     TextView tvLogin;
+    @BindView(R.id.tvLast)
+    TextView tvLast;
     @BindView(R.id.tvTips)
     TextView tvTips;
     @BindView(R.id.tvQuestion)
@@ -78,6 +80,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
      */
     private SsoHandler mSsoHandler;
     private ImageView ivCode;
+    private WeiboTokenInfo tokenInfo;//上次登录账号
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,18 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         Drawable drawable4 = getResources().getDrawable(R.drawable.ic_arrow_right);
         drawable4.setBounds(0, 0, size, size);
         tvOrg.setCompoundDrawables(drawable3, null, drawable4, null);
+
+        CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
+        if (customerInfo != null) {
+            tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(customerInfo.getWeiboid());
+            if (tokenInfo != null && tokenInfo.getOauth2AccessToken().isSessionValid()) {
+                tvLast.setVisibility(View.VISIBLE);
+            } else {
+                tvLast.setVisibility(View.GONE);
+            }
+        } else {
+            tvLast.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -114,8 +129,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
      */
     private void attemptLogin() {
         // Store values at the time of the login attempt.
-        accout = etAccout.getText().toString();
-        password = etPassword.getText().toString();
+//        accout = etAccout.getText().toString();
+//        password = etPassword.getText().toString();
 
 
 //        if (TextUtils.isEmpty(accout) || TextUtils.isEmpty(password)) {
@@ -125,24 +140,9 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             showToast(R.string.please_choose_org);
         } else {
             showProgress(true);
-//            List<WeiboTokenInfo> tokenInfos = HelperFactory.getTokenDbHelper().queryAllBig();
-//            if (tokenInfos.get(0).getOauth2AccessToken().isSessionValid()) {
-//                WeiboManager.getInstance().mAccessToken = tokenInfos.get(0).getOauth2AccessToken();
-//                presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
-//            }
+
             mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            /*CustomerInfo customerInfo = SharedPreferencesUtil.getLastLoginUser();
-            if (customerInfo != null) {
-                WeiboTokenInfo tokenInfo = HelperFactory.getTokenDbHelper().uniqueQuery(customerInfo.getWeiboid());
-                if (tokenInfo != null) {
-                    WeiboManager.getInstance().mAccessToken = tokenInfo.getOauth2AccessToken();
-                    presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
-                } else {
-                    mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-                }
-            } else {
-                mSsoHandler.authorizeWeb(new SelfWbAuthListener());
-            }*/
+
 
         }
     }
@@ -166,7 +166,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         }
     }
 
-    @OnClick({R.id.tvLogin, R.id.tvTips, R.id.tvQuestion, R.id.tvOrg})
+    @OnClick({R.id.tvLogin, R.id.tvTips, R.id.tvQuestion, R.id.tvOrg, R.id.tvLast})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvLogin:
@@ -180,6 +180,12 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 break;
             case R.id.tvOrg:
                 showLoginChooseDialog();
+                break;
+            case R.id.tvLast:
+                if (tokenInfo != null) {
+                    WeiboManager.getInstance().mAccessToken = tokenInfo.getOauth2AccessToken();
+                    presenter.getWeiboUserInfo("", UserManager.getInstance().fansOrgInfo.getFansorginfonum());
+                }
                 break;
         }
     }

@@ -66,7 +66,6 @@ public class SettingActivity extends BaseActivity implements ISettingActivityVie
             case R.id.tvLoginOut:
                 //退出登录，重置数据
                 MyApplication.getInstance().setToken("");
-                MyApplication.tokenTimeStamp = 0;
                 UserManager.getInstance().reset();
                 GroupManager.getInstance().reset();
                 LoopManager.getInstance().reset();

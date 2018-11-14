@@ -38,7 +38,6 @@ public class MyApplication extends MultiDexApplication {
      * 用户相关
      */
     private String token = "";
-    public static long tokenTimeStamp = 0;//获取token的时间戳，30min有效
     //Database相关
     private DaoSession daoSession;
 
@@ -139,24 +138,12 @@ public class MyApplication extends MultiDexApplication {
         return daoSession;
     }
 
-    public void setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-    }
-
     public void setToken(String token) {
         this.token = token;
         SharedPreferencesUtil.setLastToken(token);
     }
 
     public String getToken() {
-//        if (TextUtils.isEmpty(token)) {
-//            token = SharedPreferencesUtil.getLastToken();
-//            Log.i("aaaa", "getToken 空：" + token);
-//        } else {
-//            Log.i("aaaa", "getToken 不为空：" + token);
-//
-//        }
-        Log.i("aaaa", "getToken ：" + token);
         return token;
     }
 }

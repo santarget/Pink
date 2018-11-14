@@ -109,11 +109,12 @@ public class LogUtil {
     }
 
     private static int writeLogInfo2File(String tag, String msg, Throwable tr, int logLevel) {
-        if (LogUtil.logLevel <= logLevel) {
+        /*if (LogUtil.logLevel <= logLevel) {
             return writeLogInfo(tag, msg, tr);
         } else {
             return 0;
-        }
+        }*/
+        return 0;//暂不需要本地记录日志
     }
 
     private static int writeLogInfo(String tag, String msg, Throwable ex) {

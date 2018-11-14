@@ -28,6 +28,7 @@ import com.ssy.pink.mvp.activity.GroupActivity;
 import com.ssy.pink.mvp.iview.IWorkFragmentView;
 import com.ssy.pink.mvp.presenter.WorkFragmentPresenter;
 import com.ssy.pink.utils.ListUtils;
+import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.MyUtils;
 import com.ssy.pink.view.ChooseGroupView;
 import com.ssy.pink.view.dialog.ConfigIntroduceDialog;
@@ -137,7 +138,11 @@ public class WorkFragment extends BaseFragment implements IWorkFragmentView, Com
     }
 
     private void initView() {
-        etWeiboUrl.setText(UserManager.getInstance().fansOrgInfo.getFansorginfourl());
+        if (UserManager.getInstance().fansOrgInfo != null) {
+            etWeiboUrl.setText(UserManager.getInstance().fansOrgInfo.getFansorginfourl());
+        } else {
+            LogUtil.w("WorkFragment", "UserManager's fansOrg is null");
+        }
         rbRandomEmoticon.setChecked(true);
         etCustom.setVisibility(View.GONE);
         rbContentKeep.setChecked(true);

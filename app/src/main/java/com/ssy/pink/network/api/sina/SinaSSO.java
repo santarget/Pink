@@ -1,7 +1,6 @@
 package com.ssy.pink.network.api.sina;
 
 
-import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
@@ -13,7 +12,6 @@ import com.ssy.pink.bean.weibo.RepostResult;
 import com.ssy.pink.bean.weibo.WeiboLoginInfo;
 import com.ssy.pink.utils.JsonUtils;
 import com.ssy.pink.utils.ListUtils;
-
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,7 +26,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.util.TextUtils;
-import org.greenrobot.eventbus.EventBus;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeJavaObject;
@@ -43,9 +40,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import cn.testin.analysis.bug.BugOutApi;
 
 
 public class SinaSSO {
@@ -73,16 +70,10 @@ public class SinaSSO {
         return instance;
     }
 
-    public void setDoor(String door) {
-        this.door = door;
-        Log.i("aaaa", "设置验证码：" + door);
-    }
-
     // 1.下载验证码：将多个验证码图片下载到指定目录，要求各种可能的验证码（单个数字）都应该有，比如：0-9。
     public File downloadImage(PreLoginInfo preLoginInfo) {
         String r = String.valueOf(Math.floor((Math.random()) * 100000000));
         String urlpath = "https://login.sina.com.cn/cgi/pin.php?r=" + r + "&s=0&p=" + preLoginInfo.getPcid();
-        Log.i("aaaa", "urlpath:" + urlpath);
 
         HttpClient httpClient = new DefaultHttpClient();
         HttpGet getMethod = new HttpGet(urlpath);
@@ -102,7 +93,6 @@ public class SinaSSO {
                 outstream.write(tmp);
             }
             outstream.close();
-            Log.i("aaaa", "下载验证码完毕！");
             return file;
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,7 +152,6 @@ public class SinaSSO {
                 String result = EntityUtils.toString(resEntity, "UTF-8");
                 if (!TextUtils.isEmpty(result)) {
                     WeiboLoginInfo weiboLoginInfo = JsonUtils.toObject(result, WeiboLoginInfo.class);
-                    Log.i("aaaa", "weiboLoginInfo：" + weiboLoginInfo.toString());
                     return weiboLoginInfo;
                 }
             }
@@ -189,6 +178,7 @@ public class SinaSSO {
                     return repostInfo;
                 }
             } catch (IOException e) {
+                BugOutApi.reportException(e);
                 repostInfo.setRepostResult(new RepostResult("微博登录失败"));
                 e.printStackTrace();
                 return repostInfo;
@@ -200,14 +190,14 @@ public class SinaSSO {
                 repostInfo.setRepostResult(new RepostResult("鉴权url为空"));
                 return repostInfo;
             }
-            String weibourl = (String) urlList.get(0);
+            String weibourl = urlList.get(0);
             HttpGet getsso = new HttpGet(weibourl);
             try {
                 HttpResponse ssoResponse = httpClient.execute(getsso);
-                Log.i("aaaa", "sso info = " + EntityUtils.toString(ssoResponse.getEntity(), "UTF-8"));
                 repostInfo.setSsoResponse(ssoResponse);
                 //({"result":true,"userinfo":{"uniqueid":"6636712991","displayname":"_nuoxiya2002"}});
             } catch (IOException e) {
+                BugOutApi.reportException(e);
                 e.printStackTrace();
             }
         }
@@ -248,10 +238,10 @@ public class SinaSSO {
                     String resultz = EntityUtils.toString(resEntityz, "UTF-8");
                     try {
                         RepostResult repostResult = JsonUtils.toObject(resultz, RepostResult.class);
-                        Log.i("aaaa", "repostResult:" + repostResult.toString());
                         repostInfo.setRepostResult(repostResult);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        BugOutApi.reportException(e);
                         repostInfo.setRepostResult(new RepostResult(RepostResult.ERROR_RELOAD, "尝试重新登录"));
                         HelperFactory.getWeiboLoginDbHelper().delete(repostInfo.getWeiboLoginInfo());
                         repostInfo.setWeiboLoginInfo(null);
@@ -263,6 +253,7 @@ public class SinaSSO {
                 repostInfo.setRepostResult(new RepostResult("responsez is null"));
             }
         } catch (IOException e) {
+            BugOutApi.reportException(e);
             repostInfo.setRepostResult(new RepostResult("repost exception:" + e.getMessage()));
             e.printStackTrace();
         }
@@ -293,6 +284,9 @@ public class SinaSSO {
                 return (String) ((NativeObject) result).getDefaultValue(String.class);
             }
             return result.toString();//(String) function.call(rhino, scope, scope, functionParams);
+        } catch (Exception e) {
+            BugOutApi.reportException(e);
+            return "";//(String) function.call(rhino, scope, scope, functionParams);
         } finally {
             Context.exit();
         }
@@ -317,9 +311,9 @@ public class SinaSSO {
             String result = EntityUtils.toString(resEntity, "UTF-8");
             String importantText = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);
             preLoginInfo = JsonUtils.toObject(importantText, PreLoginInfo.class);
-            Log.i("aaaa", "preLoginInfo:" + preLoginInfo.toString());
         } catch (IOException e) {
             e.printStackTrace();
+            BugOutApi.reportException(e);
         }
         return preLoginInfo;
     }
@@ -374,7 +368,6 @@ public class SinaSSO {
                     String result = EntityUtils.toString(resEntity, "UTF-8");
                     if (!TextUtils.isEmpty(result)) {
                         WeiboLoginInfo weiboLoginInfo = JsonUtils.toObject(result, WeiboLoginInfo.class);
-                        Log.i("aaaa", "weiboLoginInfo：" + weiboLoginInfo.toString());
                         return weiboLoginInfo;
                     }
                 }
@@ -382,6 +375,7 @@ public class SinaSSO {
 
         } catch (IOException e) {
             e.printStackTrace();
+            BugOutApi.reportException(e);
             return null;
         }
         return null;

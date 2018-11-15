@@ -4,10 +4,8 @@ package com.ssy.pink.common;
  * Created by Tys on 2017/1/28.
  */
 public class ConstantType {
-    /*0表示文件夹，1表示文件，2表示版本文件*/
-    public static final byte FOLDER = 0;
+
     public static final byte FILE = 1;
-    public static final byte FILE_VERSION = 2;
 
     public static final String IMG = "IMAGE_TYPE";
     public static final String WORD = "WORD_TYPE";

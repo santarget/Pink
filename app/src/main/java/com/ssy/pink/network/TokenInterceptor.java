@@ -1,7 +1,6 @@
 package com.ssy.pink.network;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.ssy.pink.MyApplication;
 import com.ssy.pink.bean.CustomerInfo;
@@ -10,7 +9,6 @@ import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.manager.UserManager;
 import com.ssy.pink.network.api.PinkApi;
 import com.ssy.pink.utils.JsonUtils;
-import com.ssy.pink.utils.LogUtil;
 import com.ssy.pink.utils.SharedPreferencesUtil;
 
 import java.io.IOException;

@@ -34,5 +34,7 @@ public class ConstantUrl {
 
     public static final String BIND_SMALL = "adminservice/synUserSmallInfo";
     public static final String DELETE_SMALL = "adminservice/deleteOneUserSmallInfo";
-    public static final String MOVE_SMALL = "adminservice//bindOneGroupForSmallNum";//移动小号到另一分组
+    public static final String MOVE_SMALL = "adminservice/bindOneGroupForSmallNum";//移动小号到另一分组
+    public static final String CHECK_SMALL = "adminservice/judgeWeiboNumExist";//绑定之前校验账号是否被占用
+
 }

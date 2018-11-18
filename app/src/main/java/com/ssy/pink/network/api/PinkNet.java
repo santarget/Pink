@@ -11,6 +11,7 @@ import com.ssy.pink.bean.UserProductInfo;
 import com.ssy.pink.bean.CustomerInfo;
 import com.ssy.pink.bean.request.AddGroupReq;
 import com.ssy.pink.bean.request.BindSmallReq;
+import com.ssy.pink.bean.request.CheckSmallReq;
 import com.ssy.pink.bean.request.DeleteGroupReq;
 import com.ssy.pink.bean.request.DeleteSmallReq;
 import com.ssy.pink.bean.request.MoveSmallReq;
@@ -20,6 +21,7 @@ import com.ssy.pink.bean.request.SyncRechargeRecordReq;
 import com.ssy.pink.bean.request.SyncCustomerReq;
 import com.ssy.pink.bean.request.SyncSpendRecordReq;
 import com.ssy.pink.bean.request.UpdateGroupReq;
+import com.ssy.pink.bean.response.CheckSmallResp;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
@@ -331,11 +333,23 @@ public class PinkNet {
     }
 
     /**
-     * 移动微博小号
+     * 检查微博账号是否被占用
      *
-     * @param observer
+     * @param customerNum
+     * @param weiboNumStr 多个微博账号,之间采用“;”进行拼接
+     * @param subscriber
      * @return
      */
+    public static Subscription checkSmall(final String customerNum, final String weiboNumStr, Subscriber<CommonListResp<CheckSmallResp>> subscriber) {
+        CheckSmallReq req = new CheckSmallReq(customerNum, weiboNumStr);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), JsonUtils.toString(req));
+        Subscription subscription = getPinkApi().checkSmall(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mSubscriptions.add(subscription);
+        return subscription;
+    }
     public static Subscription getVerison(Subscriber<CommonResp<VersionResp>> observer) {
         Subscription subscription = getNoSessionPinkApi().getVersion()
                 .subscribeOn(Schedulers.io())

@@ -3,6 +3,8 @@ package com.ssy.pink.mvp.presenter;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.ssy.greendao.helper.HelperFactory;
 import com.ssy.greendao.helper.SmallInfoDbHelper;
@@ -12,6 +14,8 @@ import com.ssy.pink.base.BasePresenter;
 import com.ssy.pink.bean.BindLogInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.exception.ClientException;
+import com.ssy.pink.bean.response.CheckSmallResp;
+import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
 import com.ssy.pink.bean.weibo.PreLoginInfo;
@@ -25,6 +29,7 @@ import com.ssy.pink.mvp.iview.IBindSmallActivityView;
 import com.ssy.pink.network.api.PinkNet;
 import com.ssy.pink.network.api.sina.SinaSSO;
 import com.ssy.pink.utils.ListUtils;
+import com.ssy.pink.utils.MyUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -81,8 +86,9 @@ public class BindSmallActivityPresenter extends BasePresenter {
 
     public void bindSmall() {
         totalList.clear();
-        totalList.addAll(BindManager.getInstance().smallInfos);
-        bindWeiboSingle();
+        List<SmallInfo> checkList = new ArrayList<>();
+        checkList.addAll(BindManager.getInstance().smallInfos);
+        checkSmall(checkList);
     }
 
     private void bindWeiboSingle() {
@@ -226,43 +232,57 @@ public class BindSmallActivityPresenter extends BasePresenter {
         return failList;
     }
 
-
-  /*  private class SelfWbAuthListener implements com.sina.weibo.sdk.auth.WbAuthListener {
-        @Override
-        public void onSuccess(final Oauth2AccessToken token) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    WeiboTokenInfo tokenInfo = new WeiboTokenInfo(token.getUid(), token.getToken(), token.getRefreshToken(),
-                            token.getExpiresTime(), 0);
-                    HelperFactory.getTokenDbHelper().insertOrReplace(tokenInfo);
-                    bindingLogInfo.getSmallInfo().setWeibosmallNumId(token.getUid());
-                    bindSmallSingle(bindingLogInfo);
-                }
-            });
+    private void checkSmall(final List<SmallInfo> checkList) {
+        StringBuilder sb = new StringBuilder();
+        for (SmallInfo smallInfo : checkList) {
+            sb.append(smallInfo.getSmallWeiboNum()).append(";");
         }
+        String smallWeiboNum = sb.toString();
+        if (!TextUtils.isEmpty(smallWeiboNum)) {
+            Subscription subscription = PinkNet.checkSmall(UserManager.getInstance().userInfo.getCustomernum(), smallWeiboNum,
+                    new Subscriber<CommonListResp<CheckSmallResp>>() {
+                        @Override
+                        public void onCompleted() {
 
-        @Override
-        public void cancel() {
-            failList.add(bindingLogInfo.getSmallInfo());
-            iView.setCurrentProgress(getFinishCount());
-            bindingLogInfo.setStatus(0);
-            bindingLogInfo.setMsg("登录取消");
-            iView.getAdapter().notifyItemChanged(0);
-            handler.sendEmptyMessage(CODE_BIND_NEXT);
+                        }
 
+                        @Override
+                        public void onError(Throwable e) {
+                            MyUtils.handleExcep(e);
+                        }
+
+                        @Override
+                        public void onNext(CommonListResp<CheckSmallResp> checkSmallRespCommonListResp) {
+                            if (checkSmallRespCommonListResp.getCode().equals(ResponseCode.CODE_SUCCESS)) {
+                                List<CheckSmallResp> result = checkSmallRespCommonListResp.getData();
+                                for (CheckSmallResp resp : result) {
+                                    for (int i = checkList.size() - 1; i >= 0; i--) {
+                                        SmallInfo smallInfo = checkList.get(i);
+                                        if (resp.getWeiboNum().equals(smallInfo.getSmallWeiboNum())) {
+                                            if (!resp.isExist()) {//未被占用
+                                                totalList.add(smallInfo);
+                                            } else {
+                                                failList.add(smallInfo);
+                                            }
+                                            checkList.remove(smallInfo);
+                                            break;
+                                        }
+                                    }
+                                }
+                                handleCheckFail();
+                                if (ListUtils.isEmpty(totalList)) {
+                                    iView.setCurrentProgress(getFinishCount());
+                                } else {
+                                    bindWeiboSingle();
+                                }
+                            } else {
+                                iView.showToast("检查微博账号是否被占用失败_" + checkSmallRespCommonListResp.getMsg());
+                            }
+                        }
+                    });
+            mSubscriptions.add(subscription);
         }
-
-        @Override
-        public void onFailure(WbConnectErrorMessage errorMessage) {
-            failList.add(bindingLogInfo.getSmallInfo());
-            iView.setCurrentProgress(getFinishCount());
-            bindingLogInfo.setStatus(0);
-            bindingLogInfo.setMsg(errorMessage.getErrorCode() + "_" + errorMessage.getErrorMessage());
-            iView.getAdapter().notifyItemChanged(0);
-            handler.sendEmptyMessage(CODE_BIND_NEXT);
-        }
-    }*/
+    }
 
     private void handleBindFail(String msg) {
         failList.add(bindingLogInfo.getSmallInfo());
@@ -270,6 +290,19 @@ public class BindSmallActivityPresenter extends BasePresenter {
         bindingLogInfo.setStatus(0);
         bindingLogInfo.setMsg(msg);
         handler.sendEmptyMessage(CODE_BIND_NEXT);
+    }
+
+    private void handleCheckFail() {
+        List<BindLogInfo> list = new ArrayList<>();
+        for (SmallInfo smallInfo : failList) {
+            BindLogInfo logInfo = new BindLogInfo();
+            logInfo.setSmallInfo(smallInfo);
+            logInfo.setStatus(0);
+            logInfo.setMsg("该账号已被占用");
+            list.add(logInfo);
+        }
+        iView.getAdapter().getDatas().addAll(0, list);
+        iView.getAdapter().notifyDataSetChanged();
     }
 
     public void onDestroy() {

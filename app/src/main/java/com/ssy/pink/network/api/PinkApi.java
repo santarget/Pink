@@ -9,6 +9,7 @@ import com.ssy.pink.bean.ProductInfo;
 import com.ssy.pink.bean.SmallInfo;
 import com.ssy.pink.bean.SmallStatusInfo;
 import com.ssy.pink.bean.UserProductInfo;
+import com.ssy.pink.bean.response.CheckSmallResp;
 import com.ssy.pink.bean.response.CommonListResp;
 import com.ssy.pink.bean.response.CommonResp;
 import com.ssy.pink.bean.response.NoBodyEntity;
@@ -110,6 +111,9 @@ public interface PinkApi {
 
     @POST(ConstantUrl.MOVE_SMALL)
     Observable<CommonResp<NoBodyEntity>> moveSmall(@Body RequestBody requestBody);
+
+    @POST(ConstantUrl.CHECK_SMALL)
+    Observable<CommonListResp<CheckSmallResp>> checkSmall(@Body RequestBody requestBody);
 
     @POST(ConstantUrl.GET_VERSION)
     Observable<CommonResp<VersionResp>> getVersion();

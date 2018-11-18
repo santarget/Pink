@@ -22,23 +22,23 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         SmallInfoDao.createTable(db, ifNotExists);
-        SmallStatusDao.createTable(db, ifNotExists);
         EmotionInfoDao.createTable(db, ifNotExists);
         LoopLogInfoDao.createTable(db, ifNotExists);
         WeiboLoginInfoDao.createTable(db, ifNotExists);
         WeiboTokenInfoDao.createTable(db, ifNotExists);
         WeiboUserInfoDao.createTable(db, ifNotExists);
+        SmallStatusDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         SmallInfoDao.dropTable(db, ifExists);
-        SmallStatusDao.dropTable(db, ifExists);
         EmotionInfoDao.dropTable(db, ifExists);
         LoopLogInfoDao.dropTable(db, ifExists);
         WeiboLoginInfoDao.dropTable(db, ifExists);
         WeiboTokenInfoDao.dropTable(db, ifExists);
         WeiboUserInfoDao.dropTable(db, ifExists);
+        SmallStatusDao.dropTable(db, ifExists);
     }
 
     /**
@@ -58,12 +58,12 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(SmallInfoDao.class);
-        registerDaoClass(SmallStatusDao.class);
         registerDaoClass(EmotionInfoDao.class);
         registerDaoClass(LoopLogInfoDao.class);
         registerDaoClass(WeiboLoginInfoDao.class);
         registerDaoClass(WeiboTokenInfoDao.class);
         registerDaoClass(WeiboUserInfoDao.class);
+        registerDaoClass(SmallStatusDao.class);
     }
 
     public DaoSession newSession() {

@@ -99,5 +99,6 @@ public class GroupManager {
     public void reset() {
         groupInfos.clear();
         smallInfos.clear();
+        validSmallInfos.clear();
     }
 }

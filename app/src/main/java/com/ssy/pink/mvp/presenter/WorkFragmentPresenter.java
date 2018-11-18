@@ -64,6 +64,7 @@ public class WorkFragmentPresenter extends BasePresenter {
             @Override
             public void onNext(CommonListResp<SmallInfo> smallInfoCommonListResp) {
                 GroupManager.getInstance().smallInfos.clear();
+                GroupManager.getInstance().validSmallInfos.clear();
                 HelperFactory.getSmallInfoDbHelper().deleteAll();
                 if (ListUtils.isEmpty(smallInfoCommonListResp.getData())) {
                     return;

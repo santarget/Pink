@@ -16,7 +16,7 @@ android {
         vectorDrawables.useSupportLibrary = true    //开启矢量图
         multiDexEnabled true
     }
-    packagingOptions {//加上这写代码
+    packagingOptions {
         pickFirst 'META-INF/*'
     }
 //    useLibrary 'org.apache.http.legacy'
